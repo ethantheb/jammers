@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="jammies"
-run/main_scene="uid://d0evl6tycc2a6"
+run/main_scene="uid://d0e1vg0ugeprb"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://icon.svg"
 
