@@ -1,19 +1,43 @@
 [gd_scene format=4 uid="uid://d0e1vg0ugeprb"]
 
-[ext_resource type="Texture2D" uid="uid://hkc2hl67iaw2" path="res://assets/tilesets/pixelinterior_LRK_v1.1/floorswalls_LRK.png" id="1_fenkf"]
-[ext_resource type="Texture2D" uid="uid://bc2vasgmmui5c" path="res://assets/tilesets/pixelinterior_BA_v1.0/cabinets_BA.png" id="2_4l5tu"]
-[ext_resource type="Texture2D" uid="uid://criknl3wi00p6" path="res://assets/tilesets/pixelinterior_BA_v1.0/fixtures_BA.png" id="3_li1ao"]
-[ext_resource type="Texture2D" uid="uid://b13332cechqkb" path="res://assets/tilesets/pixelinterior_LRK_v1.1/kitchen_LRK.png" id="4_idd80"]
-[ext_resource type="Texture2D" uid="uid://ce8tmd7k7488e" path="res://assets/tilesets/pixelinterior_LRK_v1.1/livingroom_LRK.png" id="5_38cce"]
-[ext_resource type="Texture2D" uid="uid://bkk7ai333n27p" path="res://assets/tilesets/pixelinterior_BA_v1.0/textiles_BA.png" id="6_kohk6"]
-[ext_resource type="Texture2D" uid="uid://x6rgnc03chey" path="res://assets/tilesets/pixelinterior_BR_v1.1/beds_BR.png" id="7_jeqjs"]
-[ext_resource type="Texture2D" uid="uid://n8i6jn2cb2y" path="res://assets/tilesets/pixelinterior_BR_v1.1/decorations_BR.png" id="8_i5yjq"]
-[ext_resource type="Texture2D" uid="uid://kewvbo2hqb8s" path="res://assets/tilesets/pixelinterior_BR_v1.1/wardrobes_BR.png" id="9_fqdby"]
-[ext_resource type="Texture2D" uid="uid://ccn0co7b2ut53" path="res://assets/tilesets/pixelinterior_LRK_v1.1/cabinets_LRK.png" id="10_h3iv8"]
-[ext_resource type="Texture2D" uid="uid://b84gabcblw567" path="res://assets/tilesets/pixelinterior_LRK_v1.1/decorations_LRK.png" id="11_4vuqa"]
-[ext_resource type="Texture2D" uid="uid://cppjj3gx5flc4" path="res://assets/tilesets/pixelinterior_LRK_v1.1/doorswindowsstairs_LRK.png" id="12_j3m2v"]
+[ext_resource type="Texture2D" uid="uid://brhoe4fmit42k" path="res://assets/tilesets/pixelinterior_LRK_v1.1/floorswalls_LRK.png" id="1_fenkf"]
+[ext_resource type="Texture2D" uid="uid://cpdcm5swaciky" path="res://assets/tilesets/pixelinterior_BA_v1.0/cabinets_BA.png" id="2_4l5tu"]
+[ext_resource type="Texture2D" uid="uid://di1hcof8mgl7s" path="res://assets/tilesets/pixelinterior_BA_v1.0/fixtures_BA.png" id="3_li1ao"]
+[ext_resource type="Texture2D" uid="uid://kkinjviu5xgu" path="res://assets/tilesets/pixelinterior_LRK_v1.1/kitchen_LRK.png" id="4_idd80"]
+[ext_resource type="Texture2D" uid="uid://12cmunolsy8v" path="res://assets/tilesets/pixelinterior_LRK_v1.1/livingroom_LRK.png" id="5_38cce"]
+[ext_resource type="Texture2D" uid="uid://btclnrphkfiue" path="res://assets/tilesets/pixelinterior_BA_v1.0/textiles_BA.png" id="6_kohk6"]
+[ext_resource type="Texture2D" uid="uid://7h5e7r1c0olu" path="res://assets/tilesets/pixelinterior_BR_v1.1/beds_BR.png" id="7_jeqjs"]
+[ext_resource type="Texture2D" uid="uid://drrcbdmj5r76o" path="res://assets/tilesets/pixelinterior_BR_v1.1/decorations_BR.png" id="8_i5yjq"]
+[ext_resource type="Texture2D" uid="uid://cmhmc6v30phl3" path="res://assets/tilesets/pixelinterior_BR_v1.1/wardrobes_BR.png" id="9_fqdby"]
+[ext_resource type="Texture2D" uid="uid://b881wcq3dic04" path="res://assets/tilesets/pixelinterior_LRK_v1.1/cabinets_LRK.png" id="10_h3iv8"]
+[ext_resource type="Texture2D" uid="uid://dturbh06y70ef" path="res://assets/tilesets/pixelinterior_LRK_v1.1/decorations_LRK.png" id="11_4vuqa"]
+[ext_resource type="Texture2D" uid="uid://da4vlv1ut5fln" path="res://assets/tilesets/pixelinterior_LRK_v1.1/doorswindowsstairs_LRK.png" id="12_j3m2v"]
+[ext_resource type="Texture2D" uid="uid://c387qmb71ieat" path="res://assets/light_smallDistortion.png" id="13_mj81a"]
+[ext_resource type="PackedScene" uid="uid://c55ktvtf07pxx" path="res://scenes/player.tscn" id="14_4wfg3"]
 
-[sub_resource type="TileSet" id="TileSet_eijgr"]
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_xyfub"]
+polygon = PackedVector2Array(67, 147, 65, 134, 67, 117, 68, 121, 67.647125, 130.17451)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_ay7gk"]
+polygon = PackedVector2Array(74, -11, 74, -27, 82, -40, 112, -40, 120, -27, 120, -11)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_yvnqr"]
+polygon = PackedVector2Array(45, -48, 49, -54, 51, -48)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_4jx4p"]
+polygon = PackedVector2Array(42, -24, 42, -9, 56, -9, 56, -24)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_sk3h4"]
+polygon = PackedVector2Array(184, -90, 137, -90, 137, -153, 184, -153)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_855lr"]
+polygon = PackedVector2Array(73, 23, 73, 7, 121, 7, 121, 23)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_4oj1t"]
+polygon = PackedVector2Array(154, -25, 201, -25, 201, 20, 154, 20)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_5icdb"]
+polygon = PackedVector2Array(201, -120, 249, -120, 249, -103, 201, -103)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_1asw2"]
 texture = ExtResource("2_4l5tu")
@@ -8455,52 +8479,98 @@ sources/9 = SubResource("TileSetAtlasSource_d5oer")
 sources/10 = SubResource("TileSetAtlasSource_7nmhu")
 sources/11 = SubResource("TileSetAtlasSource_l5upy")
 
-[node name="BedroomNode" type="Node2D" unique_id=1550137310]
+[node name="Bedroom" type="Node2D" unique_id=1550137310]
 
-[node name="TileMap" type="TileMap" parent="." unique_id=1627312376]
+[node name="PointLight2D_TopLeft" type="PointLight2D" parent="." unique_id=1944264913]
+position = Vector2(49, -130)
+scale = Vector2(0.5234375, 0.30859378)
+energy = 0.25
+shadow_enabled = true
+texture = ExtResource("13_mj81a")
+
+[node name="LightOccluder2D_Bed" type="LightOccluder2D" parent="." unique_id=40404725]
+position = Vector2(17, -248)
+occluder = SubResource("OccluderPolygon2D_xyfub")
+
+[node name="LightOccluder2D_Couch" type="LightOccluder2D" parent="." unique_id=601339980]
+position = Vector2(-37, -27)
+occluder = SubResource("OccluderPolygon2D_ay7gk")
+
+[node name="LightOccluder2D_Plant" type="LightOccluder2D" parent="." unique_id=1168673010]
+position = Vector2(-37, -26)
+occluder = SubResource("OccluderPolygon2D_yvnqr")
+
+[node name="LightOccluder2D_SideCabinet" type="LightOccluder2D" parent="." unique_id=800020182]
+position = Vector2(-37, -33)
+occluder = SubResource("OccluderPolygon2D_4jx4p")
+
+[node name="LightOccluder2D_Wardrobe" type="LightOccluder2D" parent="." unique_id=1445956724]
+position = Vector2(-36, -26)
+occluder = SubResource("OccluderPolygon2D_sk3h4")
+
+[node name="LightOccluder2D_TV_Stand" type="LightOccluder2D" parent="." unique_id=426708892]
+position = Vector2(-37, -27)
+occluder = SubResource("OccluderPolygon2D_855lr")
+
+[node name="LightOccluder2D_LowerCabinet" type="LightOccluder2D" parent="." unique_id=273679916]
+position = Vector2(-38, -27)
+occluder = SubResource("OccluderPolygon2D_4oj1t")
+
+[node name="LightOccluder2D_WallTable" type="LightOccluder2D" parent="." unique_id=1139632051]
+position = Vector2(-37, -27)
+occluder = SubResource("OccluderPolygon2D_5icdb")
+
+[node name="MainBackground" type="TileMapLayer" parent="." unique_id=1808139523]
 position = Vector2(36, 28)
-tile_set = SubResource("TileSet_eijgr")
-format = 2
-
-[node name="MainBackground" type="TileMapLayer" parent="TileMap" unique_id=1808139523]
 tile_map_data = PackedByteArray("AAABAPH/CQAKAAEAAAACAPH/CQAKAAEAAAADAPH/CQAKAAEAAAAEAPH/CQAKAAEAAAAFAPH/CQAKAAEAAAAGAPH/CQAKAAEAAAAHAPH/CQAKAAEAAAAIAPH/CQAKAAEAAAAJAPH/CQAKAAEAAAAKAPH/CQAKAAEAAAALAPH/CQAKAAEAAAABAP3/CQAKAAcAAAACAP3/CQAKAAcAAAADAP3/CQALAAcAAAAEAP3/CQAKAAcAAAAFAP3/CQAKAAcAAAAGAP3/CQALAAcAAAAHAP3/CQAKAAcAAAAIAP3/CQAKAAcAAAAJAP3/CQAKAAcAAAAKAP3/CQAMAAcAAAAJAPn/CQALAAYAAAAKAPn/CQAMAAYAAAAHAPn/CQALAAYAAAAIAPn/CQAKAAYAAAAHAPr/CQAKAAYAAAAIAPr/CQALAAYAAAAHAPv/CQAKAAYAAAAIAPv/CQALAAYAAAAHAPz/CQAKAAYAAAAIAPz/CQALAAYAAAAJAPz/CQAKAAYAAAAKAPz/CQAMAAYAAAAJAPv/CQAKAAYAAAAKAPv/CQAMAAYAAAAJAPr/CQAKAAYAAAAKAPr/CQAMAAYAAAAFAPz/CQAKAAYAAAAGAPz/CQALAAYAAAAFAPv/CQAKAAYAAAAGAPv/CQALAAYAAAAFAPr/CQAKAAYAAAAGAPr/CQALAAYAAAAFAPn/CQAKAAYAAAAGAPn/CQAKAAYAAAADAPn/CQAKAAYAAAAEAPn/CQALAAYAAAADAPr/CQAKAAYAAAAEAPr/CQALAAYAAAADAPv/CQAKAAYAAAAEAPv/CQALAAYAAAADAPz/CQAKAAYAAAAEAPz/CQALAAYAAAABAPz/CQALAAYAAAACAPz/CQALAAYAAAABAPv/CQALAAYAAAACAPv/CQALAAYAAAABAPr/CQALAAYAAAACAPr/CQALAAYAAAABAPn/CQALAAYAAAACAPn/CQALAAYAAAABAPb/CQAKAAUAAAABAPf/CQALAAYAAAABAPj/CQALAAYAAAACAPb/CQALAAUAAAADAPb/CQAKAAUAAAACAPf/CQAKAAYAAAADAPf/CQALAAYAAAACAPj/CQAKAAYAAAADAPj/CQALAAYAAAAEAPb/CQALAAUAAAAFAPb/CQAKAAUAAAAEAPf/CQAKAAYAAAAFAPf/CQALAAYAAAAEAPj/CQAKAAYAAAAFAPj/CQALAAYAAAAGAPb/CQALAAUAAAAHAPb/CQAKAAUAAAAGAPf/CQAKAAYAAAAHAPf/CQALAAYAAAAGAPj/CQAKAAYAAAAHAPj/CQALAAYAAAAIAPb/CQALAAUAAAAJAPb/CQAKAAUAAAAIAPf/CQAKAAYAAAAJAPf/CQALAAYAAAAIAPj/CQAKAAYAAAAJAPj/CQALAAYAAAAKAPb/CQAKAAUAAAALAPb/CQALAAUAAAAKAPf/CQAKAAYAAAALAPf/CQAKAAYAAAAKAPj/CQAKAAYAAAALAPj/CQAKAAcAAAAJAPT/CQAKAAMAAAAJAPX/CQAKAAQAAAAKAPT/CQAKAAMAAAAKAPX/CQAKAAQAAAALAPT/CQALAAMAAAALAPX/CQALAAQAAAAHAPT/CQAKAAMAAAAHAPX/CQAKAAQAAAAIAPT/CQALAAMAAAAIAPX/CQALAAQAAAAFAPT/CQAKAAMAAAAFAPX/CQAKAAQAAAAGAPT/CQALAAMAAAAGAPX/CQALAAQAAAADAPT/CQAKAAMAAAADAPX/CQAKAAQAAAAEAPT/CQALAAMAAAAEAPX/CQALAAQAAAABAPT/CQAKAAMAAAABAPX/CQAKAAQAAAACAPT/CQALAAMAAAACAPX/CQALAAQAAAABAPL/CQALAAIAAAACAPL/CQALAAIAAAADAPL/CQALAAIAAAAEAPL/CQALAAIAAAAFAPL/CQALAAIAAAAGAPL/CQALAAIAAAAHAPL/CQALAAIAAAAIAPL/CQALAAIAAAAJAPL/CQALAAIAAAAKAPL/CQALAAIAAAALAPL/CQALAAIAAAABAPP/CQAKAAIAAAACAPP/CQALAAIAAAADAPP/CQAKAAIAAAAEAPP/CQALAAIAAAAFAPP/CQAKAAIAAAAGAPP/CQALAAIAAAAHAPP/CQAKAAIAAAAIAPP/CQALAAIAAAAJAPP/CQAKAAIAAAAKAPP/CQAKAAIAAAALAPP/CQALAAIAAAAJAPD/CQAJAAAAAAAKAPD/CQAKAAAAAAALAPD/CQALAAAAAAAFAPD/CQAJAAAAAAAGAPD/CQAKAAAAAAAHAPD/CQALAAAAAAAIAPD/CQAMAAAAAAABAPD/CQAKAAAAAAACAPD/CQALAAAAAAADAPD/CQAMAAAAAAAEAPD/CQAMAAAAAAD9//D/CQAAAAAAAAD9//H/CQAAAAEAAAD9//L/CQAAAAEAAAD9//P/CQAAAAEAAAD9//T/CQAAAAIAAAD9//X/CQAAAAMAAAD9//b/CQAAAAQAAAD9//f/CQAAAAUAAAD9//j/CQAAAAYAAAD9//n/CQAAAAcAAAD9//r/CQAAAAQAAAD9//v/CQAAAAMAAAD9//z/CQAAAAQAAAD9//3/CQAAAAcAAAD+//D/CQAJAAAAAAD+//H/CQAJAAEAAAD+//L/CQAJAAIAAAD+//P/CQAJAAIAAAD+//T/CQAJAAMAAAD+//X/CQAJAAQAAAD+//b/CQAJAAUAAAD+//f/CQAJAAYAAAD+//j/CQAJAAYAAAD+//n/CQAJAAYAAAD+//r/CQAJAAYAAAD+//v/CQAJAAYAAAD+//z/CQAJAAYAAAD+//3/CQAJAAcAAAD///D/CQAKAAAAAAD///H/CQAKAAEAAAD///L/CQALAAIAAAD///P/CQAKAAIAAAD///T/CQAKAAMAAAD///X/CQAKAAQAAAD///b/CQAKAAUAAAD///f/CQALAAYAAAD///j/CQALAAYAAAD///n/CQALAAYAAAD///r/CQALAAYAAAD///v/CQALAAYAAAD///z/CQALAAYAAAD///3/CQAKAAcAAAAAAPD/CQALAAAAAAAAAPH/CQAKAAEAAAAAAPL/CQALAAIAAAAAAPP/CQALAAIAAAAAAPT/CQALAAMAAAAAAPX/CQALAAQAAAAAAPb/CQALAAUAAAAAAPf/CQAKAAYAAAAAAPj/CQAKAAYAAAAAAPn/CQALAAYAAAAAAPr/CQALAAYAAAAAAPv/CQALAAYAAAAAAPz/CQALAAYAAAAAAP3/CQAKAAcAAAAMAPD/CQAJAAAAAAAMAPH/CQAKAAEAAAAMAPL/CQALAAIAAAAMAPP/CQAKAAIAAAAMAPT/CQAKAAMAAAAMAPb/CQAKAAUAAAAMAPf/CQALAAYAAAAMAPj/CQALAAcAAAANAPD/CQAKAAAAAAANAPH/CQAKAAEAAAANAPL/CQALAAIAAAANAPP/CQAKAAIAAAANAPT/CQAKAAMAAAANAPb/CQAKAAUAAAANAPf/CQAKAAYAAAANAPj/CQALAAcAAAAOAPD/CQAMAAAAAAAOAPH/CQAMAAEAAAAOAPL/CQAMAAIAAAAOAPP/CQAMAAIAAAAOAPT/CQAMAAMAAAAOAPX/CQAMAAQAAAAOAPb/CQAMAAUAAAAOAPf/CQAMAAYAAAAOAPj/CQAMAAcAAAD9//7/CQAAAAgAAAD+//7/CQAJAAgAAAD///7/CQAKAAgAAAAAAP7/CQALAAgAAAABAP7/CQAKAAgAAAACAP7/CQALAAgAAAADAP7/CQAMAAgAAAAEAP7/CQAJAAgAAAAFAP7/CQAKAAgAAAAGAP7/CQALAAgAAAAHAP7/CQAMAAgAAAAIAP7/CQAJAAgAAAAJAP7/CQAKAAgAAAAKAP7/CQALAAgAAAAPAPD/CQANAAAAAAAPAPH/CQANAAEAAAAPAPL/CQANAAIAAAAPAPP/CQANAAEAAAAPAPT/CQANAAIAAAAPAPX/CQANAAMAAAAPAPb/CQANAAQAAAAPAPf/CQANAAUAAAAPAPj/CQANAAYAAAAPAPn/CQANAAgAAAAOAPn/CQAMAAgAAAANAPn/CQAMAAgAAAAMAPn/CQAMAAgAAAALAP7/CQANAAgAAAALAP3/CQANAAcAAAALAPz/CQANAAcAAAALAPv/CQANAAcAAAALAPr/CQANAAcAAAALAPn/CQAAABAAAAA=")
 tile_set = SubResource("TileSet_eccgu")
 
-[node name="FloorDecorations" type="TileMapLayer" parent="TileMap" unique_id=417992141]
+[node name="FloorDecorations" type="TileMapLayer" parent="." unique_id=417992141]
 z_index = 1
 y_sort_enabled = true
+position = Vector2(36, 28)
 tile_map_data = PackedByteArray("AAD+//r/AQAFAAgAAAD+//v/AQAFAAkAAAD+//z/AQAFAAoAAAD///r/AQAGAAgAAAD///v/AQAGAAkAAAD///z/AQAGAAoAAAAAAPr/AQAHAAgAAAAAAPv/AQAHAAkAAAAAAPz/AQAHAAoAAAABAPr/AQAHAAgAAAABAPv/AQAHAAkAAAABAPz/AQAHAAoAAAACAPr/AQAIAAgAAAACAPv/AQAIAAkAAAACAPz/AQAIAAoAAAADAPr/AQAJAAgAAAADAPv/AQAJAAkAAAADAPz/AQAJAAoAAAAEAPr/AQAKAAgAAAAEAPv/AQAKAAkAAAAEAPz/AQAKAAoAAAA=")
 tile_set = SubResource("TileSet_yygbf")
 
-[node name="Door" type="TileMapLayer" parent="TileMap" unique_id=910399464]
+[node name="Door" type="TileMapLayer" parent="." unique_id=910399464]
+position = Vector2(36, 28)
 tile_map_data = PackedByteArray("AAAMAPP/CAABAAEAAAAMAPT/CAABAAIAAAAMAPX/CAABAAMAAAANAPP/CAACAAEAAAANAPT/CAACAAIAAAANAPX/CAACAAMAAAA=")
 tile_set = SubResource("TileSet_ew6sl")
 
-[node name="Furniture" type="TileMapLayer" parent="TileMap" unique_id=1648819814]
+[node name="Furniture" type="TileMapLayer" parent="." unique_id=1648819814]
 z_index = 1
 y_sort_enabled = true
+position = Vector2(36, 28)
 tile_map_data = PackedByteArray("AAABAPT/AgAFAAEAAAABAPX/AgAFAAIAAAABAPb/AgAFAAMAAAABAPf/AgAFAAQAAAACAPT/AgAGAAEAAAACAPX/AgAGAAIAAAACAPb/AgAGAAMAAAACAPf/AgAGAAQAAAAAAPT/AgAEAAEAAAAAAPX/AgAEAAIAAAAAAPb/AgAEAAMAAAAAAPf/AgAEAAQAAAD///X/AAAKAAEAAAD///b/AAAKAAIAAAABAPL/CAAOAAgAAAABAPP/CAAOAAkAAAACAPL/CAAPAAgAAAACAPP/CAAPAAkAAAAAAPL/CAANAAgAAAAAAPP/CAANAAkAAAD+//n/BgAlAAoAAAD+//r/BgAlAAoAAAD+//v/BgAlAAsAAAD+//j/BgAlAAkAAAAIAPX/BgAhAAoAAAAIAPb/BgAhAAsAAAAJAPX/BgAiAAoAAAAJAPb/BgAiAAsAAAAKAPX/BgAjAAoAAAAKAPb/BgAjAAsAAAAIAPL/AQAIAAEAAAAIAPP/AQAIAAIAAAAJAPL/AQAJAAEAAAAJAPP/AQAJAAIAAAAKAPL/AQAKAAEAAAAKAPP/AQAKAAIAAAAFAPv/BgAJAA0AAAAFAPz/BgAJAA4AAAAFAP3/BgAJAA8AAAAGAPv/BgAKAA0AAAAGAPz/BgAKAA4AAAAGAP3/BgAKAA8AAAAHAPv/BgALAA0AAAAHAPz/BgALAA4AAAAHAP3/BgALAA8AAAD+//T/BwABAAEAAAD+//X/BwABAAIAAAD+//b/BwABAAMAAAAAAP3/BgAlAA4AAAABAP3/BgAmAA4AAAACAP3/BgAnAA4AAAAEAPP/AAABAAIAAAAEAPT/AAABAAMAAAAEAPX/AAABAAQAAAAEAPb/AAABAAUAAAAFAPP/AAACAAIAAAAFAPT/AAACAAMAAAAFAPX/AAACAAQAAAAFAPb/AAACAAUAAAAGAPP/AAADAAIAAAAGAPT/AAADAAMAAAAGAPX/AAADAAQAAAAGAPb/AAADAAUAAAAAAPr/CwABAAIAAAAAAPv/CwABAAMAAAABAPr/CwACAAIAAAABAPv/CwACAAMAAAACAPr/CwADAAIAAAACAPv/CwADAAMAAAA=")
 tile_set = SubResource("TileSet_yygbf")
 use_kinematic_bodies = true
 navigation_visibility_mode = 1
 
-[node name="FurnitureFront" type="TileMapLayer" parent="TileMap" unique_id=1223232142]
+[node name="FurnitureFront" type="TileMapLayer" parent="." unique_id=1223232142]
 z_index = 2
 y_sort_enabled = true
+position = Vector2(36, 28)
 tile_map_data = PackedByteArray("AAAFAPv/BgAJAA0AAAAFAPz/BgAJAA4AAAAGAPv/BgAKAA0AAAAGAPz/BgAKAA4AAAAHAPv/BgALAA0AAAAHAPz/BgALAA4AAAAAAPr/CwABAAIAAAABAPr/CwACAAIAAAACAPr/CwADAAIAAAA=")
 tile_set = SubResource("TileSet_yygbf")
 use_kinematic_bodies = true
 navigation_visibility_mode = 1
 
-[node name="LoweredDecorations" type="TileMapLayer" parent="TileMap" unique_id=515272037]
+[node name="LoweredDecorations" type="TileMapLayer" parent="." unique_id=515272037]
 z_index = 1
 y_sort_enabled = true
-position = Vector2(0, 6)
+position = Vector2(36, 34)
 tile_map_data = PackedByteArray("AAAIAPP/BwABAAUAAAAIAPT/BwABAAYAAAA=")
 tile_set = SubResource("TileSet_yygbf")
 
-[node name="Decorations" type="TileMapLayer" parent="TileMap" unique_id=750925601]
+[node name="Decorations" type="TileMapLayer" parent="." unique_id=750925601]
 z_index = 1
 y_sort_enabled = true
+position = Vector2(36, 28)
 tile_map_data = PackedByteArray("AAD///X/AQAGAAIAAAD///T/AQAGAAEAAAAAAPL/CwAOABUAAAAAAPP/CwAOABgAAAACAPL/CwAPABUAAAACAPP/CwAPABgAAAD+//n/BwADAAgAAAD+//j/BwADAAcAAAAAAP3/CwATABUAAAABAP3/CwAUABUAAAACAP3/CwAVABUAAAAAAP7/CwATABYAAAABAP7/CwAUABYAAAACAP7/CwAVABYAAAA=")
 tile_set = SubResource("TileSet_yygbf")
+
+[node name="Player" parent="." unique_id=191629362 instance=ExtResource("14_4wfg3")]
+position = Vector2(118, -93)
+
+[node name="PlayerCamera" type="Camera2D" parent="Player" unique_id=266195006]
+zoom = Vector2(3, 3)
