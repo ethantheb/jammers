@@ -6,6 +6,8 @@ const SPEED = 100.0
 @onready var body = $Body
 @onready var head = $Head
 
+var last_direction: Vector2
+
 func _play_animation(animation: String) -> void:
 	shadow.play(animation)
 	body.play(animation)
@@ -16,7 +18,22 @@ func _physics_process(_delta: float) -> void:
 	velocity = direction * SPEED
 	move_and_slide()
 
-	if velocity.length() > 0:
-		_play_animation("walk_right")
+	if velocity.length() <= 0:
+		if last_direction.x < 0:
+			_play_animation("idle_left")
+		elif last_direction.x > 0:
+			_play_animation("idle_right")
+		elif last_direction.y < 0:
+			_play_animation("idle_up")
+		else:
+			_play_animation("idle_down")
 	else:
-		_play_animation("idle_fwd")
+		last_direction = direction
+		if velocity.x < 0:
+			_play_animation("walk_left")
+		elif velocity.x > 0:
+			_play_animation("walk_right")
+		if velocity.y < 0:
+			_play_animation("walk_up")
+		elif velocity.y > 0:
+			_play_animation("walk_down")
