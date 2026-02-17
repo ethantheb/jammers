@@ -1482,28 +1482,42 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_8gr2b"]
-radius = 6.0
-height = 24.0
+radius = 1.0
+height = 10.0
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_fjrip"]
+polygon = PackedVector2Array(-5, 11, -5, -8, 4, -8, 4, 11)
 
 [node name="Player" type="CharacterBody2D" unique_id=191629362]
 script = ExtResource("1_hqtel")
 
 [node name="Shadow" type="AnimatedSprite2D" parent="." unique_id=223023243]
+y_sort_enabled = true
 sprite_frames = SubResource("SpriteFrames_bfour")
 animation = &"walk_down"
 frame_progress = 0.8202394
 
 [node name="Body" type="AnimatedSprite2D" parent="." unique_id=2121158105]
+z_index = 1
+y_sort_enabled = true
 sprite_frames = SubResource("SpriteFrames_hiqhm")
 animation = &"idle_down"
 frame_progress = 0.1446652
 
 [node name="Head" type="AnimatedSprite2D" parent="." unique_id=496098007]
+z_index = 1
+y_sort_enabled = true
 sprite_frames = SubResource("SpriteFrames_pbfsw")
 animation = &"idle_down"
 frame_progress = 0.92610925
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1415297483]
 visible = false
-position = Vector2(0, 1)
+z_index = 1
+y_sort_enabled = true
+position = Vector2(0, 11)
+rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_8gr2b")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="." unique_id=607198704]
+occluder = SubResource("OccluderPolygon2D_fjrip")

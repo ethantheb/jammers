@@ -2,6 +2,31 @@
 
 [ext_resource type="PackedScene" uid="uid://d0e1vg0ugeprb" path="res://scenes/Bedroom.tscn" id="1_wbfu4"]
 [ext_resource type="PackedScene" uid="uid://c55ktvtf07pxx" path="res://scenes/player.tscn" id="2_xkndl"]
+[ext_resource type="Texture2D" uid="uid://c387qmb71ieat" path="res://assets/light_smallDistortion.png" id="3_u44n3"]
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_xkndl"]
+polygon = PackedVector2Array(67, 147, 65, 134, 67, 117, 68, 121)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_u44n3"]
+polygon = PackedVector2Array(74, -11, 74, -27, 82, -40, 112, -40, 120, -27, 120, -11)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_sb48q"]
+polygon = PackedVector2Array(45, -48, 49, -54, 51, -48)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_t88pq"]
+polygon = PackedVector2Array(42, -24, 42, -9, 56, -9, 56, -24)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_r0x5m"]
+polygon = PackedVector2Array(184, -90, 137, -90, 137, -153, 184, -153)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_3mrqo"]
+polygon = PackedVector2Array(73, 23, 73, 7, 121, 7, 121, 23)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_joorw"]
+polygon = PackedVector2Array(154, -25, 201, -25, 201, 20, 154, 20)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_2vekm"]
+polygon = PackedVector2Array(201, -120, 249, -120, 249, -103, 201, -103)
 
 [node name="Game" type="Node2D" unique_id=450389167]
 
@@ -9,8 +34,41 @@
 position = Vector2(37, 27)
 
 [node name="Player" parent="." unique_id=191629362 instance=ExtResource("2_xkndl")]
+y_sort_enabled = true
 position = Vector2(141, -87)
 
 [node name="Camera2D" type="Camera2D" parent="Player" unique_id=1464428579]
 position = Vector2(-9, -22)
 zoom = Vector2(3, 3)
+
+[node name="PointLight2D_TopLeft" type="PointLight2D" parent="." unique_id=1979858499]
+position = Vector2(49, -130)
+scale = Vector2(0.5234375, 0.30859378)
+energy = 0.25
+shadow_enabled = true
+texture = ExtResource("3_u44n3")
+
+[node name="LightOccluder2D_Bed" type="LightOccluder2D" parent="." unique_id=1376020108]
+position = Vector2(53, -224)
+occluder = SubResource("OccluderPolygon2D_xkndl")
+
+[node name="LightOccluder2D_Couch" type="LightOccluder2D" parent="." unique_id=958435875]
+occluder = SubResource("OccluderPolygon2D_u44n3")
+
+[node name="LightOccluder2D_Plant" type="LightOccluder2D" parent="." unique_id=1785944571]
+occluder = SubResource("OccluderPolygon2D_sb48q")
+
+[node name="LightOccluder2D_SideCabinet" type="LightOccluder2D" parent="." unique_id=1068920649]
+occluder = SubResource("OccluderPolygon2D_t88pq")
+
+[node name="LightOccluder2D_Wardrobe" type="LightOccluder2D" parent="." unique_id=961736253]
+occluder = SubResource("OccluderPolygon2D_r0x5m")
+
+[node name="LightOccluder2D_TV_Stand" type="LightOccluder2D" parent="." unique_id=1390670626]
+occluder = SubResource("OccluderPolygon2D_3mrqo")
+
+[node name="LightOccluder2D_LowerCabinet" type="LightOccluder2D" parent="." unique_id=1451980911]
+occluder = SubResource("OccluderPolygon2D_joorw")
+
+[node name="LightOccluder2D_WallTable" type="LightOccluder2D" parent="." unique_id=668418676]
+occluder = SubResource("OccluderPolygon2D_2vekm")
