@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://c55ktvtf07pxx"]
 
-[ext_resource type="Script" uid="uid://dnqoa72in532j" path="res://scenes/player.gd" id="1_hqtel"]
+[ext_resource type="Script" uid="uid://dnqoa72in532j" path="res://scripts/player.gd" id="1_hqtel"]
 [ext_resource type="Texture2D" uid="uid://d1cd46i6wah5h" path="res://assets/images/Unarmed_Idle3_head.png" id="2_sweqy"]
 [ext_resource type="Texture2D" uid="uid://covpk7pv4ycho" path="res://assets/images/Unarmed_Walk3_head.png" id="3_1jxqw"]
 [ext_resource type="Texture2D" uid="uid://ch8836gm8k6ps" path="res://assets/images/Unarmed_Idle2_body.png" id="3_2hs0m"]
