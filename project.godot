@@ -15,6 +15,14 @@ run/main_scene="uid://d0e1vg0ugeprb"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://icon.svg"
 
+[autoload]
+
+Game="*uid://cr8bni8fvuj7p"
+
+[dotnet]
+
+project/assembly_name="jammies"
+
 [input]
 
 ui_left={
