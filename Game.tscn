@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://d0evl6tycc2a6"]
+
+[ext_resource type="PackedScene" uid="uid://d0e1vg0ugeprb" path="res://scenes/Bedroom.tscn" id="1_wbfu4"]
+[ext_resource type="PackedScene" uid="uid://c55ktvtf07pxx" path="res://scenes/player.tscn" id="2_xkndl"]
+
+[node name="Game" type="Node2D" unique_id=450389167]
+
+[node name="BedroomNode" parent="." unique_id=1550137310 instance=ExtResource("1_wbfu4")]
+position = Vector2(37, 27)
+
+[node name="Player" parent="." unique_id=191629362 instance=ExtResource("2_xkndl")]
+position = Vector2(141, -87)
+
+[node name="Camera2D" type="Camera2D" parent="Player" unique_id=1464428579]
+position = Vector2(-9, -22)
+zoom = Vector2(3, 3)
