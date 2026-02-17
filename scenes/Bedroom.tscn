@@ -8481,7 +8481,7 @@ sources/11 = SubResource("TileSetAtlasSource_l5upy")
 
 [node name="Bedroom" type="Node2D" unique_id=1550137310]
 
-[node name="PointLight2D_TopLeft" type="PointLight2D" parent="." unique_id=1944264913]
+[node name="LampLight" type="PointLight2D" parent="." unique_id=1944264913]
 position = Vector2(49, -130)
 scale = Vector2(0.5234375, 0.30859378)
 energy = 0.25
