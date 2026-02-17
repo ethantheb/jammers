@@ -33,7 +33,7 @@ func _physics_process(_delta: float) -> void:
 			_play_animation("walk_left")
 		elif velocity.x > 0:
 			_play_animation("walk_right")
-		if velocity.y < 0:
+		elif velocity.y < 0:
 			_play_animation("walk_up")
 		elif velocity.y > 0:
 			_play_animation("walk_down")
