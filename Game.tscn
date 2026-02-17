@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://d0evl6tycc2a6"]
 
 [ext_resource type="PackedScene" uid="uid://d0e1vg0ugeprb" path="res://scenes/Bedroom.tscn" id="1_wbfu4"]
+[ext_resource type="AudioStream" uid="uid://cwvtjj7l6ucal" path="res://assets/bgm/Troubadeck 12 Good King.ogg" id="2_sb48q"]
 [ext_resource type="PackedScene" uid="uid://c55ktvtf07pxx" path="res://scenes/player.tscn" id="2_xkndl"]
 [ext_resource type="Texture2D" uid="uid://c387qmb71ieat" path="res://assets/light_smallDistortion.png" id="3_u44n3"]
 
@@ -32,6 +33,11 @@ polygon = PackedVector2Array(201, -120, 249, -120, 249, -103, 201, -103)
 
 [node name="BedroomNode" parent="." unique_id=1550137310 instance=ExtResource("1_wbfu4")]
 position = Vector2(37, 27)
+
+[node name="BGM" type="AudioStreamPlayer" parent="BedroomNode" unique_id=358870986]
+stream = ExtResource("2_sb48q")
+autoplay = true
+parameters/looping = true
 
 [node name="Player" parent="." unique_id=191629362 instance=ExtResource("2_xkndl")]
 y_sort_enabled = true
