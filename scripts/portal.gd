@@ -7,7 +7,6 @@ extends Area2D
 @export var hover_freq_sec = 1
 
 @export var target: PackedScene = null
-@export_file("*.tscn") var target_path: String = ""
 
 var init_pos = null
 var lifetime = 0.0
@@ -22,7 +21,7 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	lifetime += delta
 	rotate(deg_to_rad(spin_speed_deg) * delta)
-
+	
 	# Calculate hover offset based on lifetime and hover frequency
 	var hover_offset = sin(PI * 2 * lifetime / hover_freq_sec) * hover_ampl
 	global_position = init_pos + Vector2(0, hover_offset)
@@ -30,7 +29,4 @@ func _process(delta: float) -> void:
 
 func _on_body_entered(body: Node2D) -> void:
 	if body.name == "Player":
-		var scene = target
-		if scene == null and target_path != "":
-			scene = load(target_path)
-		Game.load_dream_scene(scene)
+		Game.load_dream_scene(target)
