@@ -1,0 +1,56 @@
+[gd_scene format=3 uid="uid://jr50xyaas84c"]
+
+[ext_resource type="Texture2D" uid="uid://12ws4fi4lt01" path="res://assets/images/brackeys_bg.png" id="1_bg"]
+[ext_resource type="PackedScene" uid="uid://jojwr8hipdsc" path="res://scenes/portal.tscn" id="2_port"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_left"]
+size = Vector2(20, 4096)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_right"]
+size = Vector2(20, 4096)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_top"]
+size = Vector2(311, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bottom"]
+size = Vector2(311, 20)
+
+[node name="TestLevel" type="Node2D" unique_id=1708939602]
+
+[node name="Background" type="Sprite2D" parent="." unique_id=747759939]
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("1_bg")
+
+[node name="WallLeft" type="StaticBody2D" parent="." unique_id=11114270]
+position = Vector2(-155, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WallLeft" unique_id=1113648169]
+shape = SubResource("RectangleShape2D_left")
+
+[node name="WallRight" type="StaticBody2D" parent="." unique_id=1543965371]
+position = Vector2(155, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WallRight" unique_id=279163136]
+shape = SubResource("RectangleShape2D_right")
+
+[node name="WallTop" type="StaticBody2D" parent="." unique_id=1226172470]
+position = Vector2(0, -2048)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WallTop" unique_id=1824515233]
+shape = SubResource("RectangleShape2D_top")
+
+[node name="WallBottom" type="StaticBody2D" parent="." unique_id=1954312138]
+position = Vector2(0, 2048)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WallBottom" unique_id=667331071]
+shape = SubResource("RectangleShape2D_bottom")
+
+[node name="AboveFloor" type="Node2D" parent="." unique_id=2140445933]
+y_sort_enabled = true
+
+[node name="SpawnPoint" type="Node2D" parent="AboveFloor" unique_id=195507146]
+position = Vector2(0, -1900)
+
+[node name="PortalToBedroom" parent="AboveFloor" unique_id=1202541398 instance=ExtResource("2_port")]
+position = Vector2(-8, -1986)
+target_path = "res://scenes/bedroom.tscn"
