@@ -8506,7 +8506,7 @@ sources/10 = SubResource("TileSetAtlasSource_7nmhu")
 sources/11 = SubResource("TileSetAtlasSource_l5upy")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mk2nf"]
-size = Vector2(46, 38)
+size = Vector2(46, 32)
 
 [node name="Bedroom" type="Node2D" unique_id=1550137310]
 
@@ -8619,5 +8619,5 @@ collision_mask = 2
 script = ExtResource("16_cixf6")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="InteractableBed" unique_id=1319908819]
-position = Vector2(60, -125)
+position = Vector2(60, -128)
 shape = SubResource("RectangleShape2D_mk2nf")
