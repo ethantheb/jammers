@@ -2,6 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://12ws4fi4lt01" path="res://assets/images/brackeys_bg.png" id="1_bg"]
 [ext_resource type="PackedScene" uid="uid://jojwr8hipdsc" path="res://scenes/portal.tscn" id="2_port"]
+[ext_resource type="PackedScene" path="res://scenes/alarm_guy.tscn" id="3_alarm"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_left"]
 size = Vector2(20, 4096)
@@ -54,3 +55,6 @@ position = Vector2(0, -1900)
 [node name="PortalToBedroom" parent="AboveFloor" unique_id=1202541398 instance=ExtResource("2_port")]
 position = Vector2(-8, -1986)
 target_path = "res://scenes/bedroom.tscn"
+
+[node name="AlarmGuy" parent="AboveFloor" instance=ExtResource("3_alarm")]
+position = Vector2(0, -1800)

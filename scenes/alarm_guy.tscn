@@ -1,0 +1,50 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/alarm_guy.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/images/alarmguy.png" id="2_sprite"]
+[ext_resource type="AudioStream" path="res://assets/sfx/alarm_scream.wav" id="3_scream"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_detect"]
+radius = 80.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_chase"]
+radius = 140.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_body"]
+radius = 8.0
+height = 20.0
+
+[node name="AlarmGuy" type="CharacterBody2D"]
+collision_layer = 1
+collision_mask = 1
+script = ExtResource("1_script")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.06, 0.06)
+texture = ExtResource("2_sprite")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 4)
+shape = SubResource("CapsuleShape2D_body")
+
+[node name="DetectionArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea"]
+shape = SubResource("CircleShape2D_detect")
+debug_color = Color(1, 0.3, 0.3, 0.15)
+
+[node name="ChaseArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ChaseArea"]
+shape = SubResource("CircleShape2D_chase")
+debug_color = Color(1, 0, 0, 0.1)
+
+[node name="ScreamAudio" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_scream")
+volume_db = -10.0
+max_distance = 300.0
+parameters/looping = true

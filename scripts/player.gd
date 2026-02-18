@@ -1,8 +1,9 @@
 extends CharacterBody2D
 
 const SPEED = 100.0
+const CHASE_SPEED_BONUS = 30.0
 
-@onready var shadow = $Shadow
+@onready var shadow = get_node_or_null("Shadow")
 @onready var body = $Body
 @onready var head = $Head
 
@@ -10,6 +11,7 @@ const SPEED = 100.0
 @onready var label = $PlayerLabel
 
 var last_direction: Vector2
+var is_being_chased: bool = false
 
 func _play_animation(animation: String) -> void:
 	body.play(animation)
@@ -18,7 +20,10 @@ func _play_animation(animation: String) -> void:
 func _physics_process(_delta: float) -> void:
 	var direction := Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
 
-	velocity = direction * SPEED
+	var speed = SPEED
+	if is_being_chased:
+		speed += CHASE_SPEED_BONUS
+	velocity = direction * speed
 	var movement: String = "walk"
 	if Input.is_action_pressed("ui_sprint"):
 		movement = "run"
@@ -54,4 +59,7 @@ func _physics_process(_delta: float) -> void:
 			label.text = "Press E to sleep"
 	else:
 		label.text = ""
-		
+
+func set_chased(chased: bool) -> void:
+	is_being_chased = chased
+
