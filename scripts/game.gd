@@ -16,5 +16,10 @@ func load_dream_scene(scene: PackedScene) -> void:
 	var player_instance = player_scene.instantiate()
 	get_tree().current_scene.add_child(player_instance)
 
+	# Position player at SpawnPoint if one exists
+	var spawn = scene_instance.find_child("SpawnPoint")
+	if spawn:
+		player_instance.global_position = spawn.global_position
+
 func help_me() ->  void:
 	get_tree().quit()
