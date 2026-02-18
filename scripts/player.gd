@@ -6,6 +6,9 @@ const SPEED = 100.0
 @onready var body = $Body
 @onready var head = $Head
 
+@onready var raycast = $PlayerRayCast
+@onready var label = $PlayerLabel
+
 var last_direction: Vector2
 
 func _play_animation(animation: String) -> void:
@@ -37,3 +40,13 @@ func _physics_process(_delta: float) -> void:
 			_play_animation("walk_up")
 		elif velocity.y > 0:
 			_play_animation("walk_down")
+
+	raycast.rotation = -atan2(last_direction.x, last_direction.y)
+	if $PlayerRayCast.is_colliding():
+		var target = $PlayerRayCast.get_collider()
+		
+		if target != null and target.has_method("sleep"):
+			label.text = "Press E to sleep"
+	else:
+		label.text = ""
+		
