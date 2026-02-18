@@ -12,13 +12,18 @@ const SPEED = 100.0
 var last_direction: Vector2
 
 func _play_animation(animation: String) -> void:
-	shadow.play(animation)
 	body.play(animation)
 	head.play(animation)
 
 func _physics_process(_delta: float) -> void:
 	var direction := Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
+
 	velocity = direction * SPEED
+	var movement: String = "walk"
+	if Input.is_action_pressed("ui_sprint"):
+		movement = "run"
+		velocity *= 2
+
 	move_and_slide()
 
 	if velocity.length() <= 0:
@@ -33,13 +38,13 @@ func _physics_process(_delta: float) -> void:
 	else:
 		last_direction = direction
 		if velocity.x < 0:
-			_play_animation("walk_left")
+			_play_animation(movement + "_left")
 		elif velocity.x > 0:
-			_play_animation("walk_right")
+			_play_animation(movement + "_right")
 		elif velocity.y < 0:
-			_play_animation("walk_up")
+			_play_animation(movement + "_up")
 		elif velocity.y > 0:
-			_play_animation("walk_down")
+			_play_animation(movement + "_down")
 
 	raycast.rotation = -atan2(last_direction.x, last_direction.y)
 	if $PlayerRayCast.is_colliding():
