@@ -3,3 +3,39 @@
 /android/
 *.import
 *.translation
+export_presets.cfg
+export_credentials.cfg
+
+# Mono/C# (if ever used)
+.mono/
+data_*/
+mono_crash.*.json
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Build output
+builds/
+dist/
+*.exe
+*.x86_64
+*.arm64
+*.dmg
+*.apk
+*.aab
+*.pck
+*.zip
