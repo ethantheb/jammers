@@ -1524,3 +1524,17 @@ occluder = SubResource("OccluderPolygon2D_fjrip")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(3, 3)
+
+[node name="PlayerRayCast" type="RayCast2D" parent="." unique_id=287875113]
+target_position = Vector2(0, 15)
+collision_mask = 2
+collide_with_areas = true
+
+[node name="PlayerLabel" type="Label" parent="." unique_id=1651505037]
+z_index = 10
+z_as_relative = false
+offset_left = -63.0
+offset_top = 74.0
+offset_right = 66.0
+offset_bottom = 97.0
+horizontal_alignment = 1

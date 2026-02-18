@@ -16,6 +16,7 @@
 [ext_resource type="Texture2D" uid="uid://dd81r6yulm42u" path="res://assets/tilesets/pixelinterior_LRK_v1.1/floorswalls_LRK.png" id="13_qbrme"]
 [ext_resource type="PackedScene" uid="uid://c55ktvtf07pxx" path="res://scenes/player.tscn" id="14_lyvny"]
 [ext_resource type="PackedScene" uid="uid://jojwr8hipdsc" path="res://scenes/portal.tscn" id="15_port"]
+[ext_resource type="Script" uid="uid://bc07ro077afnp" path="res://scripts/interactable_bed.gd" id="16_cixf6"]
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_xyfub"]
 polygon = PackedVector2Array(67, 147, 65, 134, 67, 117, 68, 121, 67.6471, 130.175)
@@ -8505,7 +8506,10 @@ sources/9 = SubResource("TileSetAtlasSource_d5oer")
 sources/10 = SubResource("TileSetAtlasSource_7nmhu")
 sources/11 = SubResource("TileSetAtlasSource_l5upy")
 
-[node name="Bedroom" type="Node2D" unique_id=1498371710]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mk2nf"]
+size = Vector2(46, 38)
+
+[node name="Bedroom" type="Node2D" unique_id=1550137310]
 
 [node name="BGM" type="AudioStreamPlayer" parent="." unique_id=266233702]
 stream = ExtResource("1_mk2nf")
@@ -8613,3 +8617,12 @@ position = Vector2(244, -144)
 spin_speed_deg = 0
 hover_ampl = 0
 target_path = "res://scenes/test_level.tscn"
+
+[node name="InteractableBed" type="Area2D" parent="." unique_id=1568951082]
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("16_cixf6")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractableBed" unique_id=1319908819]
+position = Vector2(60, -125)
+shape = SubResource("RectangleShape2D_mk2nf")
