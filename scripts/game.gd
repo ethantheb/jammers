@@ -5,12 +5,34 @@ const PEE_PUDDLE_SCENE: PackedScene = preload("res://scenes/slop_puddle.tscn")
 
 var _scene_pee_puddle_state: Dictionary = {}
 var _active_scene_root: Node = null
+var _overlay: ColorRect = null
 
 func _ready() -> void:
 	_active_scene_root = get_tree().current_scene
+	var canvas = CanvasLayer.new()
+	canvas.layer = 100
+	add_child(canvas)
+	_overlay = ColorRect.new()
+	_overlay.color = Color(0, 0, 0, 0)
+	_overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	canvas.add_child(_overlay)
 
-func load_dream_scene(scene: PackedScene) -> void:
+func fade_to_black(duration: float = 0.8) -> void:
+	var tween = create_tween()
+	tween.tween_property(_overlay, "color:a", 1.0, duration)
+	await tween.finished
+
+func fade_from_black(duration: float = 0.8) -> void:
+	var tween = create_tween()
+	tween.tween_property(_overlay, "color:a", 0.0, duration)
+	await tween.finished
+
+func load_dream_scene(scene: PackedScene, fade: bool = false) -> void:
 	assert(scene)
+
+	if fade:
+		await fade_to_black()
 
 	var tree := get_tree()
 	var current_root := tree.current_scene
@@ -25,13 +47,13 @@ func load_dream_scene(scene: PackedScene) -> void:
 	# Clear all children from current scene
 	for child in current_root.get_children():
 		child.queue_free()
-	
+
 	# Instantiate and add the dream scene
 	var scene_instance = scene.instantiate()
 	current_root.add_child(scene_instance)
 	_active_scene_root = scene_instance
 	_restore_pee_puddles(scene_instance)
-	
+
 	# Position player at SpawnPoint if one exists, or spawn one if the scene doesn't have one
 	var spawn = scene_instance.find_child("SpawnPoint")
 	var existing_player = scene_instance.find_child("Player")
@@ -44,6 +66,9 @@ func load_dream_scene(scene: PackedScene) -> void:
 		scene_instance.add_child(player_instance)
 		if spawn:
 			player_instance.global_position = spawn.global_position
+
+	if fade:
+		await fade_from_black()
 
 func help_me() ->  void:
 	get_tree().quit()

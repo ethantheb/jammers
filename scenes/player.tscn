@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://ch8836gm8k6ps" path="res://assets/images/Unarmed_Idle2_body.png" id="3_2hs0m"]
 [ext_resource type="Texture2D" uid="uid://bt0y5ft335oq0" path="res://assets/images/Unarmed_Run2_body.png" id="4_smehm"]
 [ext_resource type="Texture2D" uid="uid://dwjffb5a1kv8i" path="res://assets/images/Unarmed_Walk2_body.png" id="5_dw050"]
+[ext_resource type="Texture2D" uid="uid://da8q4hfer3hr" path="res://assets/images/Unarmed_sleep_head.png" id="7_smehm"]
 [ext_resource type="Texture2D" uid="uid://bm8c7raw37r3i" path="res://assets/images/Unarmed_Run3_head.png" id="7_ur7pv"]
 [ext_resource type="Texture2D" uid="uid://ch5v424yco6vi" path="res://assets/dogpisser/shibainu.png" id="8_dog"]
 
@@ -1248,6 +1249,18 @@ region = Rect2(384, 192, 64, 64)
 atlas = ExtResource("7_ur7pv")
 region = Rect2(448, 192, 64, 64)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_3thuw"]
+atlas = ExtResource("7_smehm")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_44dms"]
+atlas = ExtResource("7_smehm")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_36p4m"]
+atlas = ExtResource("7_smehm")
+region = Rect2(0, 0, 64, 64)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_fjrip"]
 atlas = ExtResource("3_1jxqw")
 region = Rect2(0, 0, 64, 64)
@@ -1604,6 +1617,20 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_3thuw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_44dms")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_36p4m")
+}],
+"loop": false,
+"name": &"sleep",
+"speed": 1.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_fjrip")
 }, {
 "duration": 1.0,
@@ -1704,7 +1731,6 @@ polygon = PackedVector2Array(-5, 11, -5, -8, 4, -8, 4, 11)
 
 [node name="Player" type="CharacterBody2D" unique_id=191629362]
 script = ExtResource("1_hqtel")
-dog_mode = true
 
 [node name="Body" type="AnimatedSprite2D" parent="." unique_id=1708559131]
 z_index = 1
@@ -1716,7 +1742,7 @@ animation = &"dog_walk_up"
 z_index = 1
 y_sort_enabled = true
 sprite_frames = SubResource("SpriteFrames_ur7pv")
-animation = &"run_up"
+animation = &"sleep"
 
 [node name="Dog" type="AnimatedSprite2D" parent="." unique_id=2037254690]
 z_index = 1

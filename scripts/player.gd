@@ -31,6 +31,7 @@ const PEE_HOLD_WAVE_SPEED = 0.12
 
 var last_direction: Vector2
 var is_being_chased: bool = false
+var is_sleeping: bool = false
 var slop_slow_factor: float = 1.0
 var _is_peeing: bool = false
 var _active_pee_puddle: Area2D = null
@@ -46,6 +47,8 @@ func _ready() -> void:
 	randomize()
 
 func _play_animation(animation: String) -> void:
+	if is_sleeping:
+		return
 	if dog_mode and dog:
 		dog.play("dog_" + animation)
 		return
@@ -60,6 +63,8 @@ func set_dog_mode(enabled: bool) -> void:
 		dog.visible = enabled
 
 func _physics_process(delta: float) -> void:
+	if is_sleeping:
+		return
 	var direction := Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
 	_update_slop_from_puddles()
 
@@ -100,6 +105,11 @@ func _physics_process(delta: float) -> void:
 
 func set_chased(chased: bool) -> void:
 	is_being_chased = chased
+
+func wake_up() -> void:
+	# TODO: better wakeup behavior (reverse sleep anim, push out of bed)
+	var bedroom = load("res://scenes/bedroom.tscn")
+	Game.load_dream_scene(bedroom)
 
 func enter_slop(slow: float, source: Node = null) -> void:
 	slop_slow_factor = minf(slop_slow_factor, clampf(slow, 0.05, 1.0))
@@ -156,7 +166,7 @@ func _try_interact(target: Node) -> void:
 		target.pee(self)
 		return
 	if target.has_method("sleep"):
-		target.sleep()
+		target.sleep(self)
 
 func _update_pee_action(delta: float) -> void:
 	var holding := _is_pee_hold_active()

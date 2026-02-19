@@ -56,7 +56,14 @@ func _do_chasing(delta: float) -> void:
 		_enter_looking_around()
 		return
 
-	var dir = (player.global_position - global_position).normalized()
+	var to_player = player.global_position - global_position
+	if to_player.length() < 15.0:
+		var caught = player
+		_enter_idle()
+		caught.wake_up()
+		return
+
+	var dir = to_player.normalized()
 	velocity = dir * chase_speed
 	move_and_slide()
 
