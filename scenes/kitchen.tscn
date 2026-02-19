@@ -9015,10 +9015,11 @@ position = Vector2(118, -93)
 position = Vector2(244, -144)
 spin_speed_deg = 0
 hover_ampl = 0
-target_path = "res://scenes/test_level.tscn"
+target_path = "uid://d2ffgu2eh308e"
 
 [node name="PortalToBedroom" parent="AboveFloor2" unique_id=1532299131 instance=ExtResource("4_port")]
-position = Vector2(175, -64)
+visible = false
+position = Vector2(247, -29)
 target_path = "res://scenes/bedroom.tscn"
 
 [node name="LoweredDecorations" type="TileMapLayer" parent="AboveFloor2" unique_id=446602594]
