@@ -16,7 +16,7 @@
 [ext_resource type="Texture2D" uid="uid://dd81r6yulm42u" path="res://assets/tilesets/pixelinterior_LRK_v1.1/floorswalls_LRK.png" id="13_qbrme"]
 [ext_resource type="PackedScene" uid="uid://c55ktvtf07pxx" path="res://scenes/player.tscn" id="14_lyvny"]
 [ext_resource type="PackedScene" uid="uid://jojwr8hipdsc" path="res://scenes/portal.tscn" id="15_port"]
-[ext_resource type="Script" uid="uid://bc07ro077afnp" path="res://scripts/interactable_bed.gd" id="16_cixf6"]
+[ext_resource type="Script" path="res://scripts/interactable_bed.gd" id="16_cixf6"]
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_xyfub"]
 polygon = PackedVector2Array(67, 147, 65, 134, 67, 117, 68, 121, 67.6471, 130.175)
@@ -8562,7 +8562,6 @@ tile_map_data = PackedByteArray("AAABAPH/CQAKAAEAAAACAPH/CQAKAAEAAAADAPH/CQAKAAE
 tile_set = SubResource("TileSet_eccgu")
 
 [node name="FloorDecorations" type="TileMapLayer" parent="." unique_id=1642258375]
-z_index = 1
 y_sort_enabled = true
 position = Vector2(36, 28)
 tile_map_data = PackedByteArray("AAD+//r/AQAFAAgAAAD+//v/AQAFAAkAAAD+//z/AQAFAAoAAAD///r/AQAGAAgAAAD///v/AQAGAAkAAAD///z/AQAGAAoAAAAAAPr/AQAHAAgAAAAAAPv/AQAHAAkAAAAAAPz/AQAHAAoAAAABAPr/AQAHAAgAAAABAPv/AQAHAAkAAAABAPz/AQAHAAoAAAACAPr/AQAIAAgAAAACAPv/AQAIAAkAAAACAPz/AQAIAAoAAAADAPr/AQAJAAgAAAADAPv/AQAJAAkAAAADAPz/AQAJAAoAAAAEAPr/AQAKAAgAAAAEAPv/AQAKAAkAAAAEAPz/AQAKAAoAAAA=")
@@ -8585,6 +8584,12 @@ navigation_visibility_mode = 1
 
 [node name="AboveFloor" type="Node2D" parent="." unique_id=1871466985]
 y_sort_enabled = true
+
+[node name="PortalToTesting" parent="AboveFloor" unique_id=922015599 instance=ExtResource("15_port")]
+position = Vector2(59, -22)
+spin_speed_deg = 0
+hover_ampl = 0
+target_path = "uid://bvwjtgv0s6iyr"
 
 [node name="LoweredDecorations" type="TileMapLayer" parent="AboveFloor" unique_id=537991112]
 z_index = 2
@@ -8610,13 +8615,13 @@ tile_map_data = PackedByteArray("AAD///X/AQAGAAIAAAD///T/AQAGAAEAAAAAAPL/CwAOABU
 tile_set = SubResource("TileSet_yygbf")
 
 [node name="Player" parent="AboveFloor" unique_id=1839945034 instance=ExtResource("14_lyvny")]
-position = Vector2(118, -93)
+position = Vector2(83, -106)
 
-[node name="PortalToLivingroom" parent="AboveFloor" unique_id=27864031 instance=ExtResource("15_port")]
+[node name="PortalToKitchen" parent="AboveFloor" unique_id=27864031 instance=ExtResource("15_port")]
 position = Vector2(244, -144)
 spin_speed_deg = 0
 hover_ampl = 0
-target_path = "res://scenes/test_level.tscn"
+target_path = "uid://bvwjtgv0s6iyr"
 
 [node name="InteractableBed" type="Area2D" parent="." unique_id=1568951082]
 collision_layer = 2
