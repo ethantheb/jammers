@@ -6,6 +6,7 @@ const CHASE_SPEED_BONUS = 30.0
 @onready var shadow = get_node_or_null("Shadow")
 @onready var body = $Body
 @onready var head = $Head
+@onready var dog = $Dog
 @onready var collision_shape = get_node_or_null("CollisionShape2D")
 
 @onready var raycast = $PlayerRayCast
@@ -14,10 +15,25 @@ const CHASE_SPEED_BONUS = 30.0
 var last_direction: Vector2
 var is_being_chased: bool = false
 var slop_slow_factor: float = 1.0
+@export
+var dog_mode: bool = false
+
+func _ready() -> void:
+	set_dog_mode(dog_mode)
+
+func set_dog_mode(enabled: bool) -> void:
+	dog_mode = enabled
+	body.visible = not enabled
+	head.visible = not enabled
+	dog.visible = enabled
 
 func _play_animation(animation: String) -> void:
-	body.play(animation)
-	head.play(animation)
+	if dog_mode:
+		dog.play("dog_"+animation)
+	else:
+		body.play(animation)
+		head.play(animation)
+
 
 func _physics_process(_delta: float) -> void:
 	var direction := Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")

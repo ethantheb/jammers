@@ -7,6 +7,55 @@
 [ext_resource type="Texture2D" uid="uid://bt0y5ft335oq0" path="res://assets/images/Unarmed_Run2_body.png" id="4_smehm"]
 [ext_resource type="Texture2D" uid="uid://dwjffb5a1kv8i" path="res://assets/images/Unarmed_Walk2_body.png" id="5_dw050"]
 [ext_resource type="Texture2D" uid="uid://bm8c7raw37r3i" path="res://assets/images/Unarmed_Run3_head.png" id="7_ur7pv"]
+[ext_resource type="Texture2D" uid="uid://ch5v424yco6vi" path="res://assets/dogpisser/shibainu.png" id="8_dog"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dog_down_0"]
+atlas = ExtResource("8_dog")
+region = Rect2(0, 0, 64, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dog_down_1"]
+atlas = ExtResource("8_dog")
+region = Rect2(64, 0, 64, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dog_down_2"]
+atlas = ExtResource("8_dog")
+region = Rect2(128, 0, 64, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dog_left_0"]
+atlas = ExtResource("8_dog")
+region = Rect2(0, 48, 64, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dog_left_1"]
+atlas = ExtResource("8_dog")
+region = Rect2(64, 48, 64, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dog_left_2"]
+atlas = ExtResource("8_dog")
+region = Rect2(128, 48, 64, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dog_right_0"]
+atlas = ExtResource("8_dog")
+region = Rect2(0, 96, 64, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dog_right_1"]
+atlas = ExtResource("8_dog")
+region = Rect2(64, 96, 64, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dog_right_2"]
+atlas = ExtResource("8_dog")
+region = Rect2(128, 96, 64, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dog_up_0"]
+atlas = ExtResource("8_dog")
+region = Rect2(0, 144, 64, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dog_up_1"]
+atlas = ExtResource("8_dog")
+region = Rect2(64, 144, 64, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dog_up_2"]
+atlas = ExtResource("8_dog")
+region = Rect2(128, 144, 64, 48)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5tmop"]
 atlas = ExtResource("3_2hs0m")
@@ -394,6 +443,174 @@ region = Rect2(320, 192, 64, 64)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_smehm"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dog_down_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dog_down_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dog_down_2")
+}],
+"loop": false,
+"name": &"dog_idle_down",
+"speed": 0.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dog_left_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dog_left_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dog_left_2")
+}],
+"loop": false,
+"name": &"dog_idle_left",
+"speed": 0.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dog_right_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dog_right_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dog_right_2")
+}],
+"loop": false,
+"name": &"dog_idle_right",
+"speed": 0.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dog_up_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dog_up_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dog_up_2")
+}],
+"loop": false,
+"name": &"dog_idle_up",
+"speed": 0.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dog_down_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dog_down_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dog_down_2")
+}],
+"loop": false,
+"name": &"dog_run_down",
+"speed": 40.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dog_left_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dog_left_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dog_left_2")
+}],
+"loop": false,
+"name": &"dog_run_left",
+"speed": 40.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dog_right_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dog_right_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dog_right_2")
+}],
+"loop": false,
+"name": &"dog_run_right",
+"speed": 40.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dog_up_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dog_up_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dog_up_2")
+}],
+"loop": false,
+"name": &"dog_run_up",
+"speed": 40.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dog_down_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dog_down_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dog_down_2")
+}],
+"loop": false,
+"name": &"dog_walk_down",
+"speed": 20.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dog_left_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dog_left_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dog_left_2")
+}],
+"loop": false,
+"name": &"dog_walk_left",
+"speed": 20.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dog_right_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dog_right_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dog_right_2")
+}],
+"loop": false,
+"name": &"dog_walk_right",
+"speed": 20.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dog_up_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dog_up_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dog_up_2")
+}],
+"loop": false,
+"name": &"dog_walk_up",
+"speed": 20.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_5tmop")
@@ -1487,18 +1704,25 @@ polygon = PackedVector2Array(-5, 11, -5, -8, 4, -8, 4, 11)
 
 [node name="Player" type="CharacterBody2D" unique_id=191629362]
 script = ExtResource("1_hqtel")
+dog_mode = true
 
 [node name="Body" type="AnimatedSprite2D" parent="." unique_id=1708559131]
 z_index = 1
 y_sort_enabled = true
 sprite_frames = SubResource("SpriteFrames_smehm")
-animation = &"run_up"
+animation = &"dog_walk_up"
 
 [node name="Head" type="AnimatedSprite2D" parent="." unique_id=501064602]
 z_index = 1
 y_sort_enabled = true
 sprite_frames = SubResource("SpriteFrames_ur7pv")
 animation = &"run_up"
+
+[node name="Dog" type="AnimatedSprite2D" parent="." unique_id=2037254690]
+z_index = 1
+y_sort_enabled = true
+sprite_frames = SubResource("SpriteFrames_smehm")
+animation = &"dog_idle_up"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1415297483]
 visible = false
