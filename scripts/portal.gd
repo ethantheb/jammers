@@ -33,4 +33,4 @@ func _on_body_entered(body: Node2D) -> void:
 		var scene = target
 		if scene == null and target_path != "":
 			scene = load(target_path)
-		Game.load_dream_scene(scene)
+		Game.call_deferred("load_dream_scene", scene)
