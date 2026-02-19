@@ -42,8 +42,9 @@ func _ready() -> void:
 	set_process(true)
 
 func _process(_delta: float) -> void:
+	# Allow runtime-authored shape changes (e.g. spawned pee spots) to update.
+	_refresh_source_shape(false)
 	if Engine.is_editor_hint():
-		_refresh_source_shape(false)
 		_sync_shape(0.0)
 	else:
 		_sync_shape(Time.get_ticks_msec() * 0.001 * animation_speed)
