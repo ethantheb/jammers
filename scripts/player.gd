@@ -15,6 +15,10 @@ const PEE_FOOT_OFFSET = Vector2(0, 10)
 const PEE_COLLISION_MARGIN = 1.5
 const PEE_MIN_POINT_RADIUS = 2.0
 const PEE_HOLD_WAVE_SPEED = 0.12
+const BUMP_SOUND_PATH = "res://assets/sfx/bump.wav"
+const STEP_SOUND_PATH = "res://assets/sfx/step.wav"
+const PUDDLE_STEP_SOUND_PATH = "res://assets/sfx/puddle_step.wav"
+const PISS_SOUND_PATH = "res://assets/sfx/piss.wav"
 
 @onready var shadow = get_node_or_null("Shadow")
 @onready var body = $Body
@@ -24,10 +28,14 @@ const PEE_HOLD_WAVE_SPEED = 0.12
 
 @onready var raycast = $PlayerRayCast
 @onready var label = $PlayerLabel
+@onready var audio = $Audio
 
 @export var pee_puddle_scene: PackedScene = preload("res://scenes/slop_puddle.tscn")
 @export var pee_puddle_color: Color = Color(0.86, 0.76, 0.16, 0.62)
 @export var dog_mode: bool = false
+
+@export var STEP_INTERVAL_WALK = 0.1
+var STEP_INTERVAL_RUN = STEP_INTERVAL_WALK * 0.5
 
 var last_direction: Vector2
 var is_being_chased: bool = false
@@ -40,11 +48,22 @@ var _active_pee_radius: float = PEE_MIN_RADIUS
 var _active_pee_jitter: PackedFloat32Array = PackedFloat32Array()
 var _active_pee_wave_phase: float = 0.0
 var _active_pee_seed: float = 0.0
+var _prev_position: Vector2
+var _step_timer: float = 0.0
+var _bump_sound: AudioStream
+var _step_sound: AudioStream
+var _puddle_step_sound: AudioStream
+var _piss_sound: AudioStream
 
 func _ready() -> void:
 	set_dog_mode(dog_mode)
 	_ensure_pee_action()
 	randomize()
+	_prev_position = global_position
+	_bump_sound = load(BUMP_SOUND_PATH)
+	_step_sound = load(STEP_SOUND_PATH)
+	_puddle_step_sound = load(PUDDLE_STEP_SOUND_PATH)
+	_piss_sound = load(PISS_SOUND_PATH)
 
 func _play_animation(animation: String) -> void:
 	if is_sleeping:
@@ -77,7 +96,29 @@ func _physics_process(delta: float) -> void:
 		movement = "run"
 		velocity *= 2
 
+	var was_colliding = get_slide_collision_count() > 0
 	move_and_slide()
+
+	if get_slide_collision_count() > 0 and not was_colliding:
+		if global_position.distance_to(_prev_position) < 0.5:
+			if audio:
+				audio.stream = _bump_sound
+				audio.play()
+	_prev_position = global_position
+
+	# Handle step sounds
+	if velocity.length() > 0:
+		_step_timer -= delta
+		if _step_timer <= 0:
+			var step_interval = STEP_INTERVAL_RUN if movement == "run" else STEP_INTERVAL_WALK
+			_step_timer = step_interval
+			if audio and not audio.playing:
+				# Use puddle step sound if in a puddle
+				var in_puddle = slop_slow_factor < 1.0
+				audio.stream = _puddle_step_sound if in_puddle else _step_sound
+				audio.play()
+	else:
+		_step_timer = 0.0
 
 	if velocity.length() <= 0:
 		if last_direction.x < 0:
@@ -214,6 +255,11 @@ func _start_pee() -> void:
 	_active_pee_jitter = _make_pee_jitter(PEE_SHAPE_POINTS, _active_pee_seed)
 	_is_peeing = true
 	_update_pee_shape(true)
+	
+	# Play piss sound
+	if audio and _piss_sound:
+		audio.stream = _piss_sound
+		audio.play()
 
 func _grow_pee(delta: float) -> void:
 	if not is_instance_valid(_active_pee_puddle) or not is_instance_valid(_active_pee_shape):
@@ -230,6 +276,10 @@ func _finish_pee() -> void:
 	_is_peeing = false
 	_active_pee_puddle = null
 	_active_pee_shape = null
+	
+	# Stop piss sound
+	if audio and audio.stream == _piss_sound:
+		audio.stop()
 
 func _update_pee_shape(force_sync: bool) -> void:
 	if not is_instance_valid(_active_pee_puddle) or not is_instance_valid(_active_pee_shape):
