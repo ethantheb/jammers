@@ -15,6 +15,10 @@ const PEE_FOOT_OFFSET = Vector2(0, 10)
 const PEE_COLLISION_MARGIN = 1.5
 const PEE_MIN_POINT_RADIUS = 2.0
 const PEE_HOLD_WAVE_SPEED = 0.12
+const SCALE_MIN = 0.1
+const SCALE_MAX = 3.0
+const SCALE_STEP = 0.1
+
 const BUMP_SOUND_PATH = "res://assets/sfx/bump.wav"
 const STEP_SOUND_PATH = "res://assets/sfx/step.wav"
 const PUDDLE_STEP_SOUND_PATH = "res://assets/sfx/puddle_step.wav"
@@ -264,7 +268,7 @@ func _start_pee() -> void:
 	_update_pee_shape(true)
 	HUD.make_continuous_noise("piss", piss_noise_dps)
 	HUD.set_pissing(true)
-	
+
 	# Play piss sound
 	if audio and _piss_sound:
 		audio.stream = _piss_sound
@@ -287,7 +291,7 @@ func _finish_pee() -> void:
 	_active_pee_shape = null
 	HUD.stop_continuous_noise("piss")
 	HUD.set_pissing(false)
-	
+
 	# Stop piss sound
 	if audio and audio.stream == _piss_sound:
 		audio.stop()
@@ -374,6 +378,13 @@ func _ensure_pee_action() -> void:
 	key_event.physical_keycode = KEY_Q
 	key_event.keycode = KEY_Q
 	InputMap.action_add_event(PEE_ACTION, key_event)
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_WHEEL_UP and event.pressed:
+			scale = clamp(scale + Vector2.ONE * SCALE_STEP, Vector2.ONE * SCALE_MIN, Vector2.ONE * SCALE_MAX)
+		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN and event.pressed:
+			scale = clamp(scale - Vector2.ONE * SCALE_STEP, Vector2.ONE * SCALE_MIN, Vector2.ONE * SCALE_MAX)
 
 func _snap_to_8_directions(dir: Vector2) -> Vector2:
 	if dir.length_squared() < 0.001:
