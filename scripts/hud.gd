@@ -1,9 +1,13 @@
 extends CanvasLayer
 
 @onready var timer_label = $MarginContainer/VBoxContainer/TimerLabel
-@onready var progress_bar: ProgressBar = $MarginContainer/VBoxContainer/ProgressBar
+@onready var progress_bar: ProgressBar = $MarginContainer/VBoxContainer/HBoxContainer/ProgressBar
+@onready var piss_meter: ProgressBar = $MarginContainer/VBoxContainer/HBoxContainer/PissMeter
 
 var elapsed_time: float = 0.0
+@export var piss_meter_max: float = 1.0
+@export var piss_meter_start: float = 1.0
+@export var piss_drain_rate: float = 0.2
 const NOISE_DECAY_RATE: float = 0.3
 const RECENT_SOUND_WINDOW: float = 1.0
 const BASE_SHAKE_MAGNITUDE: float = 30.0
@@ -13,16 +17,21 @@ var shake_duration: float = 0.5
 var original_bar_position: Vector2
 var recent_noises: Array[Vector2] = []
 var continuous_noises: Dictionary[String, float] = {}
+var is_pissing: bool = false
 
 func _ready() -> void:
 	original_bar_position = progress_bar.position
+	piss_meter.max_value = piss_meter_max
+	piss_meter.value = clamp(piss_meter_start, 0.0, piss_meter_max)
 
 func _process(delta: float) -> void:
 	elapsed_time += delta
 	time_since_noise += delta
 	update_timer_display()
+	if is_pissing and piss_meter.value > 0.0:
+		piss_meter.value = max(0.0, piss_meter.value - (piss_drain_rate * delta))
 	_apply_continuous_noise(delta)
-	if time_since_noise >= 1.0 and progress_bar.value > 0.0:
+	if time_since_noise >= 1.0 and progress_bar.value > 0.0 and continuous_noises.size() == 0:
 		progress_bar.value = max(0.0, progress_bar.value - (NOISE_DECAY_RATE * delta))
 	
 	# Handle shake
@@ -46,8 +55,7 @@ func update_timer_display() -> void:
 
 func make_one_noise(percent: float) -> void:
 	progress_bar.value += percent
-	if continuous_noises.size() == 0:
-		time_since_noise = 0.0
+	time_since_noise = 0.0
 	shake_timer = shake_duration
 	_record_noise_magnitude(abs(percent))
 
@@ -71,7 +79,6 @@ func _apply_continuous_noise(delta: float) -> void:
 	if not is_zero_approx(total_rate):
 		progress_bar.value += total_rate * delta
 		print(progress_bar.value)
-		time_since_noise = 0.0
 		shake_timer = shake_duration
 
 func _record_noise_magnitude(magnitude: float) -> void:
@@ -102,3 +109,6 @@ func _update_recent_noises() -> float:
 func reset_timer() -> void:
 	elapsed_time = 0.0
 	update_timer_display()
+
+func set_pissing(active: bool) -> void:
+	is_pissing = active

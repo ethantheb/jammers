@@ -35,6 +35,7 @@ const PISS_SOUND_PATH = "res://assets/sfx/piss.wav"
 @export var dog_mode: bool = false
 
 @export var walk_noise_dps = 0.1
+@export var piss_noise_dps = 0.3
 
 @export var STEP_INTERVAL_WALK = 0.1
 var STEP_INTERVAL_RUN = STEP_INTERVAL_WALK * 0.5
@@ -261,6 +262,8 @@ func _start_pee() -> void:
 	_active_pee_jitter = _make_pee_jitter(PEE_SHAPE_POINTS, _active_pee_seed)
 	_is_peeing = true
 	_update_pee_shape(true)
+	HUD.make_continuous_noise("piss", piss_noise_dps)
+	HUD.set_pissing(true)
 	
 	# Play piss sound
 	if audio and _piss_sound:
@@ -282,6 +285,8 @@ func _finish_pee() -> void:
 	_is_peeing = false
 	_active_pee_puddle = null
 	_active_pee_shape = null
+	HUD.stop_continuous_noise("piss")
+	HUD.set_pissing(false)
 	
 	# Stop piss sound
 	if audio and audio.stream == _piss_sound:

@@ -1749,6 +1749,7 @@ animation = &"sleep"
 [node name="Dog" type="AnimatedSprite2D" parent="." unique_id=2037254690]
 z_index = 1
 y_sort_enabled = true
+scale = Vector2(3, 3)
 sprite_frames = SubResource("SpriteFrames_smehm")
 animation = &"dog_idle_up"
 
