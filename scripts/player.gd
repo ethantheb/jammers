@@ -20,7 +20,7 @@ const SCALE_MAX = 3.0
 const SCALE_STEP = 0.1
 
 const BUMP_SOUND_PATH = "res://assets/sfx/bump.wav"
-const STEP_SOUND_PATH = "res://assets/sfx/step.wav"
+const STEP_SOUND_PATH = "res://assets/sfx/footsteps_wood.mp3"
 const PUDDLE_STEP_SOUND_PATH = "res://assets/sfx/puddle_step.wav"
 const PISS_SOUND_PATH = "res://assets/sfx/piss.wav"
 
@@ -46,6 +46,7 @@ var STEP_INTERVAL_RUN = STEP_INTERVAL_WALK * 0.5
 
 var last_direction: Vector2
 var facing_direction_snapped: Vector2 = Vector2(0, 1)
+var _last_movement: String = ""
 var is_being_chased: bool = false
 var is_sleeping: bool = false
 var slop_slow_factor: float = 1.0
@@ -67,6 +68,10 @@ func _ready() -> void:
 	set_dog_mode(dog_mode)
 	_ensure_pee_action()
 	randomize()
+
+	if dog_mode:
+		scale = 0.20 * Vector2.ONE
+
 	_prev_position = global_position
 	_bump_sound = load(BUMP_SOUND_PATH)
 	_step_sound = load(STEP_SOUND_PATH)
@@ -114,34 +119,26 @@ func _physics_process(delta: float) -> void:
 				audio.play()
 	_prev_position = global_position
 
-	# Handle step sounds
+	# Movement sound and animation
 	if velocity.length() > 0:
 		HUD.make_continuous_noise("walk", walk_noise_dps * (2.0 if movement == "run" else 1.0))
 		_step_timer -= delta
 		if _step_timer <= 0:
 			var step_interval = STEP_INTERVAL_RUN if movement == "run" else STEP_INTERVAL_WALK
 			_step_timer = step_interval
-			if audio and not audio.playing:
-				# Use puddle step sound if in a puddle
-				var in_puddle = slop_slow_factor < 1.0
-				audio.stream = _puddle_step_sound if in_puddle else _step_sound
-				audio.play()
-	else:
-		HUD.stop_continuous_noise("walk")
-		_step_timer = 0.0
 
-	if velocity.length() <= 0:
-		if last_direction.x < 0:
-			_play_animation("idle_left")
-		elif last_direction.x > 0:
-			_play_animation("idle_right")
-		elif last_direction.y < 0:
-			_play_animation("idle_up")
-		else:
-			_play_animation("idle_down")
-	else:
+			# Reset audio stream when movement type changes
+			if audio and (not audio.playing or movement != _last_movement):
+				if slop_slow_factor < 1.0:
+					audio.stream = _puddle_step_sound
+				else:
+					audio.stream = _step_sound
+					audio.pitch_scale = 2.5 if movement == "walk" else 4.0
+				_last_movement = movement
+				audio.play()
 		last_direction = direction
 		facing_direction_snapped = _snap_to_8_directions(last_direction)
+
 		if velocity.x < 0:
 			_play_animation(movement + "_left")
 		elif velocity.x > 0:
@@ -150,6 +147,19 @@ func _physics_process(delta: float) -> void:
 			_play_animation(movement + "_up")
 		elif velocity.y > 0:
 			_play_animation(movement + "_down")
+	else:
+		HUD.stop_continuous_noise("walk")
+		_step_timer = 0.0
+		if audio and (audio.stream == _step_sound or audio.stream == _puddle_step_sound):
+			audio.stop()
+		if last_direction.x < 0:
+			_play_animation("idle_left")
+		elif last_direction.x > 0:
+			_play_animation("idle_right")
+		elif last_direction.y < 0:
+			_play_animation("idle_up")
+		else:
+			_play_animation("idle_down")
 
 	raycast.rotation = -atan2(last_direction.x, last_direction.y)
 	_handle_interaction()
@@ -384,6 +394,12 @@ func _unhandled_input(event: InputEvent) -> void:
 		if event.button_index == MOUSE_BUTTON_WHEEL_UP and event.pressed:
 			scale = clamp(scale + Vector2.ONE * SCALE_STEP, Vector2.ONE * SCALE_MIN, Vector2.ONE * SCALE_MAX)
 		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN and event.pressed:
+			scale = clamp(scale - Vector2.ONE * SCALE_STEP, Vector2.ONE * SCALE_MIN, Vector2.ONE * SCALE_MAX)
+	elif event is InputEventPanGesture:
+		var pan := (event as InputEventPanGesture).delta
+		if pan.y < 0:
+			scale = clamp(scale + Vector2.ONE * SCALE_STEP, Vector2.ONE * SCALE_MIN, Vector2.ONE * SCALE_MAX)
+		elif pan.y > 0:
 			scale = clamp(scale - Vector2.ONE * SCALE_STEP, Vector2.ONE * SCALE_MIN, Vector2.ONE * SCALE_MAX)
 
 func _snap_to_8_directions(dir: Vector2) -> Vector2:

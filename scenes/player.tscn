@@ -1732,7 +1732,13 @@ polygon = PackedVector2Array(-5, 11, -5, -8, 4, -8, 4, 11)
 
 [node name="Player" type="CharacterBody2D" unique_id=191629362]
 script = ExtResource("1_hqtel")
+pee_puddle_scene = null
+pee_puddle_color = null
 dog_mode = true
+walk_noise_dps = 0.1
+piss_noise_dps = 0.3
+step_pitch_scale = 1.0
+STEP_INTERVAL_WALK = 0.1
 
 [node name="Body" type="AnimatedSprite2D" parent="." unique_id=1708559131]
 z_index = 1
