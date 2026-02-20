@@ -38,6 +38,7 @@ const PISS_SOUND_PATH = "res://assets/sfx/piss.wav"
 var STEP_INTERVAL_RUN = STEP_INTERVAL_WALK * 0.5
 
 var last_direction: Vector2
+var facing_direction_snapped: Vector2 = Vector2(0, 1)
 var is_being_chased: bool = false
 var is_sleeping: bool = false
 var slop_slow_factor: float = 1.0
@@ -131,6 +132,7 @@ func _physics_process(delta: float) -> void:
 			_play_animation("idle_down")
 	else:
 		last_direction = direction
+		facing_direction_snapped = _snap_to_8_directions(last_direction)
 		if velocity.x < 0:
 			_play_animation(movement + "_left")
 		elif velocity.x > 0:
@@ -363,3 +365,10 @@ func _ensure_pee_action() -> void:
 	key_event.physical_keycode = KEY_Q
 	key_event.keycode = KEY_Q
 	InputMap.action_add_event(PEE_ACTION, key_event)
+
+func _snap_to_8_directions(dir: Vector2) -> Vector2:
+	if dir.length_squared() < 0.001:
+		return facing_direction_snapped
+	var angle := dir.angle()
+	var snapped_angle: float = round(angle / (PI / 4.0)) * (PI / 4.0)
+	return Vector2.from_angle(snapped_angle)
