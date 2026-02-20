@@ -1,7 +1,7 @@
 extends CanvasLayer
 
 @onready var timer_label = $MarginContainer/VBoxContainer/TimerLabel
-@onready var progress_bar = $MarginContainer/VBoxContainer/ProgressBar
+@onready var progress_bar: ProgressBar = $MarginContainer/VBoxContainer/ProgressBar
 
 var elapsed_time: float = 0.0
 const NOISE_DECAY_RATE: float = 0.3
@@ -21,11 +21,7 @@ func _process(delta: float) -> void:
 	elapsed_time += delta
 	time_since_noise += delta
 	update_timer_display()
-	var continuous_info = _apply_continuous_noise(delta)
-	if continuous_info.y > 0.0:
-		time_since_noise = 0.0
-		shake_timer = shake_duration
-		_record_noise_magnitude(continuous_info.y)
+	_apply_continuous_noise(delta)
 	if time_since_noise >= 1.0 and progress_bar.value > 0.0:
 		progress_bar.value = max(0.0, progress_bar.value - (NOISE_DECAY_RATE * delta))
 	
@@ -48,9 +44,8 @@ func update_timer_display() -> void:
 	var seconds = total_seconds % 60
 	timer_label.text = "Time: %d:%02d" % [minutes, seconds]
 
-func make_noise(percent: float) -> void:
-	var value = progress_bar.value + percent
-	progress_bar.value = clamp(value, 0.0, 100.0)
+func make_one_noise(percent: float) -> void:
+	progress_bar.value += percent
 	if continuous_noises.size() == 0:
 		time_since_noise = 0.0
 	shake_timer = shake_duration
@@ -65,18 +60,19 @@ func make_continuous_noise(tag: String, value_per_sec: float) -> void:
 func stop_continuous_noise(tag: String) -> void:
 	continuous_noises.erase(tag)
 
-func _apply_continuous_noise(delta: float) -> Vector2:
+func _apply_continuous_noise(delta: float) -> void:
 	if continuous_noises.size() == 0:
-		return Vector2.ZERO
-	var total: float = 0.0
-	var max_rate: float = 0.0
+		return
+
+	var total_rate: float = 0.0
 	for value in continuous_noises.values():
 		var rate = float(value)
-		total += rate * delta
-		max_rate = max(max_rate, abs(rate))
-	if not is_zero_approx(total):
-		progress_bar.value = clamp(progress_bar.value + total, 0.0, 100.0)
-	return Vector2(total, max_rate)
+		total_rate += rate
+	if not is_zero_approx(total_rate):
+		progress_bar.value += total_rate * delta
+		print(progress_bar.value)
+		time_since_noise = 0.0
+		shake_timer = shake_duration
 
 func _record_noise_magnitude(magnitude: float) -> void:
 	if magnitude <= 0.0:
