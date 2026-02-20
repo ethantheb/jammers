@@ -24,6 +24,9 @@ const BUMP_SOUND_PATH = "res://assets/sfx/bump.wav"
 const STEP_SOUND_PATH = "res://assets/sfx/footsteps_wood.mp3"
 const PUDDLE_STEP_SOUND_PATH = "res://assets/sfx/puddle_step.wav"
 const PISS_SOUND_PATH = "res://assets/sfx/piss.wav"
+const DOG_SPRITE_SHEET_PATH = "res://assets/dogpisser/shibainu.png"
+const DOG_FRAME_WIDTH = 64
+const DOG_FRAME_HEIGHT = 48
 
 @onready var shadow = get_node_or_null("Shadow")
 @onready var body = $Body
@@ -70,6 +73,7 @@ var _piss_sound: AudioStream
 var _trackpad_scroll_accumulator: float = 0.0
 
 func _ready() -> void:
+	_ensure_dog_sprite_frames()
 	set_dog_mode(dog_mode)
 	set_transparent_mode(transparent_mode)
 	_ensure_pee_action()
@@ -90,13 +94,17 @@ func _play_animation(animation: String) -> void:
 	if is_sleeping:
 		return
 	if dog_mode and dog:
-		dog.play("dog_" + animation)
+		var dog_animation := "dog_" + animation
+		if dog.sprite_frames and dog.sprite_frames.has_animation(dog_animation):
+			dog.play(dog_animation)
+			return
 		return
 	body.play(animation)
 	head.play(animation)
 
 func set_dog_mode(enabled: bool) -> void:
 	dog_mode = enabled
+	_ensure_dog_sprite_frames()
 	body.visible = not enabled
 	head.visible = not enabled
 	if dog:
@@ -108,6 +116,55 @@ func set_transparent_mode(enabled: bool) -> void:
 	RenderingServer.viewport_set_transparent_background(_rid, enabled)
 	get_tree().get_root().set_transparent_background(enabled)
 	DisplayServer.window_set_flag(DisplayServer.WINDOW_FLAG_TRANSPARENT, enabled)
+
+func _ensure_dog_sprite_frames() -> void:
+	if dog == null:
+		return
+
+	var frames: SpriteFrames = dog.sprite_frames
+	if frames != null and frames.has_animation("dog_idle_down"):
+		return
+
+	var sprite_sheet := load(DOG_SPRITE_SHEET_PATH) as Texture2D
+	if sprite_sheet == null:
+		push_warning("Dog sprite sheet missing at %s" % DOG_SPRITE_SHEET_PATH)
+		return
+
+	frames = SpriteFrames.new()
+	var directions := {
+		"down": 0,
+		"left": 1,
+		"right": 2,
+		"up": 3,
+	}
+	var states := {
+		"idle": 0.0,
+		"walk": 20.0,
+		"run": 40.0,
+	}
+
+	for state_name in states.keys():
+		var speed := float(states[state_name])
+		for direction_name in directions.keys():
+			var row := int(directions[direction_name])
+			var animation_name := "dog_%s_%s" % [state_name, direction_name]
+			frames.add_animation(animation_name)
+			frames.set_animation_speed(animation_name, speed)
+			frames.set_animation_loop(animation_name, false)
+
+			for col in 3:
+				var atlas := AtlasTexture.new()
+				atlas.atlas = sprite_sheet
+				atlas.region = Rect2(
+					float(col * DOG_FRAME_WIDTH),
+					float(row * DOG_FRAME_HEIGHT),
+					float(DOG_FRAME_WIDTH),
+					float(DOG_FRAME_HEIGHT)
+				)
+				frames.add_frame(animation_name, atlas, 1.0)
+
+	dog.sprite_frames = frames
+	dog.animation = &"dog_idle_down"
 
 func _physics_process(delta: float) -> void:
 	if is_sleeping:
