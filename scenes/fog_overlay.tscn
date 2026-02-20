@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/fog_overlay.gd" id="1_fog_script"]
+
+[node name="FogOverlay" type="Node2D"]
+script = ExtResource("1_fog_script")
