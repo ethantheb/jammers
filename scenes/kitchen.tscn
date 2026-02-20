@@ -16,6 +16,7 @@
 [ext_resource type="PackedScene" uid="uid://c55ktvtf07pxx" path="res://scenes/player.tscn" id="14_vu36g"]
 [ext_resource type="Texture2D" uid="uid://c8k4d3bvfojgu" path="res://assets/light_smallDistortion.png" id="15_88wuv"]
 [ext_resource type="Script" uid="uid://bcrfdme51tmcf" path="res://scripts/slop_puddle.gd" id="15_ikg1h"]
+[ext_resource type="PackedScene" path="res://scenes/fog_overlay.tscn" id="16_fog"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_fw01"]
 texture = ExtResource("1_fwlk")
@@ -9061,3 +9062,5 @@ position = Vector2(-10, -35.000004)
 scale = Vector2(1.35, 3.35)
 color = Color(1.540184e-06, 0.7922602, 0.8412298, 0.2)
 polygon = PackedVector2Array(-10, -10, -3.7037048, -13.134327, 3.703701, -20.597012, 8.148148, -18.507462, 10, -10, 24.444447, -9.850746, 28.518517, -5.22388, 29.629631, -3.2835808, 28.148151, -1.7910442, 30.370365, 4.776119, 11.851852, 5.074627, 10, 10, -10, 10, -21.481482, 8.955224, -25.185184, 4.4776125, -25.185184, -3.2835808)
+
+[node name="FogOverlay" parent="." instance=ExtResource("16_fog")]

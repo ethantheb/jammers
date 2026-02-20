@@ -3,6 +3,8 @@
 [ext_resource type="Texture2D" uid="uid://12ws4fi4lt01" path="res://assets/images/brackeys_bg.png" id="1_bg"]
 [ext_resource type="PackedScene" uid="uid://jojwr8hipdsc" path="res://scenes/portal.tscn" id="2_port"]
 [ext_resource type="PackedScene" path="res://scenes/alarm_guy.tscn" id="3_alarm"]
+[ext_resource type="PackedScene" path="res://scenes/fog_overlay.tscn" id="4_x4b8f"]
+[ext_resource type="PackedScene" uid="uid://c55ktvtf07pxx" path="res://scenes/player.tscn" id="5_tmr53"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_left"]
 size = Vector2(20, 4096)
@@ -58,3 +60,8 @@ target_path = "res://scenes/bedroom.tscn"
 
 [node name="AlarmGuy" parent="AboveFloor" instance=ExtResource("3_alarm")]
 position = Vector2(0, -1800)
+
+[node name="FogOverlay" parent="." unique_id=697002474 instance=ExtResource("4_x4b8f")]
+
+[node name="Player" parent="." unique_id=191629362 instance=ExtResource("5_tmr53")]
+position = Vector2(0, -1912)
