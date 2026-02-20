@@ -34,6 +34,8 @@ const PISS_SOUND_PATH = "res://assets/sfx/piss.wav"
 @export var pee_puddle_color: Color = Color(0.86, 0.76, 0.16, 0.62)
 @export var dog_mode: bool = false
 
+@export var walk_noise_dps = 0.1
+
 @export var STEP_INTERVAL_WALK = 0.1
 var STEP_INTERVAL_RUN = STEP_INTERVAL_WALK * 0.5
 
@@ -109,6 +111,7 @@ func _physics_process(delta: float) -> void:
 
 	# Handle step sounds
 	if velocity.length() > 0:
+		HUD.make_continuous_noise("walk", walk_noise_dps * (2.0 if movement == "run" else 1.0))
 		_step_timer -= delta
 		if _step_timer <= 0:
 			var step_interval = STEP_INTERVAL_RUN if movement == "run" else STEP_INTERVAL_WALK
@@ -119,6 +122,7 @@ func _physics_process(delta: float) -> void:
 				audio.stream = _puddle_step_sound if in_puddle else _step_sound
 				audio.play()
 	else:
+		HUD.stop_continuous_noise("walk")
 		_step_timer = 0.0
 
 	if velocity.length() <= 0:

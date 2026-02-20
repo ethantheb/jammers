@@ -22,6 +22,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 Game="*res://scripts/game.gd"
+HUD="*res://scenes/hud.tscn"
 
 [dotnet]
 
