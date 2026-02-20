@@ -18,6 +18,7 @@ const PEE_HOLD_WAVE_SPEED = 0.12
 const SCALE_MIN = 0.1
 const SCALE_MAX = 3.0
 const SCALE_STEP = 0.1
+const TRACKPAD_SCROLL_THRESHOLD = 12.0
 
 const BUMP_SOUND_PATH = "res://assets/sfx/bump.wav"
 const STEP_SOUND_PATH = "res://assets/sfx/footsteps_wood.mp3"
@@ -66,6 +67,7 @@ var _bump_sound: AudioStream
 var _step_sound: AudioStream
 var _puddle_step_sound: AudioStream
 var _piss_sound: AudioStream
+var _trackpad_scroll_accumulator: float = 0.0
 
 func _ready() -> void:
 	set_dog_mode(dog_mode)
@@ -410,6 +412,26 @@ func _ensure_pee_action() -> void:
 	key_event.keycode = KEY_Q
 	InputMap.action_add_event(PEE_ACTION, key_event)
 
+func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_WHEEL_UP and event.pressed:
+			_apply_player_scale_step(1.0)
+		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN and event.pressed:
+			_apply_player_scale_step(-1.0)
+	elif event is InputEventPanGesture:
+		# macOS trackpad scrolling frequently arrives as pan gestures, not wheel buttons.
+		_trackpad_scroll_accumulator -= event.delta.y
+		var steps := int(_trackpad_scroll_accumulator / TRACKPAD_SCROLL_THRESHOLD)
+		if steps != 0:
+			_apply_player_scale_step(float(steps))
+			_trackpad_scroll_accumulator -= float(steps) * TRACKPAD_SCROLL_THRESHOLD
+
+func _apply_player_scale_step(step_count: float) -> void:
+	scale = clamp(
+		scale + Vector2.ONE * SCALE_STEP * step_count,
+		Vector2.ONE * SCALE_MIN,
+		Vector2.ONE * SCALE_MAX
+	)
 func _snap_to_8_directions(dir: Vector2) -> Vector2:
 	if dir.length_squared() < 0.001:
 		return facing_direction_snapped
