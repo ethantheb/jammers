@@ -78,7 +78,6 @@ func _apply_continuous_noise(delta: float) -> void:
 		total_rate += rate
 	if not is_zero_approx(total_rate):
 		progress_bar.value += total_rate * delta
-		print(progress_bar.value)
 		shake_timer = shake_duration
 
 func _record_noise_magnitude(magnitude: float) -> void:
