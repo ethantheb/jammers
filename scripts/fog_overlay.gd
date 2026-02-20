@@ -9,9 +9,10 @@ extends Node2D
 ## Requires the Player node to have a `facing_direction_snapped` Vector2 property.
 
 # ----- Vision shape tunables -----
-@export var ambient_radius: float = 30.0
-@export var cone_reach: float = 260.0
-@export var cone_angle_degrees: float = 90.0
+@export var ambient_radius: float = 30
+@export var ambient_softness_power: float = 0.65
+@export var cone_reach: float = 200.0
+@export var cone_angle_degrees: float = 210
 @export var vision_energy: float = 1.0
 
 # ----- Internal refs (built at runtime) -----
@@ -36,6 +37,7 @@ var _fog_material: ShaderMaterial = null
 var _vision_texture: ImageTexture = null
 
 const FOG_LIGHT_LAYER: int = 2
+const FOG_CANVAS_LAYER: int = 90
 
 # =====================================================================
 # Lifecycle
@@ -55,8 +57,8 @@ func _process(_delta: float) -> void:
 		_player = _find_player()
 		if _player == null:
 			return
-	if _camera == null:
-		_camera = _player.get_node_or_null("Camera2D") as Camera2D
+	if _camera == null or not is_instance_valid(_camera):
+		_camera = _resolve_active_camera()
 
 	_sync_mask_viewport()
 	_sync_hidden_viewport()
@@ -133,7 +135,7 @@ func _build_hidden_viewport() -> void:
 
 func _build_fog_overlay() -> void:
 	var canvas_layer := CanvasLayer.new()
-	canvas_layer.layer = 100
+	canvas_layer.layer = FOG_CANVAS_LAYER
 	add_child(canvas_layer)
 
 	var shader := load("res://shaders/fog_of_war.gdshader") as Shader
@@ -164,17 +166,16 @@ func _clone_occluders_into_mask() -> void:
 func _clone_occluders_recursive(node: Node) -> void:
 	if node is LightOccluder2D and not _is_fog_overlay_child(node):
 		var src := node as LightOccluder2D
-		if src.occluder == null:
-			return
-		var clone := LightOccluder2D.new()
-		clone.occluder = src.occluder
-		clone.occluder_light_mask = FOG_LIGHT_LAYER
-		clone.global_position = src.global_position
-		clone.global_rotation = src.global_rotation
-		clone.global_scale = src.global_scale
-		# Store a reference to the source so we can sync transforms if needed
-		clone.set_meta("source_node", src.get_path())
-		_mask_occluder_root.add_child(clone)
+		if src.occluder != null:
+			var clone := LightOccluder2D.new()
+			clone.occluder = src.occluder
+			clone.occluder_light_mask = FOG_LIGHT_LAYER
+			clone.global_position = src.global_position
+			clone.global_rotation = src.global_rotation
+			clone.global_scale = src.global_scale
+			# Store a reference to the source so we can sync transforms if needed
+			clone.set_meta("source_node", src.get_path())
+			_mask_occluder_root.add_child(clone)
 	for child in node.get_children():
 		_clone_occluders_recursive(child)
 
@@ -191,7 +192,7 @@ func _is_fog_overlay_child(node: Node) -> bool:
 # =====================================================================
 
 func _sync_mask_viewport() -> void:
-	if _camera == null or _mask_viewport == null:
+	if _mask_viewport == null or _player == null:
 		return
 
 	# Match SubViewport size to main viewport
@@ -207,6 +208,8 @@ func _sync_mask_viewport() -> void:
 	# Rotate cone to match facing direction.
 	# Texture cone points DOWN (+Y). Rotation = angle from +Y to facing dir.
 	var dir: Vector2 = _player.facing_direction_snapped
+	if dir.length_squared() < 0.0001:
+		dir = Vector2(0, 1)
 	_mask_light.rotation = Vector2(0, 1).angle_to(dir)
 
 	# The SubViewport has its own canvas transform.
@@ -233,12 +236,22 @@ func _get_level_root() -> Node:
 		return parent
 	return get_tree().current_scene
 
+func _resolve_active_camera() -> Camera2D:
+	if _player != null:
+		var player_camera := _player.get_node_or_null("Camera2D")
+		if player_camera is Camera2D:
+			return player_camera as Camera2D
+	var viewport_camera := get_viewport().get_camera_2d()
+	if viewport_camera != null:
+		return viewport_camera
+	return null
+
 # =====================================================================
 # Sync the hidden-sprite SubViewport to the main camera each frame
 # =====================================================================
 
 func _sync_hidden_viewport() -> void:
-	if _camera == null or _hidden_viewport == null:
+	if _hidden_viewport == null:
 		return
 	var main_vp := get_viewport()
 	var main_size := main_vp.get_visible_rect().size
@@ -283,6 +296,8 @@ func _collect_hidden_sprites_recursive(node: Node) -> void:
 func _move_to_hidden_viewport(ci: CanvasItem) -> void:
 	if not (ci is Node2D):
 		return
+	if _is_fog_overlay_child(ci):
+		return
 	var n2d := ci as Node2D
 
 	# Remember the global transform before reparenting
@@ -324,7 +339,9 @@ func _generate_vision_texture() -> ImageTexture:
 
 			# Ambient circle — bright near player, gentle fade
 			if dist < ambient_tex:
-				alpha = 1.0 - _smooth(ambient_tex * 0.3, ambient_tex, dist)
+				# True center-origin fade: intensity starts decreasing immediately from center.
+				var ambient_falloff := 1.0 - clampf(dist / maxf(ambient_tex, 0.0001), 0.0, 1.0)
+				alpha = pow(clampf(ambient_falloff, 0.0, 1.0), maxf(ambient_softness_power, 0.01))
 
 			# Directional cone — super gradual distance taper
 			if dist < cone_tex and dist > 0.01:
