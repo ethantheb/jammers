@@ -22,6 +22,8 @@ var recent_noises: Array[Vector2] = []
 var continuous_noises: Dictionary[String, float] = {}
 var is_pissing: bool = false
 
+signal noise_meter_full
+
 func _ready() -> void:
 	layer = HUD_CANVAS_LAYER
 	original_bar_position = progress_bar.position
@@ -36,7 +38,9 @@ func _process(delta: float) -> void:
 		piss_meter.value = max(0.0, piss_meter.value - (piss_drain_rate * delta))
 	_apply_continuous_noise(delta)
 	if time_since_noise >= 1.0 and progress_bar.value > 0.0 and continuous_noises.size() == 0:
-		progress_bar.value = max(0.0, progress_bar.value - (NOISE_DECAY_RATE * delta))
+		progress_bar.value = max(0.0, progress_bar.value - (NOISE_DECAY_RATE * delta))	
+	if progress_bar.value >= 1.0:
+		noise_meter_full.emit()
 	
 	# Handle shake
 	var shake_magnitude = _update_recent_noises()

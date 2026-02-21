@@ -17,6 +17,7 @@
 [ext_resource type="PackedScene" uid="uid://c55ktvtf07pxx" path="res://scenes/player.tscn" id="14_lyvny"]
 [ext_resource type="PackedScene" path="res://scenes/door.tscn" id="16_43jao"]
 [ext_resource type="Script" uid="uid://bc07ro077afnp" path="res://scripts/interactable_bed.gd" id="16_cixf6"]
+[ext_resource type="PackedScene" uid="uid://d66nr0vwbl6o" path="res://scenes/owner.tscn" id="16_qquio"]
 [ext_resource type="PackedScene" uid="uid://jr50xyaas84c" path="res://scenes/test_level.tscn" id="18_cs7aj"]
 [ext_resource type="PackedScene" path="res://scenes/fog_overlay_v2.tscn" id="19_43jao"]
 
@@ -5901,7 +5902,7 @@ size = Vector2(46, 32)
 
 [node name="BGM" type="AudioStreamPlayer" parent="." unique_id=266233702]
 stream = ExtResource("1_mk2nf")
-volume_db = -53.814
+volume_db = -10.0
 autoplay = true
 parameters/looping = true
 
@@ -5993,6 +5994,11 @@ tile_set = SubResource("TileSet_yygbf")
 
 [node name="Player" parent="AboveFloor" unique_id=1839945034 instance=ExtResource("14_lyvny")]
 position = Vector2(136, -98)
+
+[node name="Owner" parent="AboveFloor" unique_id=191629362 instance=ExtResource("16_qquio")]
+position = Vector2(61, -135)
+scale = Vector2(1.5, 1.5)
+pee_puddle_color = Color(0.96772605, 0.7030919, 0.2252182, 0.61960787)
 
 [node name="DoorToKitchen" parent="AboveFloor" unique_id=1580824729 instance=ExtResource("16_43jao")]
 position = Vector2(244, -154)
