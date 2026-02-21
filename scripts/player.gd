@@ -75,8 +75,8 @@ func _ready() -> void:
 
 	if dog_mode:
 		# TODO: Remove these scales if we settle on dog mode
-		$PlayerRayCast.scale = 10.0 * Vector2.ONE
-		$PlayerLabel.scale = 2.0 * Vector2.ONE
+		$PlayerRayCast.scale = 2.0 * Vector2.ONE
+		$PlayerLabel.scale = 0.4 * Vector2.ONE
 
 	_prev_position = global_position
 	_bump_sound = load(BUMP_SOUND_PATH)
