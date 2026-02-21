@@ -368,9 +368,21 @@ func _sync_base_clones(sync_static: bool = false) -> void:
 		return
 	for i in range(_base_bindings.size() - 1, -1, -1):
 		var binding: Dictionary = _base_bindings[i]
-		var source: CanvasItem = binding.get("source") as CanvasItem
-		var clone: CanvasItem = binding.get("clone") as CanvasItem
-		if source == null or not is_instance_valid(source) or clone == null or not is_instance_valid(clone):
+		var source_raw: Variant = binding.get("source")
+		var clone_raw: Variant = binding.get("clone")
+		if typeof(source_raw) != TYPE_OBJECT or typeof(clone_raw) != TYPE_OBJECT:
+			_base_bindings.remove_at(i)
+			continue
+		if not is_instance_valid(source_raw) or not is_instance_valid(clone_raw):
+			if is_instance_valid(clone_raw):
+				(clone_raw as CanvasItem).queue_free()
+			if is_instance_valid(source_raw) and binding.get("hide_source", false):
+				(source_raw as CanvasItem).visible = true
+			_base_bindings.remove_at(i)
+			continue
+		var source: CanvasItem = source_raw as CanvasItem
+		var clone: CanvasItem = clone_raw as CanvasItem
+		if source == null or clone == null:
 			if clone != null and is_instance_valid(clone):
 				clone.queue_free()
 			# Restore source visibility if we hid it
