@@ -1,4 +1,4 @@
-extends Area2D
+extends StaticBody2D
 
 # A file because the PackedScene's have hellish race conditions
 @export_file("*.tscn") var scene_path: String = ""

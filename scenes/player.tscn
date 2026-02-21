@@ -1776,6 +1776,7 @@ zoom = Vector2(3, 3)
 [node name="PlayerRayCast" type="RayCast2D" parent="." unique_id=287875113]
 target_position = Vector2(0, 15)
 collision_mask = 2
+hit_from_inside = true
 collide_with_areas = true
 
 [node name="PlayerLabel" type="Label" parent="." unique_id=1651505037]
