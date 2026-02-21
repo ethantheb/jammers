@@ -75,7 +75,6 @@ func _ready() -> void:
 
 	if dog_mode:
 		# TODO: Remove these scales if we settle on dog mode
-		scale = 0.20 * Vector2.ONE
 		$PlayerRayCast.scale = 10.0 * Vector2.ONE
 		$PlayerLabel.scale = 2.0 * Vector2.ONE
 

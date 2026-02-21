@@ -15,7 +15,7 @@
 [ext_resource type="Texture2D" uid="uid://da4vlv1ut5fln" path="res://assets/tilesets/pixelinterior_LRK_v1.1/doorswindowsstairs_LRK.png" id="12_qw8ek"]
 [ext_resource type="Texture2D" uid="uid://du3c1b00khu3e" path="res://assets/tilesets/pixelinterior_LRK_v1.1/floorswalls_LRK.png" id="13_qbrme"]
 [ext_resource type="PackedScene" uid="uid://c55ktvtf07pxx" path="res://scenes/player.tscn" id="14_lyvny"]
-[ext_resource type="PackedScene" uid="uid://ela2c4n7ip14" path="res://scenes/door.tscn" id="16_43jao"]
+[ext_resource type="PackedScene" path="res://scenes/door.tscn" id="16_43jao"]
 [ext_resource type="Script" uid="uid://bc07ro077afnp" path="res://scripts/interactable_bed.gd" id="16_cixf6"]
 [ext_resource type="PackedScene" uid="uid://jr50xyaas84c" path="res://scenes/test_level.tscn" id="18_cs7aj"]
 [ext_resource type="PackedScene" path="res://scenes/fog_overlay.tscn" id="19_43jao"]
@@ -5987,7 +5987,6 @@ tile_set = SubResource("TileSet_yygbf")
 
 [node name="Player" parent="AboveFloor" unique_id=1839945034 instance=ExtResource("14_lyvny")]
 position = Vector2(136, -98)
-scale = Vector2(0.2, 0.2)
 
 [node name="DoorToKitchen" parent="AboveFloor" unique_id=1580824729 instance=ExtResource("16_43jao")]
 position = Vector2(244, -154)
