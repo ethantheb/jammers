@@ -39,3 +39,10 @@ dist/
 *.aab
 *.pck
 *.zip
+
+# AI agent artifacts
+.agent_locks/
+AGENTS.md
+file_lock.md
+tools/file_lock.sh
+.tmp_*.png

@@ -1,50 +1,49 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://bswlhygpe6238"]
 
-[ext_resource type="Script" path="res://scripts/alarm_guy.gd" id="1_script"]
-[ext_resource type="Texture2D" path="res://assets/images/alarmguy.png" id="2_sprite"]
-[ext_resource type="AudioStream" path="res://assets/sfx/alarm_scream.wav" id="3_scream"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_detect"]
-radius = 80.0
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_chase"]
-radius = 140.0
+[ext_resource type="Script" uid="uid://hje4lrfplr5b" path="res://scripts/alarm_guy.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://bwgcftf1ovkqy" path="res://assets/images/alarmguy.png" id="2_sprite"]
+[ext_resource type="AudioStream" uid="uid://ci30xd2o5dcgn" path="res://assets/sfx/alarm_scream.wav" id="3_scream"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_body"]
 radius = 8.0
 height = 20.0
 
-[node name="AlarmGuy" type="CharacterBody2D"]
-collision_layer = 1
-collision_mask = 1
-script = ExtResource("1_script")
+[sub_resource type="CircleShape2D" id="CircleShape2D_detect"]
+radius = 39.0
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[sub_resource type="CircleShape2D" id="CircleShape2D_chase"]
+radius = 140.0
+
+[node name="AlarmGuy" type="CharacterBody2D" unique_id=880206290]
+script = ExtResource("1_script")
+debug_show_areas = false
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=944988592]
 scale = Vector2(0.06, 0.06)
 texture = ExtResource("2_sprite")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1857460622]
 position = Vector2(0, 4)
+scale = Vector2(0.39870143, 0.3297588)
 shape = SubResource("CapsuleShape2D_body")
 
-[node name="DetectionArea" type="Area2D" parent="."]
+[node name="DetectionArea" type="Area2D" parent="." unique_id=1281348401]
 collision_layer = 0
 collision_mask = 1
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea" unique_id=370650455]
 shape = SubResource("CircleShape2D_detect")
 debug_color = Color(1, 0.3, 0.3, 0.15)
 
-[node name="ChaseArea" type="Area2D" parent="."]
+[node name="ChaseArea" type="Area2D" parent="." unique_id=715460257]
 collision_layer = 0
 collision_mask = 1
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ChaseArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ChaseArea" unique_id=2115505870]
 shape = SubResource("CircleShape2D_chase")
 debug_color = Color(1, 0, 0, 0.1)
 
-[node name="ScreamAudio" type="AudioStreamPlayer2D" parent="."]
+[node name="ScreamAudio" type="AudioStreamPlayer2D" parent="." unique_id=1987404831]
 stream = ExtResource("3_scream")
 volume_db = -10.0
 max_distance = 300.0
-parameters/looping = true

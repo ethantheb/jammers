@@ -1,5 +1,7 @@
 extends CanvasLayer
 
+const HUD_CANVAS_LAYER: int = 120
+
 @onready var timer_label = $MarginContainer/VBoxContainer/TimerLabel
 @onready var progress_bar: ProgressBar = $MarginContainer/VBoxContainer/HBoxContainer/ProgressBar
 @onready var piss_meter: ProgressBar = $MarginContainer/VBoxContainer/HBoxContainer/PissMeter
@@ -20,6 +22,7 @@ var continuous_noises: Dictionary[String, float] = {}
 var is_pissing: bool = false
 
 func _ready() -> void:
+	layer = HUD_CANVAS_LAYER
 	original_bar_position = progress_bar.position
 	piss_meter.max_value = piss_meter_max
 	piss_meter.value = clamp(piss_meter_start, 0.0, piss_meter_max)
