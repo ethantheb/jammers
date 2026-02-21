@@ -5,6 +5,7 @@ const HUD_CANVAS_LAYER: int = 120
 @onready var timer_label = $MarginContainer/VBoxContainer/TimerLabel
 @onready var progress_bar: ProgressBar = $MarginContainer/VBoxContainer/HBoxContainer/ProgressBar
 @onready var piss_meter: ProgressBar = $MarginContainer/VBoxContainer/HBoxContainer/PissMeter
+@onready var interaction_prompt_label: Label = $InteractionPrompt
 
 var elapsed_time: float = 0.0
 @export var piss_meter_max: float = 1.0
@@ -114,3 +115,10 @@ func reset_timer() -> void:
 
 func set_pissing(active: bool) -> void:
 	is_pissing = active
+
+func set_interaction_prompt(text: String, font_size: int = -1) -> void:
+	if interaction_prompt_label == null:
+		return
+	interaction_prompt_label.text = text
+	if font_size > 0:
+		interaction_prompt_label.add_theme_font_size_override("font_size", font_size)

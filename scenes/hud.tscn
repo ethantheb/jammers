@@ -48,3 +48,18 @@ step = 0.001
 value = 1.0
 fill_mode = 3
 show_percentage = false
+
+[node name="InteractionPrompt" type="Label" parent="." unique_id=1636051199]
+anchors_preset = 14
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -260.0
+offset_top = -56.0
+offset_right = 260.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 0
+horizontal_alignment = 1
+text = ""

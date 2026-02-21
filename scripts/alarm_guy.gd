@@ -215,14 +215,7 @@ func _find_fog_overlay() -> Node:
 	if current_scene == null:
 		return null
 
-	# Resolve only inside this level subtree so scene-transition leftovers
-	# from a previous level can't be selected.
-	var level_root: Node = self
-	var parent := get_parent()
-	while parent != null and parent != current_scene:
-		level_root = parent
-		parent = parent.get_parent()
-	return level_root.find_child("FogOverlay", true, false)
+	return current_scene.find_child("FogOverlay", true, false)
 
 func _is_v2_fog_overlay(node: Node) -> bool:
 	return node != null and node.has_method("register_enemy_sprite") and node.has_method("unregister_enemy_sprite")

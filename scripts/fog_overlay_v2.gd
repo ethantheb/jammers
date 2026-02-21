@@ -227,7 +227,6 @@ func _should_clone_to_base(ci: CanvasItem) -> bool:
 		return false
 	if _is_enemy_visual(ci):
 		return false
-
 	if ci is TileMapLayer:
 		return true
 	if ci is TileMap:
@@ -315,11 +314,16 @@ func _ensure_base_clone(ci: CanvasItem) -> void:
 		return
 	_base_root.add_child(clone)
 	clone.light_mask = 0
+	# Hide pee puddle visuals in the main scene — they render through the base viewport.
+	var is_pee_visual := _is_player_pee_node(ci)
+	if is_pee_visual:
+		ci.visible = false
 	var is_dynamic := _is_base_source_dynamic(ci)
 	_base_bindings.append({
 		"source": ci,
 		"clone": clone,
 		"dynamic": is_dynamic,
+		"hide_source": is_pee_visual,
 	})
 
 func _find_base_binding_index(source: CanvasItem) -> int:
@@ -369,13 +373,18 @@ func _sync_base_clones(sync_static: bool = false) -> void:
 		if source == null or not is_instance_valid(source) or clone == null or not is_instance_valid(clone):
 			if clone != null and is_instance_valid(clone):
 				clone.queue_free()
+			# Restore source visibility if we hid it
+			if source != null and is_instance_valid(source) and binding.get("hide_source", false):
+				source.visible = true
 			_base_bindings.remove_at(i)
 			continue
 		var is_dynamic: bool = binding.get("dynamic", false)
 		if not is_dynamic and not sync_static:
 			continue
 
-		clone.visible = _is_effectively_visible(source)
+		# Pee source nodes are intentionally hidden in the main scene; always show their clone.
+		var hide_source: bool = binding.get("hide_source", false)
+		clone.visible = true if hide_source else _is_effectively_visible(source)
 		clone.modulate = source.modulate
 		clone.self_modulate = source.self_modulate
 		clone.z_index = source.z_index
@@ -475,7 +484,7 @@ func _entry_sprite(entry: Dictionary, weak_key: String, legacy_key: String) -> S
 
 func _sync_enemy_clone(source: Sprite2D, clone: Sprite2D) -> void:
 	clone.global_transform = source.global_transform
-	clone.visible = source.visible
+	clone.visible = true
 	clone.texture = source.texture
 	clone.region_enabled = source.region_enabled
 	clone.region_rect = source.region_rect
@@ -546,17 +555,6 @@ func _sync_material_parameters() -> void:
 		_overlay_material.set_shader_parameter("world_from_screen_y", inv_canvas.y)
 		_overlay_material.set_shader_parameter("world_from_screen_origin", inv_canvas.origin)
 
-	for entry_variant in _enemy_entries.values():
-		if typeof(entry_variant) != TYPE_DICTIONARY:
-			continue
-		var entry := entry_variant as Dictionary
-		var source: Sprite2D = _entry_sprite(entry, "source_ref", "source")
-		if source == null or not is_instance_valid(source):
-			continue
-		if source.material is ShaderMaterial:
-			var sm := source.material as ShaderMaterial
-			if sm.shader == _enemy_visibility_shader:
-				_apply_common_vision_params(sm, center_uv, reach_px, rotation_rad, vp_size)
 
 func _apply_common_vision_params(material: ShaderMaterial, center_uv: Vector2, reach_px: float, rotation_rad: float, viewport_size: Vector2) -> void:
 	if material == null:

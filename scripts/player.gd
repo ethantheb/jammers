@@ -11,7 +11,6 @@ const SCALE_MAX = 3.0
 const SCALE_STEP = 0.1
 const TRACKPAD_SCROLL_THRESHOLD = 12.0
 const SLOP_RESCAN_INTERVAL = 0.5
-const INTERACTION_UI_CANVAS_LAYER: int = 120
 
 const BUMP_SOUND_PATH = "res://assets/sfx/bump.wav"
 const STEP_SOUND_PATH = "res://assets/sfx/footsteps_wood.mp3"
@@ -48,6 +47,7 @@ var STEP_INTERVAL_RUN = STEP_INTERVAL_WALK * 0.5
 
 var last_direction: Vector2 = DEFAULT_SPAWN_FACING_DIRECTION
 var facing_direction_snapped: Vector2 = DEFAULT_SPAWN_FACING_DIRECTION
+var _last_movement: String = ""
 var is_being_chased: bool = false
 var is_sleeping: bool = false
 var slop_slow_factor: float = 1.0
@@ -61,7 +61,8 @@ var _piss_sound: AudioStream
 var _trackpad_scroll_accumulator: float = 0.0
 var _tracked_slop_sources: Dictionary = {}
 var _slop_rescan_timer: float = 0.0
-var _interaction_ui_layer: CanvasLayer = null
+var _stored_borderless_flag: bool = false
+var _stored_borderless_flag_valid: bool = false
 
 func _ready() -> void:
 	_ensure_dog_sprite_frames()
@@ -86,7 +87,8 @@ func _ready() -> void:
 	last_direction = _snap_to_8_directions(last_direction)
 	facing_direction_snapped = _snap_to_8_directions(last_direction)
 	raycast.rotation = -atan2(last_direction.x, last_direction.y)
-	_setup_interaction_ui_layer()
+	if label != null:
+		label.visible = false
 	_play_animation("idle_up")
 
 func _play_animation(animation: String) -> void:
@@ -114,7 +116,20 @@ func set_transparent_mode(enabled: bool) -> void:
 	var _rid = get_tree().get_root().get_viewport_rid()
 	RenderingServer.viewport_set_transparent_background(_rid, enabled)
 	get_tree().get_root().set_transparent_background(enabled)
-	DisplayServer.window_set_flag(DisplayServer.WINDOW_FLAG_TRANSPARENT, enabled)
+	var window_id := 0
+
+	if enabled and OS.get_name() == "macOS":
+		if not _stored_borderless_flag_valid:
+			_stored_borderless_flag = DisplayServer.window_get_flag(DisplayServer.WINDOW_FLAG_BORDERLESS, window_id)
+			_stored_borderless_flag_valid = true
+		# macOS transparent windows need borderless mode to render alpha properly.
+		DisplayServer.window_set_flag(DisplayServer.WINDOW_FLAG_BORDERLESS, true, window_id)
+
+	DisplayServer.window_set_flag(DisplayServer.WINDOW_FLAG_TRANSPARENT, enabled, window_id)
+
+	if (not enabled) and _stored_borderless_flag_valid:
+		DisplayServer.window_set_flag(DisplayServer.WINDOW_FLAG_BORDERLESS, _stored_borderless_flag, window_id)
+		_stored_borderless_flag_valid = false
 
 func _ensure_dog_sprite_frames() -> void:
 	if dog == null:
@@ -244,23 +259,6 @@ func _physics_process(delta: float) -> void:
 	_handle_interaction()
 	_update_pee_action(delta)
 
-func _setup_interaction_ui_layer() -> void:
-	if label == null:
-		return
-	_interaction_ui_layer = CanvasLayer.new()
-	_interaction_ui_layer.name = "InteractionUI"
-	_interaction_ui_layer.layer = INTERACTION_UI_CANVAS_LAYER
-	add_child(_interaction_ui_layer)
-	label.reparent(_interaction_ui_layer)
-	label.set_anchors_preset(Control.PRESET_BOTTOM_WIDE)
-	label.offset_left = 0.0
-	label.offset_right = 0.0
-	label.offset_bottom = -20.0
-	label.offset_top = -52.0
-	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	label.add_theme_font_size_override("font_size", interaction_prompt_font_size)
-
-
 func set_chased(chased: bool) -> void:
 	is_being_chased = chased
 
@@ -336,10 +334,17 @@ func _handle_interaction() -> void:
 		target = raycast.get_collider()
 
 	if target == null:
-		label.text = ""
+		if HUD and HUD.has_method("set_interaction_prompt"):
+			HUD.set_interaction_prompt("", interaction_prompt_font_size)
+		elif label != null:
+			label.text = ""
 		return
 
-	label.text = _interaction_prompt(target)
+	var prompt := _interaction_prompt(target)
+	if HUD and HUD.has_method("set_interaction_prompt"):
+		HUD.set_interaction_prompt(prompt, interaction_prompt_font_size)
+	elif label != null:
+		label.text = prompt
 	if Input.is_action_just_pressed(INTERACT_ACTION):
 		_try_interact(target)
 
