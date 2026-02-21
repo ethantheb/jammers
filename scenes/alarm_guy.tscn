@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://hje4lrfplr5b" path="res://scripts/alarm_guy.gd" id="1_script"]
 [ext_resource type="Texture2D" uid="uid://bwgcftf1ovkqy" path="res://assets/images/alarmguy.png" id="2_sprite"]
-[ext_resource type="AudioStream" uid="uid://ci30xd2o5dcgn" path="res://assets/sfx/alarm_scream.wav" id="3_scream"]
+[ext_resource type="AudioStream" uid="uid://brwaptcxtgeca" path="res://assets/sfx/samsung-galaxy-morning-flower.mp3" id="3_scream"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_body"]
 radius = 8.0
