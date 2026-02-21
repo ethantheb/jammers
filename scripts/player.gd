@@ -38,8 +38,8 @@ const PISS_SOUND_PATH = "res://assets/sfx/piss.wav"
 @export var pee_puddle_color: Color = Color(0.86, 0.76, 0.16, 0.62)
 @export var dog_mode: bool = false
 
-@export var malware_mode: bool = false
-@export var malware_move_multiplier: float = 3.3
+@export var transparent_mode: bool = false
+@export var transparent_move_multiplier: float = 3.3
 
 @export var walk_noise_dps = 0.1
 @export var piss_noise_dps = 0.3
@@ -69,7 +69,7 @@ var _piss_sound: AudioStream
 
 func _ready() -> void:
 	set_dog_mode(dog_mode)
-	set_malware_mode(malware_mode)
+	set_transparent_mode(transparent_mode)
 	_ensure_pee_action()
 	randomize()
 
@@ -100,8 +100,8 @@ func set_dog_mode(enabled: bool) -> void:
 	if dog:
 		dog.visible = enabled
 
-func set_malware_mode(enabled: bool) -> void:
-	malware_mode = enabled
+func set_transparent_mode(enabled: bool) -> void:
+	transparent_mode = enabled
 	var _rid = get_tree().get_root().get_viewport_rid()
 	RenderingServer.viewport_set_transparent_background(_rid, enabled)
 	get_tree().get_root().set_transparent_background(enabled)
@@ -134,9 +134,9 @@ func _physics_process(delta: float) -> void:
 				audio.stream = _bump_sound
 				audio.play()
 
-	if malware_mode:
+	if transparent_mode:
 		var dpos = global_position - _prev_position
-		get_window().position += Vector2i(dpos * malware_move_multiplier)
+		get_window().position += Vector2i(dpos * transparent_move_multiplier)
 
 	_prev_position = global_position
 
