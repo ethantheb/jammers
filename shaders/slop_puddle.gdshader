@@ -63,23 +63,17 @@ float polygon_edge_distance(vec2 p) {
 
 void fragment() {
 	float t = TIME * animation_speed;
-
 	vec2 centered = local_pos - shape_center;
-	float edge_px = polygon_edge_distance(local_pos);
 
 	float n = noise2d(centered * 0.11 + vec2(t * 0.18, -t * 0.14));
 	float n2 = noise2d(centered * 0.23 + vec2(-t * 0.12, t * 0.09));
 	float grime = 0.93 + (n - 0.5) * 0.10 + (n2 - 0.5) * 0.06;
 
-	float alpha = 1.0;
+	float alpha = 0.0;
 	if (shape_point_count >= 3) {
+		float edge_px = polygon_edge_distance(local_pos);
 		float px_soft = max(edge_softness * 0.45, 0.001);
 		alpha = smoothstep(0.0, px_soft, edge_px);
-	} else {
-		float dist_n = clamp(length(centered) / max(shape_radius, 0.001), 0.0, 1.0);
-		float edge_width = clamp(edge_softness * 0.06, 0.01, 0.3);
-		float edge_mask = 1.0 - smoothstep(1.0 - edge_width, 1.0, dist_n);
-		alpha = mix(0.75, 1.0, edge_mask);
 	}
 
 	vec3 final_color = puddle_color.rgb * grime;
