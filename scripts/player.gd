@@ -38,6 +38,9 @@ const PISS_SOUND_PATH = "res://assets/sfx/piss.wav"
 @export var pee_puddle_color: Color = Color(0.86, 0.76, 0.16, 0.62)
 @export var dog_mode: bool = false
 
+@export var malware_mode: bool = false
+@export var malware_move_multiplier: float = 3.3
+
 @export var walk_noise_dps = 0.1
 @export var piss_noise_dps = 0.3
 
@@ -66,6 +69,7 @@ var _piss_sound: AudioStream
 
 func _ready() -> void:
 	set_dog_mode(dog_mode)
+	set_malware_mode(malware_mode)
 	_ensure_pee_action()
 	randomize()
 
@@ -97,21 +101,31 @@ func set_dog_mode(enabled: bool) -> void:
 	if dog:
 		dog.visible = enabled
 
+func set_malware_mode(enabled: bool) -> void:
+	malware_mode = enabled
+	var _rid = get_tree().get_root().get_viewport_rid()
+	RenderingServer.viewport_set_transparent_background(_rid, enabled)
+	get_tree().get_root().set_transparent_background(enabled)
+	DisplayServer.window_set_flag(DisplayServer.WINDOW_FLAG_TRANSPARENT, enabled)
+
 func _physics_process(delta: float) -> void:
 	if is_sleeping:
 		return
 	var direction := Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
 	_update_slop_from_puddles()
 
+
+	# movement
+	var movement: String = "walk"
+
 	var speed = SPEED
 	if is_being_chased:
 		speed += CHASE_SPEED_BONUS
 	velocity = direction * speed * slop_slow_factor
-	var movement: String = "walk"
 	if Input.is_action_pressed("ui_sprint"):
 		movement = "run"
 		velocity *= 2
-
+		
 	var was_colliding = get_slide_collision_count() > 0
 	move_and_slide()
 
@@ -120,6 +134,11 @@ func _physics_process(delta: float) -> void:
 			if audio:
 				audio.stream = _bump_sound
 				audio.play()
+
+	if malware_mode:
+		var dpos = global_position - _prev_position
+		get_window().position += Vector2i(dpos * malware_move_multiplier)
+
 	_prev_position = global_position
 
 	# Movement sound and animation

@@ -24,6 +24,11 @@ config/icon="res://icon.svg"
 HUD="*res://scenes/hud.tscn"
 Game="*res://scripts/game.gd"
 
+[display]
+
+window/size/transparent=true
+window/per_pixel_transparency/allowed=true
+
 [dotnet]
 
 project/assembly_name="jammies"
@@ -89,3 +94,4 @@ textures/canvas_textures/default_texture_filter=0
 rendering_device/driver.windows="d3d12"
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
+viewport/transparent_background=true
