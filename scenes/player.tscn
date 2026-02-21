@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://bm8c7raw37r3i" path="res://assets/images/Unarmed_Run3_head.png" id="7_ur7pv"]
 [ext_resource type="Texture2D" uid="uid://ch5v424yco6vi" path="res://assets/dogpisser/shibainu.png" id="8_dog"]
 [ext_resource type="AudioStream" uid="uid://bwx1kwm8grc28" path="res://assets/sfx/bump.wav" id="9_bump"]
+[ext_resource type="FontFile" uid="uid://67p4dm1b2uf7" path="res://assets/fonts/PixelGosub-ZaRz.ttf" id="10_d2wvv"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_dog_down_0"]
 atlas = ExtResource("8_dog")
@@ -1730,15 +1731,14 @@ height = 10.0
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_fjrip"]
 polygon = PackedVector2Array(-5, 11, -5, -8, 4, -8, 4, 11)
 
+[sub_resource type="LabelSettings" id="LabelSettings_3v2ag"]
+font = ExtResource("10_d2wvv")
+font_size = 14
+shadow_size = 2
+
 [node name="Player" type="CharacterBody2D" unique_id=191629362]
 script = ExtResource("1_hqtel")
-pee_puddle_scene = null
-pee_puddle_color = null
 dog_mode = true
-walk_noise_dps = 0.1
-piss_noise_dps = 0.3
-step_pitch_scale = 1.0
-STEP_INTERVAL_WALK = 0.1
 
 [node name="Body" type="AnimatedSprite2D" parent="." unique_id=1708559131]
 z_index = 1
@@ -1785,6 +1785,7 @@ offset_left = -63.0
 offset_top = 74.0
 offset_right = 66.0
 offset_bottom = 97.0
+label_settings = SubResource("LabelSettings_3v2ag")
 horizontal_alignment = 1
 
 [node name="Audio" type="AudioStreamPlayer2D" parent="." unique_id=1189640836]

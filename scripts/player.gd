@@ -70,7 +70,10 @@ func _ready() -> void:
 	randomize()
 
 	if dog_mode:
+		# TODO: Remove these scales if we settle on dog mode
 		scale = 0.20 * Vector2.ONE
+		$PlayerRayCast.scale = 10.0 * Vector2.ONE
+		$PlayerLabel.scale = 2.0 * Vector2.ONE
 
 	_prev_position = global_position
 	_bump_sound = load(BUMP_SOUND_PATH)
@@ -388,19 +391,6 @@ func _ensure_pee_action() -> void:
 	key_event.physical_keycode = KEY_Q
 	key_event.keycode = KEY_Q
 	InputMap.action_add_event(PEE_ACTION, key_event)
-
-func _unhandled_input(event: InputEvent) -> void:
-	if event is InputEventMouseButton:
-		if event.button_index == MOUSE_BUTTON_WHEEL_UP and event.pressed:
-			scale = clamp(scale + Vector2.ONE * SCALE_STEP, Vector2.ONE * SCALE_MIN, Vector2.ONE * SCALE_MAX)
-		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN and event.pressed:
-			scale = clamp(scale - Vector2.ONE * SCALE_STEP, Vector2.ONE * SCALE_MIN, Vector2.ONE * SCALE_MAX)
-	elif event is InputEventPanGesture:
-		var pan := (event as InputEventPanGesture).delta
-		if pan.y < 0:
-			scale = clamp(scale + Vector2.ONE * SCALE_STEP, Vector2.ONE * SCALE_MIN, Vector2.ONE * SCALE_MAX)
-		elif pan.y > 0:
-			scale = clamp(scale - Vector2.ONE * SCALE_STEP, Vector2.ONE * SCALE_MIN, Vector2.ONE * SCALE_MAX)
 
 func _snap_to_8_directions(dir: Vector2) -> Vector2:
 	if dir.length_squared() < 0.001:
