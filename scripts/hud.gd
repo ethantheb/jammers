@@ -2,7 +2,7 @@ extends CanvasLayer
 
 const HUD_CANVAS_LAYER: int = 120
 
-@onready var timer_label = $MarginContainer/VBoxContainer/TimerLabel
+@onready var score_label: ImpactLabel = $MarginContainer/VBoxContainer/ScoreLabel
 @onready var progress_bar: ProgressBar = $MarginContainer/VBoxContainer/HBoxContainer/ProgressBar
 @onready var piss_meter: ProgressBar = $MarginContainer/VBoxContainer/HBoxContainer/PissMeter
 @onready var interaction_prompt_label: Label = $InteractionPrompt
@@ -22,6 +22,8 @@ var recent_noises: Array[Vector2] = []
 var continuous_noises: Dictionary[String, float] = {}
 var is_pissing: bool = false
 
+var max_score_instance: float = 500.0
+
 func _ready() -> void:
 	layer = HUD_CANVAS_LAYER
 	original_bar_position = progress_bar.position
@@ -31,7 +33,6 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	elapsed_time += delta
 	time_since_noise += delta
-	update_timer_display()
 	if is_pissing and piss_meter.value > 0.0:
 		piss_meter.value = max(0.0, piss_meter.value - (piss_drain_rate * delta))
 	_apply_continuous_noise(delta)
@@ -50,12 +51,6 @@ func _process(delta: float) -> void:
 		progress_bar.position = original_bar_position + shake_offset
 	else:
 		progress_bar.position = original_bar_position
-
-func update_timer_display() -> void:
-	var total_seconds = int(elapsed_time)
-	var minutes = total_seconds / 60 as int
-	var seconds = total_seconds % 60
-	timer_label.text = "Time: %d:%02d" % [minutes, seconds]
 
 func make_one_noise(percent: float) -> void:
 	progress_bar.value += percent
@@ -109,10 +104,6 @@ func _update_recent_noises() -> float:
 
 	return BASE_SHAKE_MAGNITUDE * max_magnitude
 
-func reset_timer() -> void:
-	elapsed_time = 0.0
-	update_timer_display()
-
 func set_pissing(active: bool) -> void:
 	is_pissing = active
 
@@ -122,3 +113,7 @@ func set_interaction_prompt(text: String, font_size: int = -1) -> void:
 	interaction_prompt_label.text = text
 	if font_size > 0:
 		interaction_prompt_label.add_theme_font_size_override("font_size", font_size)
+
+func update_score(score: float) -> void:
+	score_label.text = "Score: " + str(round(score))
+	score_label.add_impact(score / max_score_instance)

@@ -139,7 +139,7 @@ func _grow_pee(delta: float) -> void:
 		var move_speed_factor := clampf(_player.velocity.length() / 240.0, 0.0, 1.0)
 		_active_pee_flow_phase += delta * (PEE_MOVE_WOBBLE_SPEED + move_speed_factor * 2.2)
 		_active_pee_flow_drift = lerpf(_active_pee_flow_drift, randf_range(-1.0, 1.0), minf(1.0, delta * PEE_MOVE_WOBBLE_DRIFT_LERP))
-		_emit_along_segment(_active_pee_tip_world, next_tip)
+		_emit_along_segment(delta, _active_pee_tip_world, next_tip)
 		_active_pee_idle_radius = maxf(_active_pee_idle_radius - 20.0 * delta, PEE_TRAIL_CONNECTOR_RADIUS)
 	else:
 		_active_pee_flow_drift = lerpf(_active_pee_flow_drift, 0.0, minf(1.0, delta * 2.0))
@@ -214,11 +214,14 @@ func _raycast_world(from_world: Vector2, to_world: Vector2) -> Dictionary:
 	_active_pee_ray_query.collision_mask = _player.collision_mask
 	return world.direct_space_state.intersect_ray(_active_pee_ray_query)
 
-func _emit_along_segment(from_world: Vector2, to_world: Vector2) -> int:
+func _emit_along_segment(dt: float, from_world: Vector2, to_world: Vector2) -> int:
 	var delta := to_world - from_world
 	var distance := delta.length()
-	if distance <= 0.001:
+	if distance <= 0.1:
 		return 0
+
+	Game.add_score(randf_range(90, 110) * dt) # initialize score display in HUD
+
 	var dir := delta / distance
 	var perp := Vector2(-dir.y, dir.x)
 	var speed_factor := clampf(_player.velocity.length() / 240.0, 0.0, 1.0)
