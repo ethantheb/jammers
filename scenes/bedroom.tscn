@@ -5998,6 +5998,12 @@ position = Vector2(136, -98)
 position = Vector2(244, -154)
 scene_path = "uid://bvwjtgv0s6iyr"
 
+[node name="Door" parent="AboveFloor" unique_id=1835340236 instance=ExtResource("16_43jao")]
+visible = false
+position = Vector2(61, -11.000003)
+scale = Vector2(1.7599976, 0.23999983)
+scene_path = "uid://ci8mbj1nom6tr"
+
 [node name="InteractableBed" type="Area2D" parent="." unique_id=1568951082]
 collision_layer = 2
 collision_mask = 2
