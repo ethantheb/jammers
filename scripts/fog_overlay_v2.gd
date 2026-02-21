@@ -23,7 +23,7 @@ extends Node2D
 const FOG_CANVAS_LAYER: int = 90
 const ENEMY_GROUP: StringName = &"fog_enemy"
 const PEE_PUDDLE_GROUP: StringName = &"player_pee_puddles"
-const VISION_TEXTURE_SIZE: int = 128
+const VISION_TEXTURE_SIZE: int = 512
 const STATIC_BASE_SYNC_INTERVAL_SEC: float = 0.5
 
 var _player: CharacterBody2D = null
@@ -34,6 +34,9 @@ var _base_bindings: Array[Dictionary] = []
 
 var _enemy_viewport: SubViewport = null
 var _enemy_root: Node2D = null
+
+var _chase_viewport: SubViewport = null
+var _chase_root: Node2D = null
 
 var _overlay_material: ShaderMaterial = null
 var _enemy_visibility_shader: Shader = null
@@ -49,6 +52,7 @@ func _ready() -> void:
 	_ensure_vision_texture()
 	_build_base_viewport()
 	_build_enemy_viewport()
+	_build_chase_viewport()
 	_build_overlay()
 	call_deferred("_clone_base_world")
 	call_deferred("_register_group_enemies")
@@ -64,6 +68,7 @@ func _process(delta: float) -> void:
 	_ensure_vision_texture()
 	_sync_base_viewport()
 	_sync_enemy_viewport()
+	_sync_chase_viewport()
 	_sync_dynamic_base_sources()
 	_sync_base_clones(sync_static_now)
 	_sync_enemy_clones()
@@ -72,7 +77,7 @@ func _process(delta: float) -> void:
 func register_enemy_sprite(source: Sprite2D) -> void:
 	if source == null or not is_instance_valid(source):
 		return
-	if _enemy_root == null:
+	if _enemy_root == null or _chase_root == null:
 		return
 	var source_id := source.get_instance_id()
 	if _enemy_entries.has(source_id):
@@ -82,17 +87,42 @@ func register_enemy_sprite(source: Sprite2D) -> void:
 	clone.name = "%sFogClone" % source.name
 	_enemy_root.add_child(clone)
 
+	var chase_clone := Sprite2D.new()
+	chase_clone.name = "%sChaseClone" % source.name
+	chase_clone.visible = false
+	_chase_root.add_child(chase_clone)
+
 	_enemy_entries[source_id] = {
 		"source_ref": weakref(source),
 		"clone_ref": weakref(clone),
+		"chase_clone_ref": weakref(chase_clone),
 		# Legacy direct refs are kept for compatibility with older live entries.
 		"source": source,
 		"clone": clone,
+		"chase_clone": chase_clone,
 		"source_material": source.material,
+		"force_visible": false,
 	}
 
 	_apply_enemy_visibility_material(source)
 	_sync_enemy_clone(source, clone)
+
+func set_enemy_force_visible(source: Sprite2D, force_visible: bool) -> void:
+	if source == null:
+		return
+	var source_id := source.get_instance_id()
+	if not _enemy_entries.has(source_id):
+		return
+	var entry: Dictionary = _enemy_entries[source_id]
+	entry["force_visible"] = force_visible
+	_enemy_entries[source_id] = entry
+	if force_visible:
+		# Chase mode: bypass visibility masking entirely so the crisp sprite is always shown.
+		source.material = entry.get("source_material") as Material
+	else:
+		# Non-chase: restore visibility masking material if needed.
+		if not (source.material is ShaderMaterial and _is_enemy_visibility_material(source.material as ShaderMaterial)):
+			_apply_enemy_visibility_material(source)
 
 func unregister_enemy_sprite(source: Sprite2D) -> void:
 	if source == null:
@@ -103,11 +133,14 @@ func unregister_enemy_sprite(source: Sprite2D) -> void:
 
 	var entry: Dictionary = _enemy_entries[source_id]
 	var clone: Sprite2D = _entry_sprite(entry, "clone_ref", "clone")
+	var chase_clone: Sprite2D = _entry_sprite(entry, "chase_clone_ref", "chase_clone")
 	var source_material: Material = entry.get("source_material") as Material
 	if is_instance_valid(source):
 		source.material = source_material
 	if clone != null and is_instance_valid(clone):
 		clone.queue_free()
+	if chase_clone != null and is_instance_valid(chase_clone):
+		chase_clone.queue_free()
 	_enemy_entries.erase(source_id)
 
 func _build_base_viewport() -> void:
@@ -138,6 +171,20 @@ func _build_enemy_viewport() -> void:
 	_enemy_viewport.add_child(_enemy_root)
 	add_child(_enemy_viewport)
 
+func _build_chase_viewport() -> void:
+	_chase_viewport = SubViewport.new()
+	_chase_viewport.name = "ChaseEnemyViewport"
+	_chase_viewport.transparent_bg = true
+	_chase_viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS
+	_chase_viewport.canvas_cull_mask = 0xFFFFFFFF
+	var main_size := get_viewport().get_visible_rect().size
+	_chase_viewport.size = Vector2i(int(main_size.x), int(main_size.y))
+
+	_chase_root = Node2D.new()
+	_chase_root.name = "ChaseRoot"
+	_chase_viewport.add_child(_chase_root)
+	add_child(_chase_viewport)
+
 func _build_overlay() -> void:
 	var canvas := CanvasLayer.new()
 	canvas.layer = FOG_CANVAS_LAYER
@@ -148,6 +195,7 @@ func _build_overlay() -> void:
 	_overlay_material.shader = fog_shader
 	_overlay_material.set_shader_parameter("base_world_tex", _base_viewport.get_texture())
 	_overlay_material.set_shader_parameter("enemy_tex", _enemy_viewport.get_texture())
+	_overlay_material.set_shader_parameter("chase_enemy_tex", _chase_viewport.get_texture())
 	_overlay_material.set_shader_parameter("vision_shape_tex", _vision_shape_texture)
 
 	var rect := ColorRect.new()
@@ -177,6 +225,16 @@ func _sync_enemy_viewport() -> void:
 	if _enemy_viewport.size != target_size:
 		_enemy_viewport.size = target_size
 	_enemy_viewport.canvas_transform = main_vp.canvas_transform
+
+func _sync_chase_viewport() -> void:
+	if _chase_viewport == null:
+		return
+	var main_vp := get_viewport()
+	var main_size := main_vp.get_visible_rect().size
+	var target_size := Vector2i(int(main_size.x), int(main_size.y))
+	if _chase_viewport.size != target_size:
+		_chase_viewport.size = target_size
+	_chase_viewport.canvas_transform = main_vp.canvas_transform
 
 func _clone_base_world() -> void:
 	if _base_root == null:
@@ -314,16 +372,11 @@ func _ensure_base_clone(ci: CanvasItem) -> void:
 		return
 	_base_root.add_child(clone)
 	clone.light_mask = 0
-	# Hide pee puddle visuals in the main scene — they render through the base viewport.
-	var is_pee_visual := _is_player_pee_node(ci)
-	if is_pee_visual:
-		ci.visible = false
 	var is_dynamic := _is_base_source_dynamic(ci)
 	_base_bindings.append({
 		"source": ci,
 		"clone": clone,
 		"dynamic": is_dynamic,
-		"hide_source": is_pee_visual,
 	})
 
 func _find_base_binding_index(source: CanvasItem) -> int:
@@ -373,18 +426,13 @@ func _sync_base_clones(sync_static: bool = false) -> void:
 		if source == null or not is_instance_valid(source) or clone == null or not is_instance_valid(clone):
 			if clone != null and is_instance_valid(clone):
 				clone.queue_free()
-			# Restore source visibility if we hid it
-			if source != null and is_instance_valid(source) and binding.get("hide_source", false):
-				source.visible = true
 			_base_bindings.remove_at(i)
 			continue
 		var is_dynamic: bool = binding.get("dynamic", false)
 		if not is_dynamic and not sync_static:
 			continue
 
-		# Pee source nodes are intentionally hidden in the main scene; always show their clone.
-		var hide_source: bool = binding.get("hide_source", false)
-		clone.visible = true if hide_source else _is_effectively_visible(source)
+		clone.visible = _is_effectively_visible(source)
 		clone.modulate = source.modulate
 		clone.self_modulate = source.self_modulate
 		clone.z_index = source.z_index
@@ -459,12 +507,18 @@ func _sync_enemy_clones() -> void:
 		var entry: Dictionary = _enemy_entries[source_id]
 		var source: Sprite2D = _entry_sprite(entry, "source_ref", "source")
 		var clone: Sprite2D = _entry_sprite(entry, "clone_ref", "clone")
+		var chase_clone: Sprite2D = _entry_sprite(entry, "chase_clone_ref", "chase_clone")
 		if source == null or clone == null:
 			if clone != null and is_instance_valid(clone):
 				clone.queue_free()
+			if chase_clone != null and is_instance_valid(chase_clone):
+				chase_clone.queue_free()
 			_enemy_entries.erase(source_id)
 			continue
-		_sync_enemy_clone(source, clone)
+		var force_visible := bool(entry.get("force_visible", false))
+		_sync_enemy_clone(source, clone, force_visible)
+		if chase_clone != null and is_instance_valid(chase_clone):
+			_sync_enemy_clone(source, chase_clone, not force_visible)
 
 func _entry_sprite(entry: Dictionary, weak_key: String, legacy_key: String) -> Sprite2D:
 	var weak_value: Variant = entry.get(weak_key, null)
@@ -482,9 +536,10 @@ func _entry_sprite(entry: Dictionary, weak_key: String, legacy_key: String) -> S
 		return legacy_value as Sprite2D
 	return null
 
-func _sync_enemy_clone(source: Sprite2D, clone: Sprite2D) -> void:
+func _sync_enemy_clone(source: Sprite2D, clone: Sprite2D, force_visible: bool = false) -> void:
 	clone.global_transform = source.global_transform
-	clone.visible = true
+	# Hide the fog clone during chase so only the crisp sprite shows.
+	clone.visible = source.visible and not force_visible
 	clone.texture = source.texture
 	clone.region_enabled = source.region_enabled
 	clone.region_rect = source.region_rect
@@ -508,7 +563,16 @@ func _apply_enemy_visibility_material(source: Sprite2D) -> void:
 	var mat := ShaderMaterial.new()
 	mat.shader = _enemy_visibility_shader
 	mat.set_shader_parameter("vision_shape_tex", _vision_shape_texture)
+	mat.set_shader_parameter("cpu_visibility_override", 0.0)
+	mat.set_shader_parameter("cpu_visibility_gate", 0.0)
 	source.material = mat
+
+func _is_enemy_visibility_material(material: ShaderMaterial) -> bool:
+	if material == null or material.shader == null:
+		return false
+	if material.shader == _enemy_visibility_shader:
+		return true
+	return material.shader.resource_path == "res://shaders/enemy_visibility_mask_v2.gdshader"
 
 func _sync_material_parameters() -> void:
 	var vp := get_viewport()
@@ -555,6 +619,22 @@ func _sync_material_parameters() -> void:
 		_overlay_material.set_shader_parameter("world_from_screen_y", inv_canvas.y)
 		_overlay_material.set_shader_parameter("world_from_screen_origin", inv_canvas.origin)
 
+	for entry_variant in _enemy_entries.values():
+		if typeof(entry_variant) != TYPE_DICTIONARY:
+			continue
+		var entry := entry_variant as Dictionary
+		var source: Sprite2D = _entry_sprite(entry, "source_ref", "source")
+		if source == null or not is_instance_valid(source):
+			continue
+		var force_visible := bool(entry.get("force_visible", false))
+		if force_visible:
+			continue
+		if source.material is ShaderMaterial:
+			var sm := source.material as ShaderMaterial
+			if _is_enemy_visibility_material(sm):
+				_apply_common_vision_params(sm, center_uv, reach_px, rotation_rad, vp_size)
+				sm.set_shader_parameter("cpu_visibility_override", 1.0 if force_visible else 0.0)
+				sm.set_shader_parameter("cpu_visibility_gate", 1.0 if force_visible else 0.0)
 
 func _apply_common_vision_params(material: ShaderMaterial, center_uv: Vector2, reach_px: float, rotation_rad: float, viewport_size: Vector2) -> void:
 	if material == null:
@@ -585,7 +665,7 @@ func _ensure_vision_texture() -> void:
 			continue
 		if source.material is ShaderMaterial:
 			var sm := source.material as ShaderMaterial
-			if sm.shader == _enemy_visibility_shader:
+			if _is_enemy_visibility_material(sm):
 				sm.set_shader_parameter("vision_shape_tex", _vision_shape_texture)
 
 func _vision_texture_params_key() -> String:
