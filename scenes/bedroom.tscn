@@ -13,13 +13,13 @@
 [ext_resource type="Texture2D" uid="uid://b881wcq3dic04" path="res://assets/tilesets/pixelinterior_LRK_v1.1/cabinets_LRK.png" id="10_u8wxw"]
 [ext_resource type="Texture2D" uid="uid://dturbh06y70ef" path="res://assets/tilesets/pixelinterior_LRK_v1.1/decorations_LRK.png" id="11_ls8op"]
 [ext_resource type="Texture2D" uid="uid://da4vlv1ut5fln" path="res://assets/tilesets/pixelinterior_LRK_v1.1/doorswindowsstairs_LRK.png" id="12_qw8ek"]
-[ext_resource type="Texture2D" uid="uid://du3c1b00khu3e" path="res://assets/tilesets/pixelinterior_LRK_v1.1/floorswalls_LRK.png" id="13_qbrme"]
+[ext_resource type="Texture2D" uid="uid://brhoe4fmit42k" path="res://assets/tilesets/pixelinterior_LRK_v1.1/floorswalls_LRK.png" id="13_qbrme"]
 [ext_resource type="PackedScene" uid="uid://c55ktvtf07pxx" path="res://scenes/player.tscn" id="14_lyvny"]
-[ext_resource type="PackedScene" path="res://scenes/door.tscn" id="16_43jao"]
+[ext_resource type="PackedScene" uid="uid://ela2c4n7ip14" path="res://scenes/door.tscn" id="16_43jao"]
 [ext_resource type="Script" uid="uid://bc07ro077afnp" path="res://scripts/interactable_bed.gd" id="16_cixf6"]
 [ext_resource type="PackedScene" uid="uid://jr50xyaas84c" path="res://scenes/test_level.tscn" id="18_cs7aj"]
 [ext_resource type="PackedScene" path="res://scenes/fog_overlay_v2.tscn" id="19_43jao"]
-[ext_resource type="PackedScene" uid="uid://cd5gq83df3iql" path="res://scenes/piss_target.tscn" id="20_qquio"]
+[ext_resource type="PackedScene" path="res://scenes/piss_target.tscn" id="20_qquio"]
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_xyfub"]
 polygon = PackedVector2Array(67, 147, 65, 134, 67, 117, 68, 121, 67.6471, 130.175)
@@ -5995,9 +5995,9 @@ tile_set = SubResource("TileSet_yygbf")
 [node name="Player" parent="AboveFloor" unique_id=1839945034 instance=ExtResource("14_lyvny")]
 position = Vector2(136, -98)
 
-[node name="DoorToKitchen" parent="AboveFloor" unique_id=1580824729 instance=ExtResource("16_43jao")]
+[node name="DoorToLivingRoom" parent="AboveFloor" unique_id=1580824729 instance=ExtResource("16_43jao")]
 position = Vector2(244, -154)
-scene_path = "uid://bkt3xxr6n0d4v"
+scene_path = "uid://k5c5msbdr4f4"
 
 [node name="InteractableBed" type="Area2D" parent="." unique_id=1568951082]
 collision_layer = 2
