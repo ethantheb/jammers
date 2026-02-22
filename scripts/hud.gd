@@ -11,6 +11,7 @@ var elapsed_time: float = 0.0
 const NOISE_DECAY_RATE: float = 0.3
 const RECENT_SOUND_WINDOW: float = 1.0
 const BASE_SHAKE_MAGNITUDE: float = 30.0
+const IMPACT_LABEL_COOLDOWN: float = 0.5
 var time_since_noise: float = 0.0
 var shake_timer: float = 0.0
 var shake_duration: float = 0.5
@@ -44,6 +45,23 @@ func _process(delta: float) -> void:
 		noise_meter.position = original_bar_position + shake_offset
 	else:
 		noise_meter.position = original_bar_position
+
+func create_impact_label(screen_position: Vector2, text: String, magnitude: float = 1) -> ImpactLabel:
+	var label = ImpactLabel.new()
+	label.text = text
+	label.position = screen_position
+	#label.base_position = screen_position
+	label.destroy_on_zero = true
+	label.add_impact(magnitude)
+	label.z_index = 100
+	get_tree().get_root().add_child(label)
+	label.global_position = screen_position
+	label.destroy_on_zero = true
+	label.rise_speed = -50
+	label.magnitude_decay_rate = 0.8 # per second
+	label.max_shake_magnitude = 3.0
+	label.max_scale_magnitude = 1
+	return label
 
 func make_one_noise(percent: float) -> void:
 	noise_meter.value += percent
@@ -99,7 +117,6 @@ func _update_recent_noises() -> float:
 
 func update_pee_remaining(remaining: float) -> void:
 	piss_meter.value = remaining
-	print("Peening... Remaining: ", remaining)
 
 func set_interaction_prompt(text: String, font_size: int = -1) -> void:
 	if interaction_prompt_label == null:

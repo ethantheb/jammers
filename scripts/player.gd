@@ -96,6 +96,9 @@ func _ready() -> void:
 		label.visible = false
 	_play_animation("idle_up")
 
+func is_peeing() -> bool:
+	return _pee_controller != null and _pee_controller._is_peeing
+
 func _play_animation(animation: String) -> void:
 	if is_sleeping:
 		return

@@ -32,6 +32,7 @@ layout_mode = 2
 text = "Score: 0"
 script = ExtResource("2_oo0fn")
 max_shake_magnitude = 40.0
+rise_speed = 0.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=1036260222]
 layout_mode = 2
