@@ -10,6 +10,7 @@ var _active_scene_root: Node = null
 var _overlay: ColorRect = null
 
 var score: float = 0.0
+var pee_remaining: float = 1.0
 
 var player: Node = null
 
@@ -53,6 +54,10 @@ func load_dream_scene(scene: PackedScene, fade: bool = false) -> void:
 	if previous_scene_root == null:
 		previous_scene_root = current_root
 	_capture_pee_puddles(previous_scene_root)
+
+	# Save pee state before clearing the scene
+	if player != null and player.get("_pee_controller") != null:
+		pee_remaining = player._pee_controller.pee_remaining
 
 	# Clear all children from current scene
 	for child in current_root.get_children():

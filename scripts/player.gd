@@ -87,6 +87,8 @@ func _ready() -> void:
 	_piss_sound = load(PISS_SOUND_PATH)
 	_pee_controller = PlayerPeeController.new()
 	_pee_controller.setup(self, pee_puddle_scene, pee_puddle_color, piss_noise_dps, audio, _piss_sound)
+	_pee_controller.pee_remaining = Game.pee_remaining
+	HUD.update_pee_remaining(_pee_controller.pee_remaining)
 	_ensure_pee_action()
 	_slop_rescan_timer = SLOP_RESCAN_INTERVAL
 	last_direction = _snap_to_8_directions(last_direction)
