@@ -6013,7 +6013,7 @@ pee_puddle_color = Color(0.96772605, 0.7030919, 0.2252182, 0.61960787)
 
 [node name="DoorToLivingRoom" parent="AboveFloor" unique_id=1580824729 instance=ExtResource("16_43jao")]
 position = Vector2(244, -154)
-scene_path = "uid://k5c5msbdr4f4"
+scene_path = "res://scenes/livingroom.tscn"
 
 [node name="InteractableBed" type="Area2D" parent="AboveFloor" unique_id=1568951082]
 collision_layer = 2

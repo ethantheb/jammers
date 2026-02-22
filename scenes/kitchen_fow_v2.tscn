@@ -9050,7 +9050,7 @@ tile_set = SubResource("TileSet_x6klw")
 
 [node name="DoorToLivingRoom" parent="AboveFloor2" unique_id=1835340236 instance=ExtResource("16_liwm5")]
 position = Vector2(244, -154)
-scene_path = "uid://k5c5msbdr4f4"
+scene_path = "res://scenes/livingroom.tscn"
 
 [node name="LightOccluder2D_table" type="LightOccluder2D" parent="." unique_id=1073399954]
 position = Vector2(96, -44)

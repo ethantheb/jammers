@@ -4551,8 +4551,8 @@ shape = SubResource("ConvexPolygonShape2D_24a1y")
 
 [node name="DoorToBedroom" parent="AboveFloor" unique_id=1835340236 instance=ExtResource("20_306lt")]
 position = Vector2(310, -150)
-scene_path = "uid://d2ffgu2eh308e"
+scene_path = "res://scenes/bedroom.tscn"
 
 [node name="DoorToKitchen" parent="AboveFloor" unique_id=83490022 instance=ExtResource("20_306lt")]
 position = Vector2(151, -150)
-scene_path = "uid://bkt3xxr6n0d4v"
+scene_path = "res://scenes/kitchen_fow_v2.tscn"
