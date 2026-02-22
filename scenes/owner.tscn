@@ -1539,6 +1539,7 @@ rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_8gr2b")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=932398238]
+path_postprocessing = 1
 
 [node name="LightOccluder2D" type="LightOccluder2D" parent="." unique_id=607198704]
 occluder = SubResource("OccluderPolygon2D_fjrip")
