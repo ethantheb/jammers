@@ -8,6 +8,8 @@ uniform float ambient_radius_px = 44.0;
 uniform float ambient_edge_softness_px = 10.0;
 uniform float vision_rotation_rad = 0.0;
 uniform vec2 viewport_size_px = vec2(1280.0, 720.0);
+uniform float cpu_visibility_override = 0.0;
+uniform float cpu_visibility_gate = 0.0;
 
 float sample_vision_raw(vec2 uv) {
 	float reach = max(vision_reach_px, 1.0);
@@ -51,7 +53,12 @@ float sample_ambient_circle(vec2 uv) {
 
 void fragment() {
 	vec4 tex = texture(TEXTURE, UV) * COLOR;
-	float visible = max(sample_vision(SCREEN_UV), sample_ambient_circle(SCREEN_UV));
+	float visible_raw = max(sample_vision(SCREEN_UV), sample_ambient_circle(SCREEN_UV));
+	// Stronger inside-vision gate so crisp enemy reliably appears in-cone.
+	float visible = smoothstep(0.005, 0.08, visible_raw);
+	float cpu_gate = clamp(cpu_visibility_gate, 0.0, 1.0);
+	float use_cpu = step(0.5, cpu_visibility_override);
+	visible = mix(visible, cpu_gate, use_cpu);
 	COLOR = tex;
 	COLOR.a *= visible;
 }

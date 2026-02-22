@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://cd5gq83df3iql"]
+
+[ext_resource type="Script" uid="uid://bah3hb43v7ib5" path="res://scripts/piss_target.gd" id="1_3txbd"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3txbd"]
+
+[node name="PissTarget" type="Area2D" unique_id=1349756899]
+script = ExtResource("1_3txbd")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=388708167]
+shape = SubResource("RectangleShape2D_3txbd")

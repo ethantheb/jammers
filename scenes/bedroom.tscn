@@ -21,6 +21,8 @@
 [ext_resource type="PackedScene" uid="uid://d38e623rurprd" path="res://scenes/owner.tscn" id="16_qquio"]
 [ext_resource type="PackedScene" uid="uid://jr50xyaas84c" path="res://scenes/test_level.tscn" id="18_cs7aj"]
 [ext_resource type="PackedScene" path="res://scenes/fog_overlay_v2.tscn" id="19_43jao"]
+[ext_resource type="PackedScene" path="res://scenes/piss_target.tscn" id="20_qquio"]
+[ext_resource type="PackedScene" path="res://scenes/piss_target.tscn" id="20_qquio"]
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_xyfub"]
 polygon = PackedVector2Array(67, 147, 65, 134, 67, 117, 68, 121, 67.6471, 130.175)
@@ -6010,15 +6012,9 @@ position = Vector2(61, -135)
 scale = Vector2(1.5, 1.5)
 pee_puddle_color = Color(0.96772605, 0.7030919, 0.2252182, 0.61960787)
 
-[node name="DoorToKitchen" parent="AboveFloor" unique_id=1580824729 instance=ExtResource("16_43jao")]
+[node name="DoorToLivingRoom" parent="AboveFloor" unique_id=1580824729 instance=ExtResource("16_43jao")]
 position = Vector2(244, -154)
-scene_path = "uid://bvwjtgv0s6iyr"
-
-[node name="Door" parent="AboveFloor" unique_id=1835340236 instance=ExtResource("16_43jao")]
-visible = false
-position = Vector2(61, -11.000003)
-scale = Vector2(1.7599976, 0.23999983)
-scene_path = "uid://ci8mbj1nom6tr"
+scene_path = "uid://k5c5msbdr4f4"
 
 [node name="InteractableBed" type="Area2D" parent="AboveFloor" unique_id=1568951082]
 collision_layer = 2
@@ -6031,3 +6027,38 @@ position = Vector2(60, -128)
 shape = SubResource("RectangleShape2D_mk2nf")
 
 [node name="FogOverlay" parent="." unique_id=2092139013 instance=ExtResource("19_43jao")]
+
+[node name="PissTargets" type="Node2D" parent="." unique_id=1539172412]
+
+[node name="PissTarget" parent="PissTargets" unique_id=1349756899 instance=ExtResource("20_qquio")]
+position = Vector2(19, -81)
+scale = Vector2(1.3784609, 1.2861499)
+short_desc = "flowers"
+
+[node name="PissTarget2" parent="PissTargets" unique_id=1325575911 instance=ExtResource("20_qquio")]
+position = Vector2(19.999998, -120)
+scale = Vector2(1.3784609, 1.2861499)
+short_desc = "lamp"
+
+[node name="PissTarget3" parent="PissTargets" unique_id=416334646 instance=ExtResource("20_qquio")]
+position = Vector2(170, -124)
+scale = Vector2(1.3784609, 1.2861499)
+score = 400.0
+short_desc = "double fenestrated variegated monstera"
+
+[node name="PissTarget4" parent="PissTargets" unique_id=1947390818 instance=ExtResource("20_qquio")]
+position = Vector2(62, -47)
+scale = Vector2(2.9384606, 1.2861499)
+short_desc = "couch"
+
+[node name="PissTarget5" parent="PissTargets" unique_id=765055495 instance=ExtResource("20_qquio")]
+position = Vector2(60.000004, -44)
+scale = Vector2(3.9784617, 2.5261512)
+score = 253.0
+short_desc = "beautiful tartan rug"
+
+[node name="PissTarget6" parent="PissTargets" unique_id=504214777 instance=ExtResource("20_qquio")]
+position = Vector2(60, -117)
+scale = Vector2(3.2584617, 2.5261512)
+score = 421.0
+short_desc = "luxurious silk sheets"

@@ -9,6 +9,10 @@ var _scene_pee_puddle_state: Dictionary = {}
 var _active_scene_root: Node = null
 var _overlay: ColorRect = null
 
+var score: float = 0.0
+
+var player: Node = null
+
 func _ready() -> void:
 	_active_scene_root = get_tree().current_scene
 	var canvas = CanvasLayer.new()
@@ -19,6 +23,10 @@ func _ready() -> void:
 	_overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	_overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	canvas.add_child(_overlay)
+
+func add_score(amount: float) -> void:
+	score += amount
+	HUD.update_score(score)
 
 func fade_to_black(duration: float = 0.8) -> void:
 	var tween = create_tween()

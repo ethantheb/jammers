@@ -1,7 +1,8 @@
 shader_type canvas_item;
 
 uniform sampler2D base_world_tex;
-uniform sampler2D enemy_tex;
+uniform sampler2D enemy_tex : filter_linear;
+uniform sampler2D chase_enemy_tex : filter_linear;
 uniform sampler2D vision_shape_tex : repeat_disable, filter_linear;
 
 uniform vec2 vision_center_uv = vec2(0.5, 0.5);
@@ -93,56 +94,53 @@ float sample_ambient_circle(vec2 uv) {
 	return 1.0 - smoothstep(ambient_radius_px, ambient_radius_px + edge, dist);
 }
 
-float sample_enemy_alpha(vec2 uv) {
-	return texture(enemy_tex, uv).a;
-}
+// 13-tap 1D Gaussian weights (sigma ~4.0, normalized).
+const int BLUR_TAPS = 13;
+const float BLUR_OFFSETS[13] = float[13](
+	-6.0, -5.0, -4.0, -3.0, -2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0
+);
+const float BLUR_WEIGHTS[13] = float[13](
+	0.0146, 0.0268, 0.0436, 0.0630, 0.0808, 0.0920, 0.0930,
+	0.0920, 0.0808, 0.0630, 0.0436, 0.0268, 0.0146
+);
 
-void accum_enemy_alpha(inout float accum, inout float weight_sum, vec2 uv, float w) {
-	accum += sample_enemy_alpha(uv) * w;
-	weight_sum += w;
-}
-
-float sample_enemy_alpha_blur(vec2 uv, vec2 radius) {
+// Two-pass separable Gaussian: 13 horizontal x 13 vertical = 169 effective
+// samples, which properly dissolves the sprite into a smooth cloud.
+vec4 sample_enemy_blur(vec2 uv, vec2 radius) {
 	if (radius.x <= 0.000001 || radius.y <= 0.000001) {
-		return sample_enemy_alpha(uv);
+		return texture(enemy_tex, uv);
 	}
 
-	vec2 d1 = radius * 0.35;
-	vec2 d2 = radius * 0.70;
-	vec2 d3 = radius;
+	// Step size: spread the 13 taps across the full radius.
+	vec2 step_uv = radius / 6.0;
 
-	float accum = 0.0;
+	vec4 accum = vec4(0.0);
 	float wsum = 0.0;
 
-	// Blur enemy alpha only, then render a flat-tinted silhouette blob.
-	accum_enemy_alpha(accum, wsum, uv, 0.20);
+	for (int y = 0; y < BLUR_TAPS; y++) {
+		// First pass: horizontal blur at this vertical offset.
+		vec4 row_accum = vec4(0.0);
+		float row_wsum = 0.0;
+		float wy = BLUR_WEIGHTS[y];
+		vec2 row_uv = uv + vec2(0.0, BLUR_OFFSETS[y] * step_uv.y);
 
-	accum_enemy_alpha(accum, wsum, uv + vec2(d1.x, 0.0), 0.10);
-	accum_enemy_alpha(accum, wsum, uv - vec2(d1.x, 0.0), 0.10);
-	accum_enemy_alpha(accum, wsum, uv + vec2(0.0, d1.y), 0.10);
-	accum_enemy_alpha(accum, wsum, uv - vec2(0.0, d1.y), 0.10);
+		for (int x = 0; x < BLUR_TAPS; x++) {
+			vec2 sample_uv = row_uv + vec2(BLUR_OFFSETS[x] * step_uv.x, 0.0);
+			vec4 s = texture(enemy_tex, sample_uv);
+			float wx = BLUR_WEIGHTS[x];
+			row_accum += vec4(s.rgb * s.a, s.a) * wx;
+			row_wsum += wx;
+		}
 
-	accum_enemy_alpha(accum, wsum, uv + vec2(d2.x, 0.0), 0.07);
-	accum_enemy_alpha(accum, wsum, uv - vec2(d2.x, 0.0), 0.07);
-	accum_enemy_alpha(accum, wsum, uv + vec2(0.0, d2.y), 0.07);
-	accum_enemy_alpha(accum, wsum, uv - vec2(0.0, d2.y), 0.07);
+		vec4 row_result = row_accum / max(row_wsum, 0.000001);
+		accum += row_result * wy;
+		wsum += wy;
+	}
 
-	accum_enemy_alpha(accum, wsum, uv + vec2(d3.x, 0.0), 0.04);
-	accum_enemy_alpha(accum, wsum, uv - vec2(d3.x, 0.0), 0.04);
-	accum_enemy_alpha(accum, wsum, uv + vec2(0.0, d3.y), 0.04);
-	accum_enemy_alpha(accum, wsum, uv - vec2(0.0, d3.y), 0.04);
-
-	accum_enemy_alpha(accum, wsum, uv + vec2(d1.x, d1.y), 0.05);
-	accum_enemy_alpha(accum, wsum, uv + vec2(-d1.x, d1.y), 0.05);
-	accum_enemy_alpha(accum, wsum, uv + vec2(d1.x, -d1.y), 0.05);
-	accum_enemy_alpha(accum, wsum, uv + vec2(-d1.x, -d1.y), 0.05);
-
-	accum_enemy_alpha(accum, wsum, uv + vec2(d2.x, d2.y), 0.03);
-	accum_enemy_alpha(accum, wsum, uv + vec2(-d2.x, d2.y), 0.03);
-	accum_enemy_alpha(accum, wsum, uv + vec2(d2.x, -d2.y), 0.03);
-	accum_enemy_alpha(accum, wsum, uv + vec2(-d2.x, -d2.y), 0.03);
-
-	return accum / max(wsum, 0.000001);
+	vec4 result = accum / max(wsum, 0.000001);
+	float a = result.a;
+	vec3 rgb = (a > 0.001) ? result.rgb / a : vec3(0.0);
+	return vec4(rgb, a);
 }
 
 void fragment() {
@@ -183,13 +181,22 @@ void fragment() {
 	float world_alpha = clamp(outside * base_world.a, 0.0, 1.0);
 
 	vec2 blur_ofs = vec2(enemy_blur_radius_uv, enemy_blur_radius_uv);
-	float enemy_alpha_blur = sample_enemy_alpha_blur(SCREEN_UV, blur_ofs);
-	float enemy_blob = smoothstep(0.02, 0.30, enemy_alpha_blur);
-	vec3 enemy_rgb = enemy_tint.rgb;
+	vec4 enemy_blur = sample_enemy_blur(SCREEN_UV, blur_ofs);
+	float enemy_blob = smoothstep(0.01, 0.55, enemy_blur.a);
+	// Desaturate and darken the blurred sprite, then mix heavily with fog tint
+	// so it reads as a dark shape in the fog, not a bright blob.
+	float lum = dot(enemy_blur.rgb, vec3(0.299, 0.587, 0.114));
+	float dark_lum = lum * 0.3;
+	vec3 enemy_rgb = mix(vec3(dark_lum), enemy_tint.rgb, 0.7);
 	float enemy_alpha = enemy_blob * outside * clamp(enemy_blur_strength, 0.0, 1.0) * enemy_tint.a;
 
 	vec3 result_rgb = mix(world_rgb, enemy_rgb, clamp(enemy_alpha, 0.0, 1.0));
 	float out_alpha = clamp(world_alpha + enemy_alpha * (1.0 - world_alpha), 0.0, 1.0);
+
+	// Composite chase-mode enemies crisp on top of everything.
+	vec4 chase = texture(chase_enemy_tex, SCREEN_UV);
+	result_rgb = mix(result_rgb, chase.rgb, chase.a);
+	out_alpha = clamp(out_alpha + chase.a * (1.0 - out_alpha), 0.0, 1.0);
 
 	COLOR = vec4(result_rgb, out_alpha);
 }

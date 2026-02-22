@@ -35,6 +35,8 @@ var _player: CharacterBody2D = null
 var _pee_puddle_scene: PackedScene = null
 var _pee_puddle_color: Color = Color(0.86, 0.76, 0.16, 0.62)
 var _piss_noise_dps: float = 0.3
+var piss_drain_rate: float = 0.2
+var pee_remaining: float = 1.0
 var _audio = null
 var _piss_sound: AudioStream = null
 
@@ -93,6 +95,12 @@ func ensure_input_action() -> void:
 func update(delta: float) -> void:
 	if _player == null:
 		return
+
+	if pee_remaining <= 0.0:
+		if _is_peeing:
+			_finish_pee()
+		return
+
 	var holding := Input.is_action_pressed(PEE_ACTION)
 	if holding and not _is_peeing:
 		_start_pee()
@@ -100,6 +108,11 @@ func update(delta: float) -> void:
 		_grow_pee(delta)
 	elif _is_peeing and not holding:
 		_finish_pee()
+
+	if _is_peeing:
+		pee_remaining = max(0.0, pee_remaining - (piss_drain_rate * delta))
+		HUD.update_pee_remaining(pee_remaining)
+
 
 func _start_pee() -> void:
 	var pee_origin := _player.global_position + PEE_FOOT_OFFSET
@@ -121,7 +134,6 @@ func _start_pee() -> void:
 	_is_peeing = true
 	_emit_pee_splat(_active_pee_tip_world, _active_pee_idle_radius, 1.0, true)
 	HUD.make_continuous_noise("piss", _piss_noise_dps)
-	HUD.set_pissing(true)
 	if _audio and _piss_sound:
 		_audio.stream = _piss_sound
 		_audio.play()
@@ -139,7 +151,7 @@ func _grow_pee(delta: float) -> void:
 		var move_speed_factor := clampf(_player.velocity.length() / 240.0, 0.0, 1.0)
 		_active_pee_flow_phase += delta * (PEE_MOVE_WOBBLE_SPEED + move_speed_factor * 2.2)
 		_active_pee_flow_drift = lerpf(_active_pee_flow_drift, randf_range(-1.0, 1.0), minf(1.0, delta * PEE_MOVE_WOBBLE_DRIFT_LERP))
-		_emit_along_segment(_active_pee_tip_world, next_tip)
+		_emit_along_segment(delta, _active_pee_tip_world, next_tip)
 		_active_pee_idle_radius = maxf(_active_pee_idle_radius - 20.0 * delta, PEE_TRAIL_CONNECTOR_RADIUS)
 	else:
 		_active_pee_flow_drift = lerpf(_active_pee_flow_drift, 0.0, minf(1.0, delta * 2.0))
@@ -166,7 +178,6 @@ func _finish_pee() -> void:
 	_active_pee_flow_distance = 0.0
 	_pee_merge_check_accumulator = 0.0
 	HUD.stop_continuous_noise("piss")
-	HUD.set_pissing(false)
 	if _audio and _audio.stream == _piss_sound:
 		_audio.stop()
 
@@ -214,11 +225,14 @@ func _raycast_world(from_world: Vector2, to_world: Vector2) -> Dictionary:
 	_active_pee_ray_query.collision_mask = _player.collision_mask
 	return world.direct_space_state.intersect_ray(_active_pee_ray_query)
 
-func _emit_along_segment(from_world: Vector2, to_world: Vector2) -> int:
+func _emit_along_segment(dt: float, from_world: Vector2, to_world: Vector2) -> int:
 	var delta := to_world - from_world
 	var distance := delta.length()
-	if distance <= 0.001:
+	if distance <= 0.1:
 		return 0
+
+	Game.add_score(randf_range(90, 110) * dt) # initialize score display in HUD
+
 	var dir := delta / distance
 	var perp := Vector2(-dir.y, dir.x)
 	var speed_factor := clampf(_player.velocity.length() / 240.0, 0.0, 1.0)
