@@ -154,6 +154,8 @@ func _build_base_viewport() -> void:
 
 	_base_root = Node2D.new()
 	_base_root.name = "BaseWorldRoot"
+	# Match live-scene Y sorting so fog clones occlude behind furniture correctly.
+	_base_root.y_sort_enabled = true
 	_base_viewport.add_child(_base_root)
 	add_child(_base_viewport)
 
@@ -352,6 +354,18 @@ func _is_player_pee_visual(node: Node) -> bool:
 		return true
 	return false
 
+func _should_disable_fog_tilemap_y_sort(ci: CanvasItem) -> bool:
+	if not (ci is TileMapLayer or ci is TileMap):
+		return false
+	var node_name := String(ci.name).to_lower()
+	return node_name == "mainbackground" or node_name == "floordecorations"
+
+func _is_floor_base_tilemap(ci: CanvasItem) -> bool:
+	if not (ci is TileMapLayer or ci is TileMap):
+		return false
+	var node_name := String(ci.name).to_lower()
+	return node_name == "mainbackground" or node_name == "floordecorations"
+
 func _is_enemy_visual(node: Node) -> bool:
 	var n := node
 	while n != null:
@@ -451,10 +465,23 @@ func _sync_base_clones(sync_static: bool = false) -> void:
 		clone.z_index = source.z_index
 		clone.z_as_relative = source.z_as_relative
 		clone.y_sort_enabled = source.y_sort_enabled
+		if _should_disable_fog_tilemap_y_sort(source):
+			# Keep base floor tile layers stable in fog; keep furniture layers Y-sorted.
+			clone.y_sort_enabled = false
+		if _is_floor_base_tilemap(source):
+			# Keep base floor layers behind puddles/actors in the fog pass.
+			clone.z_index = mini(clone.z_index, -1)
+			clone.z_as_relative = false
 		if _is_sleeping_owner_sprite(source):
 			# Keep sleeping owner under bed covers in fog while still visible if uncovered.
 			clone.z_index = -1
 			clone.z_as_relative = false
+			clone.y_sort_enabled = false
+		elif _is_sleeping_owner_head_sprite(source):
+			# Keep sleeping owner head above covers in fog so the owner does not disappear.
+			clone.z_index = maxi(clone.z_index, 2)
+			clone.z_as_relative = false
+			clone.y_sort_enabled = false
 		clone.material = source.material
 		clone.texture_filter = source.texture_filter
 		clone.texture_repeat = source.texture_repeat
@@ -560,6 +587,19 @@ func _is_sleeping_owner_sprite(ci: CanvasItem) -> bool:
 	if sprite.animation != &"sleeping" and not String(sprite.animation).begins_with("sleep"):
 		return false
 	if sprite.name != "Body":
+		return false
+	var parent := sprite.get_parent()
+	if parent == null:
+		return false
+	return parent.name == "Owner"
+
+func _is_sleeping_owner_head_sprite(ci: CanvasItem) -> bool:
+	if not (ci is AnimatedSprite2D):
+		return false
+	var sprite := ci as AnimatedSprite2D
+	if sprite.animation != &"sleeping" and not String(sprite.animation).begins_with("sleep"):
+		return false
+	if sprite.name != "Head":
 		return false
 	var parent := sprite.get_parent()
 	if parent == null:
