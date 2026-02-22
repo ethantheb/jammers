@@ -6001,6 +6001,7 @@ tile_map_data = PackedByteArray("AAD///X/AQAGAAIAAAD///T/AQAGAAEAAAAAAPL/CwAOABU
 tile_set = SubResource("TileSet_yygbf")
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="AboveFloor" unique_id=1958793122]
+visible = false
 navigation_polygon = SubResource("NavigationPolygon_qquio")
 
 [node name="Player" parent="AboveFloor" unique_id=1839945034 instance=ExtResource("14_lyvny")]
@@ -6014,6 +6015,7 @@ pee_puddle_color = Color(0.96772605, 0.7030919, 0.2252182, 0.61960787)
 [node name="DoorToLivingRoom" parent="AboveFloor" unique_id=1580824729 instance=ExtResource("16_43jao")]
 position = Vector2(244, -154)
 scene_path = "res://scenes/livingroom.tscn"
+spawn_location = Vector2(310, -120)
 
 [node name="Door" parent="AboveFloor" unique_id=1835340236 instance=ExtResource("16_43jao")]
 visible = false

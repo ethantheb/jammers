@@ -39,7 +39,7 @@ func fade_from_black(duration: float = 0.8) -> void:
 	tween.tween_property(_overlay, "color:a", 0.0, duration)
 	await tween.finished
 
-func load_dream_scene(scene: PackedScene, fade: bool = false) -> void:
+func load_dream_scene(scene: PackedScene, fade: bool = false, spawn_point: Vector2 = Vector2.ZERO) -> void:
 	assert(scene)
 
 	if fade:
@@ -69,16 +69,20 @@ func load_dream_scene(scene: PackedScene, fade: bool = false) -> void:
 	_active_scene_root = scene_instance
 	_restore_pee_puddles(scene_instance)
 
-	# Position player at SpawnPoint if one exists, or spawn one if the scene doesn't have one
+	# If spawn_point given, it takes priority. Otherwise look for a SpawnPoint node.
 	var spawn = scene_instance.find_child("SpawnPoint")
 	var existing_player = scene_instance.find_child("Player")
 	if existing_player:
+		if spawn_point != Vector2.ZERO:
+			existing_player.global_position = spawn_point
 		if spawn:
 			existing_player.global_position = spawn.global_position
 	else:
 		var player_scene = load("res://scenes/player.tscn")
 		var player_instance = player_scene.instantiate()
 		scene_instance.add_child(player_instance)
+		if spawn_point != Vector2.ZERO:
+			player_instance.global_position = spawn_point
 		if spawn:
 			player_instance.global_position = spawn.global_position
 

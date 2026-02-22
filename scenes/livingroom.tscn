@@ -4595,10 +4595,12 @@ shape = SubResource("ConvexPolygonShape2D_24a1y")
 [node name="DoorToBedroom" parent="AboveFloor" unique_id=1835340236 instance=ExtResource("20_306lt")]
 position = Vector2(310, -150)
 scene_path = "res://scenes/bedroom.tscn"
+spawn_location = Vector2(244, -124)
 
 [node name="DoorToKitchen" parent="AboveFloor" unique_id=83490022 instance=ExtResource("20_306lt")]
 position = Vector2(151, -150)
 scene_path = "res://scenes/kitchen_fow_v2.tscn"
+spawn_location = Vector2(244, -124)
 
 [node name="FogOverlay" parent="." unique_id=2036956277 instance=ExtResource("21_04r7s")]
 enemy_blur_radius_px = 56.0
