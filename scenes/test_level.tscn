@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://jr50xyaas84c"]
 
-[ext_resource type="Texture2D" uid="uid://12ws4fi4lt01" path="res://assets/images/brackeys_bg.png" id="1_bg"]
+[ext_resource type="Texture2D" uid="uid://d32gsyfmin6kn" path="res://assets/images/brackeys_bg.png" id="1_bg"]
 [ext_resource type="PackedScene" uid="uid://jojwr8hipdsc" path="res://scenes/portal.tscn" id="2_port"]
 [ext_resource type="PackedScene" uid="uid://bswlhygpe6238" path="res://scenes/alarm_guy.tscn" id="3_alarm"]
 [ext_resource type="PackedScene" path="res://scenes/fog_overlay_v2.tscn" id="4_x4b8f"]
