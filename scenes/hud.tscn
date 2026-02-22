@@ -2,12 +2,17 @@
 
 [ext_resource type="Script" uid="uid://ccungpfaneqye" path="res://scripts/hud.gd" id="1_hud"]
 [ext_resource type="Script" uid="uid://bcw5qltyltgu7" path="res://scripts/impact_label.gd" id="2_oo0fn"]
+[ext_resource type="Texture2D" uid="uid://cy467glpnh3u" path="res://assets/images/earbmp.bmp" id="3_6fi6k"]
+[ext_resource type="Texture2D" uid="uid://bbal5novdxtag" path="res://assets/images/bladder.png" id="4_uo2fv"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ahhtf"]
 bg_color = Color(0.6785269, 0.60005844, 0.24203965, 1)
 
 [node name="HUD" type="CanvasLayer" unique_id=1677856514]
 script = ExtResource("1_hud")
+piss_meter_max = null
+piss_meter_start = null
+piss_drain_rate = null
 
 [node name="MarginContainer" type="MarginContainer" parent="." unique_id=1648712113]
 anchors_preset = 15
@@ -34,7 +39,10 @@ max_shake_magnitude = 40.0
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=1036260222]
 layout_mode = 2
 
-[node name="ProgressBar" type="ProgressBar" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=140433787]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=176027234]
+layout_mode = 2
+
+[node name="NoiseMeter" type="ProgressBar" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=140433787]
 custom_minimum_size = Vector2(20, 200)
 layout_mode = 2
 max_value = 1.0
@@ -42,7 +50,14 @@ step = 0.001
 fill_mode = 3
 show_percentage = false
 
-[node name="PissMeter" type="ProgressBar" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=353442701]
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=904466765]
+layout_mode = 2
+texture = ExtResource("3_6fi6k")
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=1586648407]
+layout_mode = 2
+
+[node name="PissMeter" type="ProgressBar" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2" unique_id=353442701]
 custom_minimum_size = Vector2(20, 200)
 layout_mode = 2
 theme_override_styles/fill = SubResource("StyleBoxFlat_ahhtf")
@@ -51,6 +66,10 @@ step = 0.001
 value = 1.0
 fill_mode = 3
 show_percentage = false
+
+[node name="TextureRect2" type="TextureRect" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2" unique_id=87477947]
+layout_mode = 2
+texture = ExtResource("4_uo2fv")
 
 [node name="InteractionPrompt" type="Label" parent="." unique_id=1926764483]
 anchors_preset = 7

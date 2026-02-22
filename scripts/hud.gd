@@ -3,8 +3,8 @@ extends CanvasLayer
 const HUD_CANVAS_LAYER: int = 120
 
 @onready var score_label: ImpactLabel = $MarginContainer/VBoxContainer/ScoreLabel
-@onready var progress_bar: ProgressBar = $MarginContainer/VBoxContainer/HBoxContainer/ProgressBar
-@onready var piss_meter: ProgressBar = $MarginContainer/VBoxContainer/HBoxContainer/PissMeter
+@onready var noise_meter: ProgressBar = $MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/NoiseMeter
+@onready var piss_meter: ProgressBar = $MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2/PissMeter
 @onready var interaction_prompt_label: Label = $InteractionPrompt
 
 var elapsed_time: float = 0.0
@@ -26,7 +26,7 @@ var max_score_instance: float = 500.0
 
 func _ready() -> void:
 	layer = HUD_CANVAS_LAYER
-	original_bar_position = progress_bar.position
+	original_bar_position = noise_meter.position
 	piss_meter.max_value = piss_meter_max
 	piss_meter.value = clamp(piss_meter_start, 0.0, piss_meter_max)
 
@@ -36,8 +36,8 @@ func _process(delta: float) -> void:
 	if is_pissing and piss_meter.value > 0.0:
 		piss_meter.value = max(0.0, piss_meter.value - (piss_drain_rate * delta))
 	_apply_continuous_noise(delta)
-	if time_since_noise >= 1.0 and progress_bar.value > 0.0 and continuous_noises.size() == 0:
-		progress_bar.value = max(0.0, progress_bar.value - (NOISE_DECAY_RATE * delta))
+	if time_since_noise >= 1.0 and noise_meter.value > 0.0 and continuous_noises.size() == 0:
+		noise_meter.value = max(0.0, noise_meter.value - (NOISE_DECAY_RATE * delta))
 	
 	# Handle shake
 	var shake_magnitude = _update_recent_noises()
@@ -48,12 +48,12 @@ func _process(delta: float) -> void:
 			randf_range(-shake_strength, shake_strength),
 			randf_range(-shake_strength, shake_strength)
 		)
-		progress_bar.position = original_bar_position + shake_offset
+		noise_meter.position = original_bar_position + shake_offset
 	else:
-		progress_bar.position = original_bar_position
+		noise_meter.position = original_bar_position
 
 func make_one_noise(percent: float) -> void:
-	progress_bar.value += percent
+	noise_meter.value += percent
 	time_since_noise = 0.0
 	shake_timer = shake_duration
 	_record_noise_magnitude(abs(percent))
@@ -76,7 +76,7 @@ func _apply_continuous_noise(delta: float) -> void:
 		var rate = float(value)
 		total_rate += rate
 	if not is_zero_approx(total_rate):
-		progress_bar.value += total_rate * delta
+		noise_meter.value += total_rate * delta
 		shake_timer = shake_duration
 
 func _record_noise_magnitude(magnitude: float) -> void:
