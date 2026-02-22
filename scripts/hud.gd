@@ -51,21 +51,21 @@ func _process(delta: float) -> void:
 	else:
 		noise_meter.position = original_bar_position
 
-func create_impact_label(screen_position: Vector2, text: String, magnitude: float = 1) -> ImpactLabel:
+func create_impact_label(world_position: Vector2, text: String, magnitude: float = 1) -> ImpactLabel:
 	var label = ImpactLabel.new()
 	label.text = text
-	label.position = screen_position
-	#label.base_position = screen_position
-	label.destroy_on_zero = true
-	label.add_impact(magnitude)
 	label.z_index = 100
-	get_tree().get_root().add_child(label)
-	label.global_position = screen_position
 	label.destroy_on_zero = true
 	label.rise_speed = -50
 	label.magnitude_decay_rate = 0.8 # per second
 	label.max_shake_magnitude = 3.0
 	label.max_scale_magnitude = 1
+	add_child(label)
+
+	var canvas_transform := get_viewport().get_canvas_transform()
+	label.position = canvas_transform * world_position
+	label.base_position = label.position
+	label.add_impact(magnitude)
 	return label
 
 func make_one_noise(percent: float) -> void:
