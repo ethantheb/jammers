@@ -314,16 +314,12 @@ func _ensure_base_clone(ci: CanvasItem) -> void:
 		return
 	_base_root.add_child(clone)
 	clone.light_mask = 0
-	# Hide pee puddle visuals in the main scene — they render through the base viewport.
-	var is_pee_visual := _is_player_pee_node(ci)
-	if is_pee_visual:
-		ci.visible = false
 	var is_dynamic := _is_base_source_dynamic(ci)
 	_base_bindings.append({
 		"source": ci,
 		"clone": clone,
 		"dynamic": is_dynamic,
-		"hide_source": is_pee_visual,
+		"hide_source": false,
 	})
 
 func _find_base_binding_index(source: CanvasItem) -> int:
@@ -394,14 +390,16 @@ func _sync_base_clones(sync_static: bool = false) -> void:
 		if not is_dynamic and not sync_static:
 			continue
 
-		# Pee source nodes are intentionally hidden in the main scene; always show their clone.
-		var hide_source: bool = binding.get("hide_source", false)
-		clone.visible = true if hide_source else _is_effectively_visible(source)
+		clone.visible = _is_effectively_visible(source)
 		clone.modulate = source.modulate
 		clone.self_modulate = source.self_modulate
 		clone.z_index = source.z_index
 		clone.z_as_relative = source.z_as_relative
 		clone.y_sort_enabled = source.y_sort_enabled
+		if _is_sleeping_owner_sprite(source):
+			# Keep sleeping owner under bed covers in fog while still visible if uncovered.
+			clone.z_index = -1
+			clone.z_as_relative = false
 		clone.material = source.material
 		clone.texture_filter = source.texture_filter
 		clone.texture_repeat = source.texture_repeat
@@ -493,6 +491,19 @@ func _entry_sprite(entry: Dictionary, weak_key: String, legacy_key: String) -> S
 	if legacy_value is Sprite2D:
 		return legacy_value as Sprite2D
 	return null
+
+func _is_sleeping_owner_sprite(ci: CanvasItem) -> bool:
+	if not (ci is AnimatedSprite2D):
+		return false
+	var sprite := ci as AnimatedSprite2D
+	if sprite.animation != &"sleeping" and not String(sprite.animation).begins_with("sleep"):
+		return false
+	if sprite.name != "Body":
+		return false
+	var parent := sprite.get_parent()
+	if parent == null:
+		return false
+	return parent.name == "Owner"
 
 func _sync_enemy_clone(source: Sprite2D, clone: Sprite2D) -> void:
 	clone.global_transform = source.global_transform
