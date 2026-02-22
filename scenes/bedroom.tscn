@@ -1,24 +1,27 @@
 [gd_scene format=4 uid="uid://d2ffgu2eh308e"]
 
-[ext_resource type="Texture2D" uid="uid://c387qmb71ieat" path="res://assets/light_smallDistortion.png" id="1_4wfg3"]
-[ext_resource type="AudioStream" uid="uid://cwvtjj7l6ucal" path="res://assets/bgm/Troubadeck 12 Good King.ogg" id="1_mk2nf"]
-[ext_resource type="Texture2D" uid="uid://cpdcm5swaciky" path="res://assets/tilesets/pixelinterior_BA_v1.0/cabinets_BA.png" id="2_mk2nf"]
-[ext_resource type="Texture2D" uid="uid://di1hcof8mgl7s" path="res://assets/tilesets/pixelinterior_BA_v1.0/fixtures_BA.png" id="3_cixf6"]
-[ext_resource type="Texture2D" uid="uid://kkinjviu5xgu" path="res://assets/tilesets/pixelinterior_LRK_v1.1/kitchen_LRK.png" id="4_bd3ru"]
-[ext_resource type="Texture2D" uid="uid://12cmunolsy8v" path="res://assets/tilesets/pixelinterior_LRK_v1.1/livingroom_LRK.png" id="5_cs7aj"]
-[ext_resource type="Texture2D" uid="uid://btclnrphkfiue" path="res://assets/tilesets/pixelinterior_BA_v1.0/textiles_BA.png" id="6_43jao"]
-[ext_resource type="Texture2D" uid="uid://7h5e7r1c0olu" path="res://assets/tilesets/pixelinterior_BR_v1.1/beds_BR.png" id="7_qquio"]
-[ext_resource type="Texture2D" uid="uid://drrcbdmj5r76o" path="res://assets/tilesets/pixelinterior_BR_v1.1/decorations_BR.png" id="8_wlwc7"]
-[ext_resource type="Texture2D" uid="uid://cmhmc6v30phl3" path="res://assets/tilesets/pixelinterior_BR_v1.1/wardrobes_BR.png" id="9_0wemr"]
-[ext_resource type="Texture2D" uid="uid://b881wcq3dic04" path="res://assets/tilesets/pixelinterior_LRK_v1.1/cabinets_LRK.png" id="10_u8wxw"]
-[ext_resource type="Texture2D" uid="uid://dturbh06y70ef" path="res://assets/tilesets/pixelinterior_LRK_v1.1/decorations_LRK.png" id="11_ls8op"]
-[ext_resource type="Texture2D" uid="uid://da4vlv1ut5fln" path="res://assets/tilesets/pixelinterior_LRK_v1.1/doorswindowsstairs_LRK.png" id="12_qw8ek"]
-[ext_resource type="Texture2D" uid="uid://brhoe4fmit42k" path="res://assets/tilesets/pixelinterior_LRK_v1.1/floorswalls_LRK.png" id="13_qbrme"]
+[ext_resource type="Texture2D" uid="uid://c8k4d3bvfojgu" path="res://assets/light_smallDistortion.png" id="1_4wfg3"]
+[ext_resource type="AudioStream" uid="uid://b7gds3iyyjqxa" path="res://assets/bgm/Troubadeck 12 Good King.ogg" id="1_mk2nf"]
+[ext_resource type="Script" path="res://scripts/bedroom.gd" id="1_qquio"]
+[ext_resource type="Texture2D" uid="uid://d0g7pyywc36m4" path="res://assets/tilesets/pixelinterior_BA_v1.0/cabinets_BA.png" id="2_mk2nf"]
+[ext_resource type="Texture2D" uid="uid://cgtcw7xvdpbuk" path="res://assets/tilesets/pixelinterior_BA_v1.0/fixtures_BA.png" id="3_cixf6"]
+[ext_resource type="Texture2D" uid="uid://camf0d0ggiop4" path="res://assets/tilesets/pixelinterior_LRK_v1.1/kitchen_LRK.png" id="4_bd3ru"]
+[ext_resource type="Texture2D" uid="uid://cckl8q3jdsquw" path="res://assets/tilesets/pixelinterior_LRK_v1.1/livingroom_LRK.png" id="5_cs7aj"]
+[ext_resource type="Texture2D" uid="uid://gxptyafdm7my" path="res://assets/tilesets/pixelinterior_BA_v1.0/textiles_BA.png" id="6_43jao"]
+[ext_resource type="Texture2D" uid="uid://pubj2md3wsii" path="res://assets/tilesets/pixelinterior_BR_v1.1/beds_BR.png" id="7_qquio"]
+[ext_resource type="Texture2D" uid="uid://crkkyg1snhtjt" path="res://assets/tilesets/pixelinterior_BR_v1.1/decorations_BR.png" id="8_wlwc7"]
+[ext_resource type="Texture2D" uid="uid://blstujdmvc6pk" path="res://assets/tilesets/pixelinterior_BR_v1.1/wardrobes_BR.png" id="9_0wemr"]
+[ext_resource type="Texture2D" uid="uid://dqnugjnea781i" path="res://assets/tilesets/pixelinterior_LRK_v1.1/cabinets_LRK.png" id="10_u8wxw"]
+[ext_resource type="Texture2D" uid="uid://dogcsg32nrsli" path="res://assets/tilesets/pixelinterior_LRK_v1.1/decorations_LRK.png" id="11_ls8op"]
+[ext_resource type="Texture2D" uid="uid://rkl1d40urka8" path="res://assets/tilesets/pixelinterior_LRK_v1.1/doorswindowsstairs_LRK.png" id="12_qw8ek"]
+[ext_resource type="Texture2D" uid="uid://dd81r6yulm42u" path="res://assets/tilesets/pixelinterior_LRK_v1.1/floorswalls_LRK.png" id="13_qbrme"]
 [ext_resource type="PackedScene" uid="uid://c55ktvtf07pxx" path="res://scenes/player.tscn" id="14_lyvny"]
 [ext_resource type="PackedScene" uid="uid://ela2c4n7ip14" path="res://scenes/door.tscn" id="16_43jao"]
 [ext_resource type="Script" uid="uid://bc07ro077afnp" path="res://scripts/interactable_bed.gd" id="16_cixf6"]
+[ext_resource type="PackedScene" uid="uid://d38e623rurprd" path="res://scenes/owner.tscn" id="16_qquio"]
 [ext_resource type="PackedScene" uid="uid://jr50xyaas84c" path="res://scenes/test_level.tscn" id="18_cs7aj"]
 [ext_resource type="PackedScene" path="res://scenes/fog_overlay_v2.tscn" id="19_43jao"]
+[ext_resource type="PackedScene" path="res://scenes/piss_target.tscn" id="20_qquio"]
 [ext_resource type="PackedScene" path="res://scenes/piss_target.tscn" id="20_qquio"]
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_xyfub"]
@@ -5895,14 +5898,20 @@ sources/9 = SubResource("TileSetAtlasSource_iy3tf")
 sources/10 = SubResource("TileSetAtlasSource_64kat")
 sources/11 = SubResource("TileSetAtlasSource_ll8iu")
 
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_qquio"]
+vertices = PackedVector2Array(277.20313, -5.03125, -4.78125, -5.9609375, -0.2109375, -218.03125, 281.78125, -218.96094)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-10, -228, 292, -229, 287, 5, -15, 4)])
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mk2nf"]
 size = Vector2(46, 32)
 
 [node name="Bedroom" type="Node2D" unique_id=1550137310]
+script = ExtResource("1_qquio")
 
 [node name="BGM" type="AudioStreamPlayer" parent="." unique_id=266233702]
 stream = ExtResource("1_mk2nf")
-volume_db = -53.814
+volume_db = -10.0
 autoplay = true
 parameters/looping = true
 
@@ -5992,20 +6001,28 @@ position = Vector2(36, 28)
 tile_map_data = PackedByteArray("AAD///X/AQAGAAIAAAD///T/AQAGAAEAAAAAAPL/CwAOABUAAAAAAPP/CwAOABgAAAACAPL/CwAPABUAAAACAPP/CwAPABgAAAD+//n/BwADAAgAAAD+//j/BwADAAcAAAAAAP3/CwATABUAAAABAP3/CwAUABUAAAACAP3/CwAVABUAAAAAAP7/CwATABYAAAABAP7/CwAUABYAAAACAP7/CwAVABYAAAA=")
 tile_set = SubResource("TileSet_yygbf")
 
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="AboveFloor" unique_id=1958793122]
+navigation_polygon = SubResource("NavigationPolygon_qquio")
+
 [node name="Player" parent="AboveFloor" unique_id=1839945034 instance=ExtResource("14_lyvny")]
 position = Vector2(136, -98)
+
+[node name="Owner" parent="AboveFloor" unique_id=191629362 instance=ExtResource("16_qquio")]
+position = Vector2(61, -135)
+scale = Vector2(1.5, 1.5)
+pee_puddle_color = Color(0.96772605, 0.7030919, 0.2252182, 0.61960787)
 
 [node name="DoorToLivingRoom" parent="AboveFloor" unique_id=1580824729 instance=ExtResource("16_43jao")]
 position = Vector2(244, -154)
 scene_path = "uid://k5c5msbdr4f4"
 
-[node name="InteractableBed" type="Area2D" parent="." unique_id=1568951082]
+[node name="InteractableBed" type="Area2D" parent="AboveFloor" unique_id=1568951082]
 collision_layer = 2
 collision_mask = 2
 script = ExtResource("16_cixf6")
 target = ExtResource("18_cs7aj")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractableBed" unique_id=1319908819]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AboveFloor/InteractableBed" unique_id=1319908819]
 position = Vector2(60, -128)
 shape = SubResource("RectangleShape2D_mk2nf")
 

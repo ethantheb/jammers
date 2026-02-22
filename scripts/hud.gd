@@ -18,8 +18,11 @@ var shake_duration: float = 0.5
 var original_bar_position: Vector2
 var recent_noises: Array[Vector2] = []
 var continuous_noises: Dictionary[String, float] = {}
+var is_pissing: bool = false
 
 var max_score_instance: float = 500.0
+
+signal noise_meter_full
 
 func _ready() -> void:
 	layer = HUD_CANVAS_LAYER
@@ -32,6 +35,8 @@ func _process(delta: float) -> void:
 	_apply_continuous_noise(delta)
 	if time_since_noise >= 1.0 and noise_meter.value > 0.0 and continuous_noises.size() == 0:
 		noise_meter.value = max(0.0, noise_meter.value - (NOISE_DECAY_RATE * delta))
+	if noise_meter.value >= noise_meter.max_value:
+		noise_meter_full.emit()
 	
 	# Handle shake
 	var shake_magnitude = _update_recent_noises()
@@ -117,6 +122,9 @@ func _update_recent_noises() -> float:
 
 func update_pee_remaining(remaining: float) -> void:
 	piss_meter.value = remaining
+
+func set_pissing(active: bool) -> void:
+	is_pissing = active
 
 func set_interaction_prompt(text: String, font_size: int = -1) -> void:
 	if interaction_prompt_label == null:

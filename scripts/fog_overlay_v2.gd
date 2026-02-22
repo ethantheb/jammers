@@ -377,6 +377,7 @@ func _ensure_base_clone(ci: CanvasItem) -> void:
 		"source": ci,
 		"clone": clone,
 		"dynamic": is_dynamic,
+		"hide_source": false,
 	})
 
 func _find_base_binding_index(source: CanvasItem) -> int:
@@ -421,9 +422,21 @@ func _sync_base_clones(sync_static: bool = false) -> void:
 		return
 	for i in range(_base_bindings.size() - 1, -1, -1):
 		var binding: Dictionary = _base_bindings[i]
-		var source: CanvasItem = binding.get("source") as CanvasItem
-		var clone: CanvasItem = binding.get("clone") as CanvasItem
-		if source == null or not is_instance_valid(source) or clone == null or not is_instance_valid(clone):
+		var source_raw: Variant = binding.get("source")
+		var clone_raw: Variant = binding.get("clone")
+		if typeof(source_raw) != TYPE_OBJECT or typeof(clone_raw) != TYPE_OBJECT:
+			_base_bindings.remove_at(i)
+			continue
+		if not is_instance_valid(source_raw) or not is_instance_valid(clone_raw):
+			if is_instance_valid(clone_raw):
+				(clone_raw as CanvasItem).queue_free()
+			if is_instance_valid(source_raw) and binding.get("hide_source", false):
+				(source_raw as CanvasItem).visible = true
+			_base_bindings.remove_at(i)
+			continue
+		var source: CanvasItem = source_raw as CanvasItem
+		var clone: CanvasItem = clone_raw as CanvasItem
+		if source == null or clone == null:
 			if clone != null and is_instance_valid(clone):
 				clone.queue_free()
 			_base_bindings.remove_at(i)
@@ -438,6 +451,10 @@ func _sync_base_clones(sync_static: bool = false) -> void:
 		clone.z_index = source.z_index
 		clone.z_as_relative = source.z_as_relative
 		clone.y_sort_enabled = source.y_sort_enabled
+		if _is_sleeping_owner_sprite(source):
+			# Keep sleeping owner under bed covers in fog while still visible if uncovered.
+			clone.z_index = -1
+			clone.z_as_relative = false
 		clone.material = source.material
 		clone.texture_filter = source.texture_filter
 		clone.texture_repeat = source.texture_repeat
@@ -535,6 +552,19 @@ func _entry_sprite(entry: Dictionary, weak_key: String, legacy_key: String) -> S
 	if legacy_value is Sprite2D:
 		return legacy_value as Sprite2D
 	return null
+
+func _is_sleeping_owner_sprite(ci: CanvasItem) -> bool:
+	if not (ci is AnimatedSprite2D):
+		return false
+	var sprite := ci as AnimatedSprite2D
+	if sprite.animation != &"sleeping" and not String(sprite.animation).begins_with("sleep"):
+		return false
+	if sprite.name != "Body":
+		return false
+	var parent := sprite.get_parent()
+	if parent == null:
+		return false
+	return parent.name == "Owner"
 
 func _sync_enemy_clone(source: Sprite2D, clone: Sprite2D, force_visible: bool = false) -> void:
 	clone.global_transform = source.global_transform

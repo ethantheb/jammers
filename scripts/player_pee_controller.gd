@@ -108,7 +108,7 @@ func update(delta: float) -> void:
 		_grow_pee(delta)
 	elif _is_peeing and not holding:
 		_finish_pee()
-	
+
 	if _is_peeing:
 		pee_remaining = max(0.0, pee_remaining - (piss_drain_rate * delta))
 		HUD.update_pee_remaining(pee_remaining)
