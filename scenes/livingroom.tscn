@@ -1,26 +1,27 @@
-[gd_scene format=4 uid="uid://k5c5msbdr4f4"]
+[gd_scene format=4 uid="uid://qjsrer5m8xxv"]
 
-[ext_resource type="Texture2D" uid="uid://brhoe4fmit42k" path="res://assets/tilesets/pixelinterior_LRK_v1.1/floorswalls_LRK.png" id="1_fwlk"]
-[ext_resource type="Texture2D" uid="uid://12cmunolsy8v" path="res://assets/tilesets/pixelinterior_LRK_v1.1/livingroom_LRK.png" id="2_lvrm"]
-[ext_resource type="Texture2D" uid="uid://da4vlv1ut5fln" path="res://assets/tilesets/pixelinterior_LRK_v1.1/doorswindowsstairs_LRK.png" id="3_dwst"]
-[ext_resource type="Texture2D" uid="uid://dturbh06y70ef" path="res://assets/tilesets/pixelinterior_LRK_v1.1/decorations_LRK.png" id="4_swubv"]
-[ext_resource type="Texture2D" uid="uid://b881wcq3dic04" path="res://assets/tilesets/pixelinterior_LRK_v1.1/cabinets_LRK.png" id="5_hqoyq"]
-[ext_resource type="Texture2D" uid="uid://drrcbdmj5r76o" path="res://assets/tilesets/pixelinterior_BR_v1.1/decorations_BR.png" id="6_y3r63"]
-[ext_resource type="Texture2D" uid="uid://cmhmc6v30phl3" path="res://assets/tilesets/pixelinterior_BR_v1.1/wardrobes_BR.png" id="7_35nt2"]
-[ext_resource type="Texture2D" uid="uid://di1hcof8mgl7s" path="res://assets/tilesets/pixelinterior_BA_v1.0/fixtures_BA.png" id="8_1wnl2"]
-[ext_resource type="Texture2D" uid="uid://cpdcm5swaciky" path="res://assets/tilesets/pixelinterior_BA_v1.0/cabinets_BA.png" id="9_7ef23"]
+[ext_resource type="Texture2D" uid="uid://dd81r6yulm42u" path="res://assets/tilesets/pixelinterior_LRK_v1.1/floorswalls_LRK.png" id="1_fwlk"]
+[ext_resource type="Texture2D" uid="uid://cckl8q3jdsquw" path="res://assets/tilesets/pixelinterior_LRK_v1.1/livingroom_LRK.png" id="2_lvrm"]
+[ext_resource type="Texture2D" uid="uid://rkl1d40urka8" path="res://assets/tilesets/pixelinterior_LRK_v1.1/doorswindowsstairs_LRK.png" id="3_dwst"]
+[ext_resource type="Texture2D" uid="uid://dogcsg32nrsli" path="res://assets/tilesets/pixelinterior_LRK_v1.1/decorations_LRK.png" id="4_swubv"]
+[ext_resource type="Texture2D" uid="uid://dqnugjnea781i" path="res://assets/tilesets/pixelinterior_LRK_v1.1/cabinets_LRK.png" id="5_hqoyq"]
+[ext_resource type="Texture2D" uid="uid://crkkyg1snhtjt" path="res://assets/tilesets/pixelinterior_BR_v1.1/decorations_BR.png" id="6_y3r63"]
+[ext_resource type="Texture2D" uid="uid://blstujdmvc6pk" path="res://assets/tilesets/pixelinterior_BR_v1.1/wardrobes_BR.png" id="7_35nt2"]
+[ext_resource type="Texture2D" uid="uid://cgtcw7xvdpbuk" path="res://assets/tilesets/pixelinterior_BA_v1.0/fixtures_BA.png" id="8_1wnl2"]
+[ext_resource type="Texture2D" uid="uid://d0g7pyywc36m4" path="res://assets/tilesets/pixelinterior_BA_v1.0/cabinets_BA.png" id="9_7ef23"]
 [ext_resource type="Texture2D" uid="uid://c6l7jkdy4j3y4" path="res://assets/tilesets/fireplace.png" id="10_1wnl2"]
 [ext_resource type="Script" uid="uid://b0nombloibjjh" path="res://scripts/radio.gd" id="10_xddai"]
 [ext_resource type="Texture2D" uid="uid://cfsquoxqdgsn8" path="res://assets/tilesets/fireplace_chimney.png" id="11_7ef23"]
 [ext_resource type="Script" uid="uid://cewn6q1t8bxqw" path="res://scripts/fireplace.gd" id="11_po3oh"]
 [ext_resource type="AudioStream" uid="uid://dxxkqsu6knhep" path="res://assets/sfx/jazz.mp3" id="11_tlixj"]
 [ext_resource type="Texture2D" uid="uid://bwlfaqd1d8l81" path="res://assets/tilesets/fireplace_logs.png" id="13_ikg1h"]
-[ext_resource type="Shader" uid="uid://b1fni20wfak0k" path="res://shaders/fire.gdshader" id="14_24a1y"]
-[ext_resource type="Texture2D" uid="uid://bmstom5qq17e4" path="res://assets/2d_lights_and_shadows_neutral_point_light.webp" id="15_xddai"]
+[ext_resource type="Shader" path="res://shaders/fire.gdshader" id="14_24a1y"]
+[ext_resource type="Texture2D" uid="uid://0kd3tqmne4o6" path="res://assets/2d_lights_and_shadows_neutral_point_light.webp" id="15_xddai"]
 [ext_resource type="Texture2D" uid="uid://cxuvy30o55gg1" path="res://assets/tilesets/fireplace_top_layer.png" id="16_tlixj"]
 [ext_resource type="PackedScene" uid="uid://c55ktvtf07pxx" path="res://scenes/player.tscn" id="17_24a1y"]
 [ext_resource type="AudioStream" uid="uid://c0mktaik4rhg0" path="res://assets/sfx/fireplace_crackle.mp3" id="19_rq2ij"]
 [ext_resource type="PackedScene" uid="uid://ela2c4n7ip14" path="res://scenes/door.tscn" id="20_306lt"]
+[ext_resource type="PackedScene" path="res://scenes/fog_overlay_v2.tscn" id="21_04r7s"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_fw01"]
 texture = ExtResource("1_fwlk")
@@ -4556,3 +4557,7 @@ scene_path = "res://scenes/bedroom.tscn"
 [node name="DoorToKitchen" parent="AboveFloor" unique_id=83490022 instance=ExtResource("20_306lt")]
 position = Vector2(151, -150)
 scene_path = "res://scenes/kitchen_fow_v2.tscn"
+
+[node name="FogOverlay" parent="." unique_id=2036956277 instance=ExtResource("21_04r7s")]
+enemy_blur_radius_px = 56.0
+fog_tint_strength = 0.27
