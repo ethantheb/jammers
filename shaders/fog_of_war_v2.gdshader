@@ -179,7 +179,8 @@ void fragment() {
 	float tint_amount = clamp(fog_tint_strength, 0.0, 1.0) * (0.45 + inverse_density * 0.55);
 	fogged_world = mix(fogged_world, fog_color.rgb, tint_amount);
 	vec3 world_rgb = mix(base_world.rgb, fogged_world, outside);
-	float world_alpha = base_world.a;
+	// Keep the overlay transparent inside the vision cone so live scene sorting remains authoritative.
+	float world_alpha = clamp(outside * base_world.a, 0.0, 1.0);
 
 	vec2 blur_ofs = vec2(enemy_blur_radius_uv, enemy_blur_radius_uv);
 	float enemy_alpha_blur = sample_enemy_alpha_blur(SCREEN_UV, blur_ofs);
