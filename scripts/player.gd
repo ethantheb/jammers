@@ -28,7 +28,6 @@ const DEFAULT_SPAWN_FACING_DIRECTION = Vector2(0, -1)
 @onready var collision_shape = get_node_or_null("CollisionShape2D")
 
 @onready var raycast = $PlayerRayCast
-@onready var label = $PlayerLabel
 @onready var audio = $Audio
 
 @export var pee_puddle_scene: PackedScene = preload("res://scenes/slop_puddle.tscn")
@@ -80,7 +79,6 @@ func _ready() -> void:
 	if dog_mode:
 		# TODO: Remove these scales if we settle on dog mode
 		$PlayerRayCast.scale = 2.0 * Vector2.ONE
-		$PlayerLabel.scale = 0.4 * Vector2.ONE
 
 	_prev_position = global_position
 	_bump_sound = load(BUMP_SOUND_PATH)
@@ -94,8 +92,6 @@ func _ready() -> void:
 	last_direction = _snap_to_8_directions(last_direction)
 	facing_direction_snapped = _snap_to_8_directions(last_direction)
 	raycast.rotation = -atan2(last_direction.x, last_direction.y)
-	if label != null:
-		label.visible = false
 	_play_animation("idle_up")
 
 func is_peeing() -> bool:
@@ -207,7 +203,7 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_pressed("ui_sprint"):
 		movement = "run"
 		velocity *= 2
-		
+
 	var was_colliding = get_slide_collision_count() > 0
 	move_and_slide()
 	if (global_position != _prev_position):
@@ -348,15 +344,12 @@ func _handle_interaction() -> void:
 	if target == null:
 		if HUD and HUD.has_method("set_interaction_prompt"):
 			HUD.set_interaction_prompt("", interaction_prompt_font_size)
-		elif label != null:
-			label.text = ""
 		return
 
 	var prompt := _interaction_prompt(target)
 	if HUD and HUD.has_method("set_interaction_prompt"):
 		HUD.set_interaction_prompt(prompt, interaction_prompt_font_size)
-	elif label != null:
-		label.text = prompt
+
 	if Input.is_action_just_pressed(INTERACT_ACTION):
 		_try_interact(target)
 

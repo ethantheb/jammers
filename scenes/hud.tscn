@@ -4,9 +4,14 @@
 [ext_resource type="Script" uid="uid://bcw5qltyltgu7" path="res://scripts/impact_label.gd" id="2_oo0fn"]
 [ext_resource type="Texture2D" uid="uid://cy467glpnh3u" path="res://assets/images/earbmp.bmp" id="3_6fi6k"]
 [ext_resource type="Texture2D" uid="uid://bbal5novdxtag" path="res://assets/images/bladder.png" id="4_uo2fv"]
+[ext_resource type="FontFile" uid="uid://67p4dm1b2uf7" path="res://assets/fonts/PixelGosub-ZaRz.ttf" id="5_uo2fv"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ahhtf"]
 bg_color = Color(0.6785269, 0.60005844, 0.24203965, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_047uy"]
+font = ExtResource("5_uo2fv")
+font_size = 20
 
 [node name="HUD" type="CanvasLayer" unique_id=1677856514]
 script = ExtResource("1_hud")
@@ -81,4 +86,5 @@ offset_right = 260.0
 offset_bottom = -20.0
 grow_horizontal = 2
 grow_vertical = 0
+label_settings = SubResource("LabelSettings_047uy")
 horizontal_alignment = 1
