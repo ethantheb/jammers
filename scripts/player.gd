@@ -64,6 +64,8 @@ var _slop_rescan_timer: float = 0.0
 var _stored_borderless_flag: bool = false
 var _stored_borderless_flag_valid: bool = false
 
+signal position_changed(new_position: Vector2)
+
 func _ready() -> void:
 	_ensure_dog_sprite_frames()
 	set_dog_mode(dog_mode)
@@ -200,6 +202,8 @@ func _physics_process(delta: float) -> void:
 		
 	var was_colliding = get_slide_collision_count() > 0
 	move_and_slide()
+	if (global_position != _prev_position):
+		position_changed.emit(global_position)
 
 	if get_slide_collision_count() > 0 and not was_colliding:
 		if global_position.distance_to(_prev_position) < 0.5:

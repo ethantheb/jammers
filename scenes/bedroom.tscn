@@ -2,6 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://c387qmb71ieat" path="res://assets/light_smallDistortion.png" id="1_4wfg3"]
 [ext_resource type="AudioStream" uid="uid://cwvtjj7l6ucal" path="res://assets/bgm/Troubadeck 12 Good King.ogg" id="1_mk2nf"]
+[ext_resource type="Script" uid="uid://ckcjwdc80ck4k" path="res://scripts/bedroom.gd" id="1_qquio"]
 [ext_resource type="Texture2D" uid="uid://cpdcm5swaciky" path="res://assets/tilesets/pixelinterior_BA_v1.0/cabinets_BA.png" id="2_mk2nf"]
 [ext_resource type="Texture2D" uid="uid://di1hcof8mgl7s" path="res://assets/tilesets/pixelinterior_BA_v1.0/fixtures_BA.png" id="3_cixf6"]
 [ext_resource type="Texture2D" uid="uid://kkinjviu5xgu" path="res://assets/tilesets/pixelinterior_LRK_v1.1/kitchen_LRK.png" id="4_bd3ru"]
@@ -17,7 +18,7 @@
 [ext_resource type="PackedScene" uid="uid://c55ktvtf07pxx" path="res://scenes/player.tscn" id="14_lyvny"]
 [ext_resource type="PackedScene" uid="uid://ela2c4n7ip14" path="res://scenes/door.tscn" id="16_43jao"]
 [ext_resource type="Script" uid="uid://bc07ro077afnp" path="res://scripts/interactable_bed.gd" id="16_cixf6"]
-[ext_resource type="PackedScene" path="res://scenes/owner.tscn" id="16_qquio"]
+[ext_resource type="PackedScene" uid="uid://d38e623rurprd" path="res://scenes/owner.tscn" id="16_qquio"]
 [ext_resource type="PackedScene" uid="uid://jr50xyaas84c" path="res://scenes/test_level.tscn" id="18_cs7aj"]
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_xyfub"]
@@ -5894,10 +5895,16 @@ sources/9 = SubResource("TileSetAtlasSource_iy3tf")
 sources/10 = SubResource("TileSetAtlasSource_64kat")
 sources/11 = SubResource("TileSetAtlasSource_ll8iu")
 
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_qquio"]
+vertices = PackedVector2Array(277.20313, -5.03125, -4.78125, -5.9609375, -0.2109375, -218.03125, 281.78125, -218.96094)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-10, -228, 292, -229, 287, 5, -15, 4)])
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mk2nf"]
 size = Vector2(46, 32)
 
 [node name="Bedroom" type="Node2D" unique_id=1550137310]
+script = ExtResource("1_qquio")
 
 [node name="BGM" type="AudioStreamPlayer" parent="." unique_id=266233702]
 stream = ExtResource("1_mk2nf")
@@ -5990,6 +5997,9 @@ y_sort_enabled = true
 position = Vector2(36, 28)
 tile_map_data = PackedByteArray("AAD///X/AQAGAAIAAAD///T/AQAGAAEAAAAAAPL/CwAOABUAAAAAAPP/CwAOABgAAAACAPL/CwAPABUAAAACAPP/CwAPABgAAAD+//n/BwADAAgAAAD+//j/BwADAAcAAAAAAP3/CwATABUAAAABAP3/CwAUABUAAAACAP3/CwAVABUAAAAAAP7/CwATABYAAAABAP7/CwAUABYAAAACAP7/CwAVABYAAAA=")
 tile_set = SubResource("TileSet_yygbf")
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="AboveFloor" unique_id=1958793122]
+navigation_polygon = SubResource("NavigationPolygon_qquio")
 
 [node name="Player" parent="AboveFloor" unique_id=1839945034 instance=ExtResource("14_lyvny")]
 position = Vector2(136, -98)

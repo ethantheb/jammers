@@ -32,6 +32,8 @@ const PISS_SOUND_PATH = "res://assets/sfx/piss.wav"
 @onready var raycast = $OwnerRayCast
 @onready var audio = $Audio
 
+@onready var navigation_agent = $NavigationAgent2D
+
 @export var pee_puddle_scene: PackedScene = preload("res://scenes/slop_puddle.tscn")
 @export var pee_puddle_color: Color = Color(0.86, 0.76, 0.16, 0.62)
 
@@ -70,8 +72,14 @@ func _ready() -> void:
 	_puddle_step_sound = load(PUDDLE_STEP_SOUND_PATH)
 	_piss_sound = load(PISS_SOUND_PATH)
 	
-	## Connect signalsd
+	## Connect signals
 	HUD.noise_meter_full.connect(_on_noise_meter_full)
+	
+func setup_path(target_position: Vector2):
+	# Wait for the first physics frame so the NavigationServer can sync.
+	await get_tree().physics_frame
+	
+	navigation_agent.target_position = target_position
 
 func _play_animation(animation: String) -> void:
 	body.play(animation)
@@ -82,17 +90,19 @@ func _physics_process(delta: float) -> void:
 		_play_animation("sleeping")
 		return
 
-	var direction := Vector2(0.0, 0.0)
 	_update_slop_from_puddles()
+	
+	if navigation_agent.is_navigation_finished():
+		return
 
 	var speed = SPEED
-	velocity = direction * speed * slop_slow_factor
+	var current_agent_position: Vector2 = global_position
+	var next_path_position: Vector2 = navigation_agent.get_next_path_position()
+	var direction = current_agent_position.direction_to(next_path_position)
 	var movement: String = "walk"
-	if Input.is_action_pressed("ui_sprint"):
-		movement = "run"
-		velocity *= 2
-
 	var was_colliding = get_slide_collision_count() > 0
+	
+	velocity = direction * speed * slop_slow_factor
 	move_and_slide()
 
 	if get_slide_collision_count() > 0 and not was_colliding:

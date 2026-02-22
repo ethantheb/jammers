@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://d66nr0vwbl6o"]
+[gd_scene format=3 uid="uid://d38e623rurprd"]
 
 [ext_resource type="Script" uid="uid://dvfg4mfqbsqfe" path="res://scripts/owner.gd" id="1_c3166"]
 [ext_resource type="Texture2D" uid="uid://ch8836gm8k6ps" path="res://assets/images/Unarmed_Idle2_body.png" id="3_768mp"]
@@ -1537,6 +1537,8 @@ y_sort_enabled = true
 position = Vector2(0, 11)
 rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_8gr2b")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=932398238]
 
 [node name="LightOccluder2D" type="LightOccluder2D" parent="." unique_id=607198704]
 occluder = SubResource("OccluderPolygon2D_fjrip")
