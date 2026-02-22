@@ -1,22 +1,22 @@
 [gd_scene format=4 uid="uid://bkt3xxr6n0d4v"]
 
-[ext_resource type="Texture2D" uid="uid://dd81r6yulm42u" path="res://assets/tilesets/pixelinterior_LRK_v1.1/floorswalls_LRK.png" id="1_fwlk"]
-[ext_resource type="Texture2D" uid="uid://cckl8q3jdsquw" path="res://assets/tilesets/pixelinterior_LRK_v1.1/livingroom_LRK.png" id="2_lvrm"]
-[ext_resource type="Texture2D" uid="uid://rkl1d40urka8" path="res://assets/tilesets/pixelinterior_LRK_v1.1/doorswindowsstairs_LRK.png" id="3_dwst"]
-[ext_resource type="PackedScene" uid="uid://jojwr8hipdsc" path="res://scenes/portal.tscn" id="4_port"]
-[ext_resource type="Texture2D" uid="uid://d0g7pyywc36m4" path="res://assets/tilesets/pixelinterior_BA_v1.0/cabinets_BA.png" id="5_k00ks"]
-[ext_resource type="Texture2D" uid="uid://cgtcw7xvdpbuk" path="res://assets/tilesets/pixelinterior_BA_v1.0/fixtures_BA.png" id="6_kwc7q"]
-[ext_resource type="Texture2D" uid="uid://camf0d0ggiop4" path="res://assets/tilesets/pixelinterior_LRK_v1.1/kitchen_LRK.png" id="7_ikg1h"]
-[ext_resource type="Texture2D" uid="uid://gxptyafdm7my" path="res://assets/tilesets/pixelinterior_BA_v1.0/textiles_BA.png" id="8_24a1y"]
-[ext_resource type="Texture2D" uid="uid://pubj2md3wsii" path="res://assets/tilesets/pixelinterior_BR_v1.1/beds_BR.png" id="9_xddai"]
-[ext_resource type="Texture2D" uid="uid://crkkyg1snhtjt" path="res://assets/tilesets/pixelinterior_BR_v1.1/decorations_BR.png" id="10_tlixj"]
-[ext_resource type="Texture2D" uid="uid://blstujdmvc6pk" path="res://assets/tilesets/pixelinterior_BR_v1.1/wardrobes_BR.png" id="11_306lt"]
-[ext_resource type="Texture2D" uid="uid://dqnugjnea781i" path="res://assets/tilesets/pixelinterior_LRK_v1.1/cabinets_LRK.png" id="12_rq2ij"]
-[ext_resource type="Texture2D" uid="uid://dogcsg32nrsli" path="res://assets/tilesets/pixelinterior_LRK_v1.1/decorations_LRK.png" id="13_04r7s"]
+[ext_resource type="Texture2D" uid="uid://brhoe4fmit42k" path="res://assets/tilesets/pixelinterior_LRK_v1.1/floorswalls_LRK.png" id="1_fwlk"]
+[ext_resource type="Texture2D" uid="uid://12cmunolsy8v" path="res://assets/tilesets/pixelinterior_LRK_v1.1/livingroom_LRK.png" id="2_lvrm"]
+[ext_resource type="Texture2D" uid="uid://da4vlv1ut5fln" path="res://assets/tilesets/pixelinterior_LRK_v1.1/doorswindowsstairs_LRK.png" id="3_dwst"]
+[ext_resource type="Texture2D" uid="uid://cpdcm5swaciky" path="res://assets/tilesets/pixelinterior_BA_v1.0/cabinets_BA.png" id="5_k00ks"]
+[ext_resource type="Texture2D" uid="uid://di1hcof8mgl7s" path="res://assets/tilesets/pixelinterior_BA_v1.0/fixtures_BA.png" id="6_kwc7q"]
+[ext_resource type="Texture2D" uid="uid://kkinjviu5xgu" path="res://assets/tilesets/pixelinterior_LRK_v1.1/kitchen_LRK.png" id="7_ikg1h"]
+[ext_resource type="Texture2D" uid="uid://btclnrphkfiue" path="res://assets/tilesets/pixelinterior_BA_v1.0/textiles_BA.png" id="8_24a1y"]
+[ext_resource type="Texture2D" uid="uid://7h5e7r1c0olu" path="res://assets/tilesets/pixelinterior_BR_v1.1/beds_BR.png" id="9_xddai"]
+[ext_resource type="Texture2D" uid="uid://drrcbdmj5r76o" path="res://assets/tilesets/pixelinterior_BR_v1.1/decorations_BR.png" id="10_tlixj"]
+[ext_resource type="Texture2D" uid="uid://cmhmc6v30phl3" path="res://assets/tilesets/pixelinterior_BR_v1.1/wardrobes_BR.png" id="11_306lt"]
+[ext_resource type="Texture2D" uid="uid://b881wcq3dic04" path="res://assets/tilesets/pixelinterior_LRK_v1.1/cabinets_LRK.png" id="12_rq2ij"]
+[ext_resource type="Texture2D" uid="uid://dturbh06y70ef" path="res://assets/tilesets/pixelinterior_LRK_v1.1/decorations_LRK.png" id="13_04r7s"]
 [ext_resource type="PackedScene" uid="uid://c55ktvtf07pxx" path="res://scenes/player.tscn" id="14_vu36g"]
-[ext_resource type="Texture2D" uid="uid://c8k4d3bvfojgu" path="res://assets/light_smallDistortion.png" id="15_88wuv"]
+[ext_resource type="Texture2D" uid="uid://c387qmb71ieat" path="res://assets/light_smallDistortion.png" id="15_88wuv"]
 [ext_resource type="Script" uid="uid://bcrfdme51tmcf" path="res://scripts/slop_puddle.gd" id="15_ikg1h"]
 [ext_resource type="PackedScene" path="res://scenes/fog_overlay_v2.tscn" id="16_fog"]
+[ext_resource type="PackedScene" uid="uid://ela2c4n7ip14" path="res://scenes/door.tscn" id="16_liwm5"]
 [ext_resource type="PackedScene" uid="uid://bswlhygpe6238" path="res://scenes/alarm_guy.tscn" id="17_alarm"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_fw01"]
@@ -9022,12 +9022,6 @@ texture = ExtResource("15_88wuv")
 [node name="Player" parent="AboveFloor2" unique_id=191629362 instance=ExtResource("14_vu36g")]
 position = Vector2(248, -96)
 
-[node name="PortalToKitchen" parent="AboveFloor2" unique_id=1300100349 instance=ExtResource("4_port")]
-position = Vector2(244, -144)
-spin_speed_deg = 0
-hover_ampl = 0
-target_path = "res://scenes/bedroom.tscn"
-
 [node name="AlarmGuy" parent="AboveFloor2" unique_id=540353328 instance=ExtResource("17_alarm")]
 position = Vector2(134, -92)
 detection_radius = 39.0
@@ -9053,6 +9047,10 @@ y_sort_enabled = true
 position = Vector2(36, 28)
 tile_map_data = PackedByteArray("AAD///X/AQAGAAIAAAD///T/AQAGAAEAAAAAAPL/CwAOABUAAAAAAPP/CwAOABgAAAACAPL/CwAPABUAAAACAPP/CwAPABgAAAD+//n/BwADAAgAAAD+//j/BwADAAcAAAAAAP3/CwATABUAAAABAP3/CwAUABUAAAACAP3/CwAVABUAAAAAAP7/CwATABYAAAABAP7/CwAUABYAAAACAP7/CwAVABYAAAA=")
 tile_set = SubResource("TileSet_x6klw")
+
+[node name="DoorToLivingRoom" parent="AboveFloor2" unique_id=1835340236 instance=ExtResource("16_liwm5")]
+position = Vector2(244, -154)
+scene_path = "uid://k5c5msbdr4f4"
 
 [node name="LightOccluder2D_table" type="LightOccluder2D" parent="." unique_id=1073399954]
 position = Vector2(96, -44)
