@@ -1735,6 +1735,7 @@ script = ExtResource("1_hqtel")
 dog_mode = true
 
 [node name="Body" type="AnimatedSprite2D" parent="." unique_id=1708559131]
+visible = false
 z_index = 1
 y_sort_enabled = true
 sprite_frames = SubResource("SpriteFrames_smehm")
