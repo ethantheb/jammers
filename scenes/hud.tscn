@@ -10,9 +10,6 @@ bg_color = Color(0.6785269, 0.60005844, 0.24203965, 1)
 
 [node name="HUD" type="CanvasLayer" unique_id=1677856514]
 script = ExtResource("1_hud")
-piss_meter_max = null
-piss_meter_start = null
-piss_drain_rate = null
 
 [node name="MarginContainer" type="MarginContainer" parent="." unique_id=1648712113]
 anchors_preset = 15

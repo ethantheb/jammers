@@ -54,10 +54,12 @@ var slop_slow_factor: float = 1.0
 var _pee_controller: PlayerPeeController = null
 var _prev_position: Vector2
 var _step_timer: float = 0.0
+
 var _bump_sound: AudioStream
 var _step_sound: AudioStream
 var _puddle_step_sound: AudioStream
 var _piss_sound: AudioStream
+
 var _trackpad_scroll_accumulator: float = 0.0
 var _tracked_slop_sources: Dictionary = {}
 var _slop_rescan_timer: float = 0.0
@@ -65,6 +67,9 @@ var _stored_borderless_flag: bool = false
 var _stored_borderless_flag_valid: bool = false
 
 func _ready() -> void:
+	# register self with Game singleton for global access
+	Game.player = self
+
 	_ensure_dog_sprite_frames()
 	set_dog_mode(dog_mode)
 	set_transparent_mode(transparent_mode)

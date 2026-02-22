@@ -11,6 +11,8 @@ var _overlay: ColorRect = null
 
 var score: float = 0.0
 
+var player: Node = null
+
 func _ready() -> void:
 	_active_scene_root = get_tree().current_scene
 	var canvas = CanvasLayer.new()

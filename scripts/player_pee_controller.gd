@@ -35,6 +35,8 @@ var _player: CharacterBody2D = null
 var _pee_puddle_scene: PackedScene = null
 var _pee_puddle_color: Color = Color(0.86, 0.76, 0.16, 0.62)
 var _piss_noise_dps: float = 0.3
+var piss_drain_rate: float = 0.2
+var pee_remaining: float = 1.0
 var _audio = null
 var _piss_sound: AudioStream = null
 
@@ -93,6 +95,12 @@ func ensure_input_action() -> void:
 func update(delta: float) -> void:
 	if _player == null:
 		return
+
+	if pee_remaining <= 0.0:
+		if _is_peeing:
+			_finish_pee()
+		return
+
 	var holding := Input.is_action_pressed(PEE_ACTION)
 	if holding and not _is_peeing:
 		_start_pee()
@@ -100,6 +108,11 @@ func update(delta: float) -> void:
 		_grow_pee(delta)
 	elif _is_peeing and not holding:
 		_finish_pee()
+	
+	if _is_peeing:
+		pee_remaining = max(0.0, pee_remaining - (piss_drain_rate * delta))
+		HUD.update_pee_remaining(pee_remaining)
+
 
 func _start_pee() -> void:
 	var pee_origin := _player.global_position + PEE_FOOT_OFFSET
@@ -121,7 +134,6 @@ func _start_pee() -> void:
 	_is_peeing = true
 	_emit_pee_splat(_active_pee_tip_world, _active_pee_idle_radius, 1.0, true)
 	HUD.make_continuous_noise("piss", _piss_noise_dps)
-	HUD.set_pissing(true)
 	if _audio and _piss_sound:
 		_audio.stream = _piss_sound
 		_audio.play()
@@ -166,7 +178,6 @@ func _finish_pee() -> void:
 	_active_pee_flow_distance = 0.0
 	_pee_merge_check_accumulator = 0.0
 	HUD.stop_continuous_noise("piss")
-	HUD.set_pissing(false)
 	if _audio and _audio.stream == _piss_sound:
 		_audio.stop()
 
